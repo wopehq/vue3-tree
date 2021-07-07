@@ -1,8 +1,15 @@
 <template>
+  <Tree />
 </template>
 
-<script setup>
+<script>
+import Tree from './lib/index'
 
+export default {
+  components: {
+    Tree
+  }
+}
 </script>
 
 <style>

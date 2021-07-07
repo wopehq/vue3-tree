@@ -1,6 +1,7 @@
 import { createApp } from 'vue'
 import App from './App.vue'
 
-export { Tree } from './lib/index'
+import Tree from './lib/index'
+export default Tree
 
 createApp(App).mount('#app')
