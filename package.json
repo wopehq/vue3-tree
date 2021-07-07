@@ -6,6 +6,15 @@
     "build": "vite build",
     "serve": "vite preview"
   },
+  "main": "./dist/vue3-tree.umd.js",
+  "module": "./dist/vue3-tree.es.js",
+  "exports": {
+    ".": {
+      "import": "./dist/vue3-tree.es.js",
+      "require": "./dist/vue3-tree.umd.js"
+    },
+    "./dist/style.css": "./dist/style.css"
+  },
   "dependencies": {
     "vue": "^3.0.5"
   },
@@ -13,5 +22,6 @@
     "@vitejs/plugin-vue": "^1.2.4",
     "@vue/compiler-sfc": "^3.0.5",
     "vite": "^2.4.0"
-  }
+  },
+  "license": "MIT"
 }
