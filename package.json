@@ -16,8 +16,8 @@
     },
     "./dist/style.css": "./dist/style.css"
   },
-  "dependencies": {},
   "devDependencies": {
+    "vue": "^3.1.4",
     "@vitejs/plugin-vue": "^1.2.4",
     "@vue/compiler-sfc": "^3.0.5",
     "eslint": "^7.30.0",
