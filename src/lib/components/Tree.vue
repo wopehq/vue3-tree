@@ -1,13 +1,92 @@
 <template>
-  <h1>vue3-tree simple setup</h1>
+  <div>
+    <div
+      v-for="(tag, index) in data"
+      :key="tag.id"
+      @click.stop="tag.children ? updateActiveItems(index) : ''"
+    >
+      <div>
+        <div class="tree-item">
+          <div
+            v-if="tag.children"
+            class="tree-icon"
+          >
+            <arrow-icon name="triangle-right" />
+          </div>
+          <div>
+            {{ tag.label }}
+          </div>
+        </div>
+        <tree
+          v-if="activeItems.includes(index) && tag.children"
+          :data="tag.children"
+        />
+      </div>
+    </div>
+  </div>
 </template>
 
 <script>
+import { ref } from 'vue'
+import ArrowIcon from './Icon.vue'
+
 export default {
-  name: 'Tree'
+  name: 'Tree',
+  components:{
+    ArrowIcon
+  },
+  setup() {
+    const data = ref([{
+      id: '1',
+      label: 'a',
+      children: [{
+        id: '4',
+        label: 'aa'
+      }, {
+        id: '5',
+        label: 'ab'
+      }]
+    }, {
+      id: '2',
+      label: 'b',
+      children: [{
+        id: '6',
+        label: 'ba'
+      },{
+        id: '7',
+        label: 'bb'
+      }]
+    }, {
+      id: '3',
+      label: 'c'
+    }])
+    const activeItems = ref([])
+
+    const updateActiveItems = (index) => {
+      if (activeItems.value.includes(index)) {
+        activeItems.value = activeItems.value.filter((e) => e !== index)
+      } else {
+        activeItems.value.push(index)
+      }
+    }
+
+    return {
+      data,
+      activeItems,
+      updateActiveItems
+    }
+  }
 }
 </script>
 
 <style lang="scss" scoped>
+.tree {
+  &-item {
+    align-items: center;
+    cursor: auto;
+    display: flex;
+    user-select: none;
+  }
+}
 
 </style>
