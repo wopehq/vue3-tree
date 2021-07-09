@@ -1,7 +1,7 @@
 <template>
   <li
     class="tree-row"
-    :style="{'padding-left': depth * indent + 'px'}"
+    :style="{'padding-left': depth * indentSize + 'px'}"
   >
     <div
       class="tree-row-item"
@@ -30,6 +30,7 @@
         :key="child.id"
         :node="child"
         :depth="depth + 1"
+        :indent-size="indentSize"
         @emitNodeExpanded="emitNodeExpanded"
       >
         <template #iconActive>
@@ -66,9 +67,9 @@ export default {
       type: Number,
       default: 0
     },
-    indent: {
+    indentSize: {
       type: Number,
-      default: 10
+      required: true
     }
   },
   emits: ['emitNodeExpanded'],

@@ -6,6 +6,7 @@
         :ref="'tree-row-' + node.id"
         :key="node.id"
         :node="node"
+        :indent-size="indentSize"
         @emitNodeExpanded="onNodeExpanded"
       >
         <template #iconActive>
@@ -31,6 +32,10 @@ export default {
     nodes: {
       type: Array,
       required: true
+    },
+    indentSize: {
+      type: Number,
+      default: 10
     }
   },
   setup() {
