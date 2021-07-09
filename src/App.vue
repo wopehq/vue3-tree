@@ -1,6 +1,6 @@
 <template>
   <Tree 
-    :data="data"
+    :nodes="data"
   />
 </template>
 
@@ -16,7 +16,7 @@ export default {
     const data = ref([{
       id: '1',
       label: 'a',
-      children: [{
+      nodes: [{
         id: '4',
         label: 'aa'
       }, {
@@ -26,12 +26,26 @@ export default {
     }, {
       id: '2',
       label: 'b',
-      children: [{
+      nodes: [{
         id: '6',
-        label: 'ba'
+        label: 'ba',
+        nodes: [{
+          id: '11',
+          label: 'aaaa'
+        },{
+          id: '12',
+          label: 'bbbb'
+        }]
       },{
         id: '7',
-        label: 'bb'
+        label: 'bb',
+        nodes: [{
+          id: '13',
+          label: 'cccc'
+        },{
+          id: '14',
+          label: 'dddd'
+        }]
       }]
     }, {
       id: '3',

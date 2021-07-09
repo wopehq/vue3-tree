@@ -1,42 +1,28 @@
 <template>
   <div>
-    <div
-      v-for="(tag, index) in data"
-      :key="tag.id"
-      @click.stop="tag.children ? updateActiveItems(index) : ''"
-    >
-      <div>
-        <div class="tree-item">
-          <div
-            v-if="tag.children"
-            class="tree-icon"
-          >
-            <arrow-icon />
-          </div>
-          <div>
-            {{ tag.label }}
-          </div>
-        </div>
-        <tree
-          v-if="activeItems.includes(index) && tag.children"
-          :data="tag.children"
-        />
-      </div>
-    </div>
+    <ul>
+      <tree-row
+        v-for="node in nodes"
+        :ref="'tree-row-' + node.id"
+        :key="node.id"
+        :node="node"
+        @emitNodeExpanded="onNodeExpanded"
+      />
+    </ul>
   </div>
 </template>
 
 <script>
 import { ref } from 'vue'
-import ArrowIcon from './Icon.vue'
+import TreeRow from './TreeRow.vue'
 
 export default {
   name: 'Tree',
   components:{
-    ArrowIcon
+    TreeRow
   },
   props:{
-    data: {
+    nodes: {
       type: Array,
       required: true
     }
@@ -44,17 +30,14 @@ export default {
   setup() {
     const activeItems = ref([])
 
-    const updateActiveItems = (index) => {
-      if (activeItems.value.includes(index)) {
-        activeItems.value = activeItems.value.filter((e) => e !== index)
-      } else {
-        activeItems.value.push(index)
-      }
+    const onNodeExpanded = (node, state) => {
+      console.log('state: ', state)
+      console.log('node: ', node)
     }
 
     return {
       activeItems,
-      updateActiveItems
+      onNodeExpanded
     }
   }
 }
