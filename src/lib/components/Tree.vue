@@ -13,7 +13,6 @@
 </template>
 
 <script>
-import { ref } from 'vue'
 import TreeRow from './TreeRow.vue'
 
 export default {
@@ -28,15 +27,12 @@ export default {
     }
   },
   setup() {
-    const activeItems = ref([])
-
     const onNodeExpanded = (node, state) => {
       console.log('state: ', state)
       console.log('node: ', node)
     }
 
     return {
-      activeItems,
       onNodeExpanded
     }
   }
@@ -44,13 +40,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.tree {
-  &-item {
-    align-items: center;
-    cursor: auto;
-    display: flex;
-    user-select: none;
-  }
+li, ul{
+  margin: 0;
+  padding: 0;
+  list-style: none;
 }
-
 </style>

@@ -31,7 +31,14 @@ export default {
         label: 'ba',
         nodes: [{
           id: '11',
-          label: 'aaaa'
+          label: 'aaaa',
+          nodes: [{
+            id: '15',
+            label: 'aaaa'
+          },{
+            id: '16',
+            label: 'bbbb'
+          }]
         },{
           id: '12',
           label: 'bbbb'
