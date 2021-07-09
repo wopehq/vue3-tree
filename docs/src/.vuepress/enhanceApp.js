@@ -3,6 +3,7 @@
  *
  * https://v1.vuepress.vuejs.org/guide/basic-config.html#app-level-enhancements
  */
+import Footer from './components/Shared/Footer.vue'
 
 export default ({
   Vue, // the version of Vue being used in the VuePress app
@@ -11,4 +12,5 @@ export default ({
   siteData // site metadata
 }) => {
   // ...apply enhancements for the site.
+  Vue.component('Footer', Footer);
 }

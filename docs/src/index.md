@@ -3,13 +3,16 @@ home: true
 heroImage: https://v1.vuepress.vuejs.org/hero.png
 tagline: 
 actionText: Quick Start →
-actionLink: /guide/
+actionLink: /installation/
 features:
-- title: Feature 1 Title
-  details: Feature 1 Description
-- title: Feature 2 Title
-  details: Feature 2 Description
-- title: Feature 3 Title
-  details: Feature 3 Description
-footer: Made by seo.do with ❤️
+- title: Nested Search
+  details: Apply filter on tree items
+- title: Checkbox Action
+  details: Single & multiple select with nested options
+- title: Rich props & events
+  details: A lot of props and events to make it more dynamic
+- title: Customizable
+  details: Rich slot options & easily apply your style
 ---
+
+<Footer/>
