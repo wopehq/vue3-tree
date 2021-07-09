@@ -11,7 +11,7 @@
             v-if="tag.children"
             class="tree-icon"
           >
-            <arrow-icon name="triangle-right" />
+            <arrow-icon />
           </div>
           <div>
             {{ tag.label }}
