@@ -1,5 +1,8 @@
 <template>
-  <li class="tree-row">
+  <li
+    class="tree-row"
+    :style="{'padding-left': depth * indent + 'px'}"
+  >
     <div
       class="tree-row-item"
       @click.stop="toggleExpanded(node)"
@@ -15,6 +18,7 @@
         :ref="'tree-row-' + child.id"
         :key="child.id"
         :node="child"
+        :depth="depth + 1"
         @emitNodeExpanded="emitNodeExpanded"
       />
     </ul>
@@ -33,12 +37,20 @@ export default {
     node: {
       type: Object,
       required: true
+    },
+    depth: {
+      type: Number,
+      default: 0
+    },
+    indent: {
+      type: Number,
+      default: 10
     }
   },
   emits: ['emitNodeExpanded'],
   setup (props, { emit }) {
     const expanded = ref(false)
-
+    console.log(props.depth)
     const toggleExpanded = (node, instance) => {
       expanded.value = !expanded.value
       nextTick(() => {
@@ -61,5 +73,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
+li, ul{
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
 </style>
