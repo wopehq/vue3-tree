@@ -35,31 +35,13 @@ export default {
   components:{
     ArrowIcon
   },
+  props:{
+    data: {
+      type: Array,
+      required: true
+    }
+  },
   setup() {
-    const data = ref([{
-      id: '1',
-      label: 'a',
-      children: [{
-        id: '4',
-        label: 'aa'
-      }, {
-        id: '5',
-        label: 'ab'
-      }]
-    }, {
-      id: '2',
-      label: 'b',
-      children: [{
-        id: '6',
-        label: 'ba'
-      },{
-        id: '7',
-        label: 'bb'
-      }]
-    }, {
-      id: '3',
-      label: 'c'
-    }])
     const activeItems = ref([])
 
     const updateActiveItems = (index) => {
@@ -71,7 +53,6 @@ export default {
     }
 
     return {
-      data,
       activeItems,
       updateActiveItems
     }
