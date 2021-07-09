@@ -1,7 +1,14 @@
 <template>
   <Tree 
     :nodes="data"
-  />
+  >
+    <template #iconActive>
+      deneme
+    </template>
+    <template #iconInactive>
+      deneme
+    </template>
+  </Tree>
 </template>
 
 <script>
