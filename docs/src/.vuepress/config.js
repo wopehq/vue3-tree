@@ -4,7 +4,7 @@ module.exports = {
   /**
    * Ref：https://v1.vuepress.vuejs.org/config/#title
    */
-  title: 'Vuepress Docs Boilerplate',
+  title: 'vue3-tree',
   /**
    * Ref：https://v1.vuepress.vuejs.org/config/#description
    */
@@ -21,6 +21,10 @@ module.exports = {
     ['meta', { name: 'apple-mobile-web-app-status-bar-style', content: 'black' }]
   ],
 
+  // markdown: {
+  //   lineNumbers: true
+  // },
+
   /**
    * Theme configuration, here is the default theme configuration for VuePress.
    *
@@ -32,33 +36,25 @@ module.exports = {
     docsDir: '',
     editLinkText: '',
     lastUpdated: false,
+    smoothScroll: true,
     nav: [
       {
+        text: 'Installation',
+        link: '/installation/',
+      },
+      {
         text: 'Guide',
-        link: '/guide/',
+        link: '/guide/'
       },
       {
-        text: 'Config',
-        link: '/config/'
-      },
-      {
-        text: 'VuePress',
-        link: 'https://v1.vuepress.vuejs.org'
+        text: 'Github',
+        link: 'https://github.com/teamseodo/vue3-tree'
       }
     ],
-    sidebar: {
-      '/guide/': [
-        {
-          title: 'Guide',
-          collapsable: false,
-          children: [
-            '',
-            'using-vue',
-          ]
-        }
-      ],
-    }
+    sidebar: 'auto'
   },
+
+
 
   /**
    * Apply plugins，ref：https://v1.vuepress.vuejs.org/zh/plugin/
