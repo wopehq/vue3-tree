@@ -9,20 +9,10 @@
     stroke-width="2"
     stroke-linecap="round"
     stroke-linejoin="round"
-    class="feather feather-arrow-right"
+    class="feather feather-chevron-down"
   >
-    <line
-      x1="5"
-      y1="12"
-      x2="19"
-      y2="12"
+    <polyline
+      points="6 9 12 15 18 9"
     />
-    <polyline points="12 5 19 12 12 19" />
   </svg>
 </template>
-
-<script>
-export default {
-  name: 'Icon'
-}
-</script>

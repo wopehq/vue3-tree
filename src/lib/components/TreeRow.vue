@@ -7,7 +7,18 @@
       class="tree-row-item"
       @click.stop="toggleExpanded(node)"
     >
-      <arrow-icon />
+      <template v-if="node.nodes">
+        <template v-if="!expanded">
+          <slot name="iconActive">
+            <arrow-right />
+          </slot>
+        </template>
+        <template v-else>
+          <slot name="iconInactive">
+            <arrow-down />
+          </slot>
+        </template>  
+      </template>
       <span class="tree-row-txt">
         {{ node.label }}
       </span>
@@ -20,18 +31,31 @@
         :node="child"
         :depth="depth + 1"
         @emitNodeExpanded="emitNodeExpanded"
-      />
+      >
+        <template #iconActive>
+          <slot name="iconActive">
+            <arrow-right />
+          </slot>
+        </template>
+        <template #iconInactive>
+          <slot name="iconInactive">
+            <arrow-down />
+          </slot>
+        </template>
+      </tree-row>
     </ul>
   </li>
 </template>
 
 <script>
 import { ref, nextTick } from 'vue'
-import ArrowIcon from './Icon.vue'
+import ArrowRight from './Icons/ArrowRight.vue'
+import ArrowDown from './Icons/ArrowDown.vue'
 
 export default {
   components: {
-    ArrowIcon
+    ArrowRight,
+    ArrowDown
   },
   props: {
     node: {
@@ -50,7 +74,6 @@ export default {
   emits: ['emitNodeExpanded'],
   setup (props, { emit }) {
     const expanded = ref(false)
-    console.log(props.depth)
     const toggleExpanded = (node, instance) => {
       expanded.value = !expanded.value
       nextTick(() => {

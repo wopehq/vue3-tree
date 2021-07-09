@@ -7,7 +7,14 @@
         :key="node.id"
         :node="node"
         @emitNodeExpanded="onNodeExpanded"
-      />
+      >
+        <template #iconActive>
+          <slot name="iconActive" />
+        </template>
+        <template #iconInactive>
+          <slot name="iconInactive" />
+        </template>
+      </tree-row>
     </ul>
   </div>
 </template>
