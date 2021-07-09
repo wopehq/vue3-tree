@@ -1,0 +1,19 @@
+{
+  "name": "vue3-tree",
+  "version": "0.0.1",
+  "description": "",
+  "main": "index.js",
+  "authors": {
+    "name": "seo.do",
+    "email": ""
+  },
+  "repository": "/vue3-tree",
+  "scripts": {
+    "dev": "vuepress dev src",
+    "build": "vuepress build src"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "vuepress": "^1.5.3"
+  }
+}
