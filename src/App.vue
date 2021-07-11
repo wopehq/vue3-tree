@@ -1,14 +1,13 @@
 <template>
+  <input
+    v-model="searchText"
+    type="text"
+  >
   <Tree 
     :nodes="data"
-  >
-    <template #iconActive>
-      deneme
-    </template>
-    <template #iconInactive>
-      deneme
-    </template>
-  </Tree>
+    :search-text="searchText"
+    @onNodeExpanded="onNodeExpanded"
+  />
 </template>
 
 <script>
@@ -65,14 +64,18 @@ export default {
       id: '3',
       label: 'c'
     }])
+    const searchText = ref('')
 
-    return{
-      data
+    const onNodeExpanded = (node, state) => {
+      console.log('state: ', state)
+      console.log('node: ', node)
+    }
+
+    return {
+      data,
+      searchText,
+      onNodeExpanded
     }
   }
 }
 </script>
-
-<style>
-
-</style>

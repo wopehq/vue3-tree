@@ -2,11 +2,12 @@
   <div>
     <ul>
       <tree-row
-        v-for="node in nodes"
+        v-for="node in _nodes"
         :ref="'tree-row-' + node.id"
         :key="node.id"
         :node="node"
         :indent-size="indentSize"
+        :expand-row-by-default="_expandRowByDefault"
         @emitNodeExpanded="onNodeExpanded"
       >
         <template #iconActive>
@@ -21,7 +22,9 @@
 </template>
 
 <script>
+import { ref, watch } from 'vue'
 import TreeRow from './TreeRow.vue'
+import useSearch from '../composables/useSearch'
 
 export default {
   name: 'Tree',
@@ -36,23 +39,53 @@ export default {
     indentSize: {
       type: Number,
       default: 10
+    },
+    searchText: {
+      type: String,
+      default: ''
+    },
+    expandRowByDefault: {
+      type: Boolean,
+      default: false
+    },
+    expandAllRowsOnSearch: {
+      type: Boolean,
+      default: true
     }
   },
-  setup() {
+  emits: ['onNodeExpanded'],
+  setup(props, { emit }) {
+    const { searchTree } = useSearch()
+    const _nodes = ref(props.nodes)
+    const _expandRowByDefault = ref(props.expandRowByDefault)
+
+    watch(() => props.searchText, () => {
+      if (props.searchText !== '') {
+        _nodes.value = searchTree(props.nodes, 'label', props.searchText)
+        if (props.expandAllRowsOnSearch) {
+          _expandRowByDefault.value = true
+        }
+      } else {
+        _nodes.value = props.nodes
+        _expandRowByDefault.value = false
+      }
+    })
+
     const onNodeExpanded = (node, state) => {
-      console.log('state: ', state)
-      console.log('node: ', node)
+      emit('onNodeExpanded', node, state)
     }
 
     return {
-      onNodeExpanded
+      onNodeExpanded,
+      _nodes,
+      _expandRowByDefault
     }
   }
 }
 </script>
 
 <style lang="scss" scoped>
-li, ul{
+li, ul {
   margin: 0;
   padding: 0;
   list-style: none;
