@@ -30,6 +30,7 @@
         :key="child.id"
         :node="child"
         :depth="depth + 1"
+        :expand-row-by-default="expandRowByDefault"
         @emitNodeExpanded="emitNodeExpanded"
       >
         <template #iconActive>
@@ -48,7 +49,7 @@
 </template>
 
 <script>
-import { ref, nextTick } from 'vue'
+import { ref, nextTick, watch } from 'vue'
 import ArrowRight from './Icons/ArrowRight.vue'
 import ArrowDown from './Icons/ArrowDown.vue'
 
@@ -69,6 +70,10 @@ export default {
     indent: {
       type: Number,
       default: 10
+    },
+    expandRowByDefault: {
+      type: Boolean,
+      default: false
     }
   },
   emits: ['emitNodeExpanded'],
@@ -80,6 +85,12 @@ export default {
         emit('emitNodeExpanded', node, expanded.value)
       })
     }
+
+    watch(() => props.expandRowByDefault, (newVal) => {
+      expanded.value = newVal
+    }, {
+      immediate: true
+    })
 
     // redirect the event toward the Tree component
     const emitNodeExpanded = (node, state) => { 
@@ -96,7 +107,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-li, ul{
+li, ul {
   margin: 0;
   padding: 0;
   list-style: none;
