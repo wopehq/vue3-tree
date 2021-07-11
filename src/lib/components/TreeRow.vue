@@ -73,7 +73,7 @@ export default {
     },
   },
   emits: ['emitNodeExpanded'],
-  setup (props, { emit }) {
+  setup(props, { emit }) {
     const expanded = ref(false)
     const toggleExpanded = (node, instance) => {
       expanded.value = !expanded.value

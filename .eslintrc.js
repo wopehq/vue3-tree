@@ -20,6 +20,9 @@ module.exports = {
     indent: ['error', 2, { SwitchCase: 1 }],
     'object-curly-spacing': ['error', 'always'],
     'arrow-parens': ['error', 'as-needed'],
+    'space-before-function-paren': ['error', 'never'],
+    'keyword-spacing': ['error', { 'before': true, 'after': true }],
+    'space-before-blocks': [2, 'always'],
     // vue
     'vue/no-v-html': 'off',
     'vue/singleline-html-element-content-newline': 'off',
