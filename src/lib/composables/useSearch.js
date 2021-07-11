@@ -1,12 +1,12 @@
 export default function useSearch() {
-  const searchTree = (nodes, searchKey, searchText) => {
+  const searchTree = (nodes, searchText, props) => {
     const getNodes = (result, node) => {
-      if (node[searchKey].includes(searchText)) {
+      if (node[props.label].includes(searchText)) {
         result.push(node)
         return result
       }
-      if (Array.isArray(node.nodes)) {
-        const nodes = node.nodes.reduce(getNodes, [])
+      if (Array.isArray(node[props.nodes])) {
+        const nodes = node[props.nodes].reduce(getNodes, [])
         if (nodes.length) result.push({ ...node, nodes })
       }
       return result

@@ -28,13 +28,22 @@ import useSearch from '../composables/useSearch'
 
 export default {
   name: 'Tree',
-  components:{
+  components: {
     TreeRow
   },
-  props:{
+  props: {
     nodes: {
       type: Array,
       required: true
+    },
+    props: {
+      type: Object,
+      default() {
+        return {
+          nodes: 'nodes',
+          label: 'label'
+        }
+      }
     },
     indentSize: {
       type: Number,
@@ -61,7 +70,7 @@ export default {
 
     watch(() => props.searchText, () => {
       if (props.searchText !== '') {
-        _nodes.value = searchTree(props.nodes, 'label', props.searchText)
+        _nodes.value = searchTree(props.nodes, props.searchText, props.props)
         if (props.expandAllRowsOnSearch) {
           _expandRowByDefault.value = true
         }
