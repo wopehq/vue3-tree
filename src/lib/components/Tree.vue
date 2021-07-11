@@ -10,10 +10,10 @@
         @emitNodeExpanded="onNodeExpanded"
       >
         <template #iconActive>
-          <slot name="iconActive" />
+          <slot name="iconActive"></slot>
         </template>
         <template #iconInactive>
-          <slot name="iconInactive" />
+          <slot name="iconInactive"></slot>
         </template>
       </tree-row>
     </ul>
@@ -26,17 +26,17 @@ import TreeRow from './TreeRow.vue'
 export default {
   name: 'Tree',
   components:{
-    TreeRow
+    TreeRow,
   },
   props:{
     nodes: {
       type: Array,
-      required: true
+      required: true,
     },
     indentSize: {
       type: Number,
-      default: 10
-    }
+      default: 10,
+    },
   },
   setup() {
     const onNodeExpanded = (node, state) => {
@@ -45,9 +45,9 @@ export default {
     }
 
     return {
-      onNodeExpanded
+      onNodeExpanded,
     }
-  }
+  },
 }
 </script>
 
