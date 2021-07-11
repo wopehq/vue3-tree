@@ -19,7 +19,7 @@ export default {
   components: {
     Tree,
   },
-  setup(){
+  setup() {
     const data = ref([{
       id: '1',
       label: 'a',
@@ -66,7 +66,7 @@ export default {
       label: 'c',
     }])
 
-    return{
+    return {
       data,
     }
   },
