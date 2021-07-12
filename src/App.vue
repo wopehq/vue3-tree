@@ -7,6 +7,7 @@
     :nodes="data"
     :search-text="searchText"
     @onNodeExpanded="onNodeExpanded"
+    @onCheckboxClicked="onCheckboxClicked"
   />
 </template>
 
@@ -71,10 +72,16 @@ export default {
       console.log('node: ', node)
     }
 
+    const onCheckboxClicked = (node, state) => {
+      console.log('checkbox state: ', state)
+      console.log('checkbox node: ', node)
+    }
+
     return {
       data,
       searchText,
       onNodeExpanded,
+      onCheckboxClicked,
     }
   },
 }
