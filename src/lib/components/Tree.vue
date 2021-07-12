@@ -2,12 +2,12 @@
   <div>
     <ul>
       <tree-row
-        v-for="node in _nodes"
+        v-for="node in refNodes"
         :ref="'tree-row-' + node.id"
         :key="node.id"
         :node="node"
         :indent-size="indentSize"
-        :expand-row-by-default="_expandRowByDefault"
+        :expand-row-by-default="refExpandRowByDefault"
         @emitNodeExpanded="onNodeExpanded"
       >
         <template #iconActive>
@@ -65,18 +65,19 @@ export default {
   emits: ['onNodeExpanded'],
   setup(props, { emit }) {
     const { searchTree } = useSearch()
-    const _nodes = ref(props.nodes)
-    const _expandRowByDefault = ref(props.expandRowByDefault)
+    // TODO: the names below should be changed
+    const refNodes = ref(props.nodes)
+    const refExpandRowByDefault = ref(props.expandRowByDefault)
 
     watch(() => props.searchText, () => {
       if (props.searchText !== '') {
-        _nodes.value = searchTree(props.nodes, props.searchText, props.props)
+        refNodes.value = searchTree(props.nodes, props.searchText, props.props)
         if (props.expandAllRowsOnSearch) {
-          _expandRowByDefault.value = true
+          refExpandRowByDefault.value = true
         }
       } else {
-        _nodes.value = props.nodes
-        _expandRowByDefault.value = false
+        refNodes.value = props.nodes
+        refExpandRowByDefault.value = false
       }
     })
 
@@ -86,8 +87,8 @@ export default {
 
     return {
       onNodeExpanded,
-      _nodes,
-      _expandRowByDefault
+      refNodes,
+      refExpandRowByDefault
     }
   }
 }
