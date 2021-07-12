@@ -17,7 +17,7 @@
           <slot name="iconInactive">
             <arrow-down />
           </slot>
-        </template>  
+        </template>
       </template>
       <span class="tree-row-txt">
         {{ node.label }}
@@ -57,28 +57,28 @@ import ArrowDown from './Icons/ArrowDown.vue'
 export default {
   components: {
     ArrowRight,
-    ArrowDown
+    ArrowDown,
   },
   props: {
     node: {
       type: Object,
-      required: true
+      required: true,
     },
     depth: {
       type: Number,
-      default: 0
+      default: 0,
     },
     indentSize: {
       type: Number,
-      required: true
+      required: true,
     },
     expandRowByDefault: {
       type: Boolean,
-      default: false
-    }
+      default: false,
+    },
   },
   emits: ['emitNodeExpanded'],
-  setup (props, { emit }) {
+  setup(props, { emit }) {
     const expanded = ref(false)
     const toggleExpanded = (node, instance) => {
       expanded.value = !expanded.value
@@ -87,23 +87,23 @@ export default {
       })
     }
 
-    watch(() => props.expandRowByDefault, (newVal) => {
+    watch(() => props.expandRowByDefault, newVal => {
       expanded.value = newVal
     }, {
-      immediate: true
+      immediate: true,
     })
 
     // redirect the event toward the Tree component
-    const emitNodeExpanded = (node, state) => { 
+    const emitNodeExpanded = (node, state) => {
       emit('emitNodeExpanded', node, state)
     }
 
     return {
       expanded,
       toggleExpanded,
-      emitNodeExpanded
+      emitNodeExpanded,
     }
-  }
+  },
 }
 </script>
 

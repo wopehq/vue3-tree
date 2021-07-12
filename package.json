@@ -4,8 +4,9 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "serve": "vite preview",
-    "lint": "eslint --ext .js,.vue src --fix"
+    "serve": "vite preview",    
+    "lint": "eslint ./src --ext .vue,.js",
+    "lint-fix": "eslint --fix ./src --ext .vue,.js"
   },
   "main": "./dist/vue3-tree.umd.js",
   "module": "./dist/vue3-tree.es.js",

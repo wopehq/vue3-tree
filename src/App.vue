@@ -3,7 +3,7 @@
     v-model="searchText"
     type="text"
   >
-  <Tree 
+  <Tree
     :nodes="data"
     :search-text="searchText"
     @onNodeExpanded="onNodeExpanded"
@@ -16,19 +16,19 @@ import Tree from './lib/index'
 
 export default {
   components: {
-    Tree
+    Tree,
   },
-  setup(){
+  setup() {
     const data = ref([{
       id: '1',
       label: 'a',
       nodes: [{
         id: '4',
-        label: 'aa'
+        label: 'aa',
       }, {
         id: '5',
-        label: 'ab'
-      }]
+        label: 'ab',
+      }],
     }, {
       id: '2',
       label: 'b',
@@ -40,29 +40,29 @@ export default {
           label: 'aaaa',
           nodes: [{
             id: '15',
-            label: 'aaaa'
+            label: 'aaaa',
           },{
             id: '16',
-            label: 'bbbb'
-          }]
+            label: 'bbbb',
+          }],
         },{
           id: '12',
-          label: 'bbbb'
-        }]
+          label: 'bbbb',
+        }],
       },{
         id: '7',
         label: 'bb',
         nodes: [{
           id: '13',
-          label: 'cccc'
+          label: 'cccc',
         },{
           id: '14',
-          label: 'dddd'
-        }]
-      }]
+          label: 'dddd',
+        }],
+      }],
     }, {
       id: '3',
-      label: 'c'
+      label: 'c',
     }])
     const searchText = ref('')
 
@@ -74,8 +74,8 @@ export default {
     return {
       data,
       searchText,
-      onNodeExpanded
+      onNodeExpanded,
     }
-  }
+  },
 }
 </script>

@@ -11,10 +11,10 @@
         @emitNodeExpanded="onNodeExpanded"
       >
         <template #iconActive>
-          <slot name="iconActive" />
+          <slot name="iconActive"></slot>
         </template>
         <template #iconInactive>
-          <slot name="iconInactive" />
+          <slot name="iconInactive"></slot>
         </template>
       </tree-row>
     </ul>
@@ -29,38 +29,38 @@ import useSearch from '../composables/useSearch'
 export default {
   name: 'Tree',
   components: {
-    TreeRow
+    TreeRow,
   },
   props: {
     nodes: {
       type: Array,
-      required: true
+      required: true,
     },
     props: {
       type: Object,
       default() {
         return {
           nodes: 'nodes',
-          label: 'label'
+          label: 'label',
         }
-      }
+      },
     },
     indentSize: {
       type: Number,
-      default: 10
+      default: 10,
     },
     searchText: {
       type: String,
-      default: ''
+      default: '',
     },
     expandRowByDefault: {
       type: Boolean,
-      default: false
+      default: false,
     },
     expandAllRowsOnSearch: {
       type: Boolean,
-      default: true
-    }
+      default: true,
+    },
   },
   emits: ['onNodeExpanded'],
   setup(props, { emit }) {
@@ -88,9 +88,9 @@ export default {
     return {
       onNodeExpanded,
       refNodes,
-      refExpandRowByDefault
+      refExpandRowByDefault,
     }
-  }
+  },
 }
 </script>
 
