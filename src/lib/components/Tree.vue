@@ -106,10 +106,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-li, ul {
+ul, li {
   display: grid;
   margin: 0;
   padding: 0;
-  list-style: none;
 }
 </style>
