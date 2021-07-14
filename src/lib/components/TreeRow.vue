@@ -60,7 +60,7 @@
 </template>
 
 <script>
-import { ref, nextTick, watch } from 'vue'
+import { ref, nextTick } from 'vue'
 import ArrowRight from './Icons/ArrowRight.vue'
 import ArrowDown from './Icons/ArrowDown.vue'
 
@@ -86,14 +86,6 @@ export default {
       type: Number,
       required: true,
     },
-    expandRowByDefault: {
-      type: Boolean,
-      default: false,
-    },
-    clickCheckboxByDefault: {
-      type: Boolean,
-      default: false,
-    },
   },
   emits: ['emitNodeExpanded', 'emitCheckboxToggle'],
   setup(props, { emit }) {
@@ -106,12 +98,6 @@ export default {
       })
     }
 
-    watch(() => props.expandRowByDefault, newVal => {
-      expanded.value = newVal
-    }, {
-      immediate: true,
-    })
-
     // redirect the event toward the Tree component
     const emitNodeExpanded = (node, state) => {
       emit('emitNodeExpanded', node, state)
@@ -123,12 +109,6 @@ export default {
         emit('emitCheckboxToggle', node, checked.value)
       })
     }
-
-    watch(() => props.clickCheckboxByDefault, newVal => {
-      checked.value = newVal
-    }, {
-      immediate: true,
-    })
 
     const emitCheckboxToggle = (node, state) => {
       emit('emitCheckboxToggle', node, state)
