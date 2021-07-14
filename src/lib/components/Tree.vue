@@ -1,12 +1,13 @@
 <template>
   <div>
-    <ul>
+    <ul :style="{'gap': gap + 'px'}">
       <tree-row
         v-for="node in refNodes"
         :ref="'tree-row-' + node.id"
         :key="node.id"
         :node="node"
         :indent-size="indentSize"
+        :gap="gap"
         :expand-row-by-default="refExpandRowByDefault"
         @emitNodeExpanded="onNodeExpanded"
         @emitCheckboxToggle="onCheckboxToggle"
@@ -47,6 +48,10 @@ export default {
       },
     },
     indentSize: {
+      type: Number,
+      default: 10,
+    },
+    gap: {
       type: Number,
       default: 10,
     },
@@ -101,9 +106,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-li, ul {
+ul, li {
+  display: grid;
   margin: 0;
   padding: 0;
-  list-style: none;
 }
 </style>

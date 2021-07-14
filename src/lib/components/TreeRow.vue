@@ -1,10 +1,12 @@
 <template>
   <li
     class="tree-row"
-    :style="{'padding-left': depth * indentSize + 'px'}"
+    :style="{'padding-left': depth * indentSize + 'px',
+             'gap': gap + 'px'}"
   >
     <div
       class="tree-row-item"
+      :style="{'gap': gap + 'px'}"
       @click.stop="toggleExpanded(node)"
     >
       <template v-if="node.nodes">
@@ -27,13 +29,17 @@
         {{ node.label }}
       </span>
     </div>
-    <ul v-if="expanded">
+    <ul
+      v-if="expanded"
+      :style="{'gap': gap + 'px'}"
+    >
       <tree-row
         v-for="child in node.nodes"
         :ref="'tree-row-' + child.id"
         :key="child.id"
         :node="child"
         :depth="depth + 1"
+        :gap="gap"
         :expand-row-by-default="expandRowByDefault"
         :indent-size="indentSize"
         @emitNodeExpanded="emitNodeExpanded"
@@ -74,6 +80,10 @@ export default {
       default: 0,
     },
     indentSize: {
+      type: Number,
+      required: true,
+    },
+    gap: {
       type: Number,
       required: true,
     },
@@ -137,9 +147,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-li, ul {
+ul, li {
+  display: grid;
   margin: 0;
   padding: 0;
-  list-style: none;
 }
 </style>
