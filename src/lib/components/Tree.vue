@@ -9,7 +9,7 @@
         :indent-size="indentSize"
         :expand-row-by-default="refExpandRowByDefault"
         @emitNodeExpanded="onNodeExpanded"
-        @emitCheckboxChecked="onCheckboxClicked"
+        @emitCheckboxToggle="onCheckboxToggle"
       >
         <template #iconActive>
           <slot name="iconActive"></slot>
@@ -63,7 +63,7 @@ export default {
       default: true,
     },
   },
-  emits: ['onNodeExpanded', 'onCheckboxClicked'],
+  emits: ['onNodeExpanded', 'onCheckboxToggle'],
   setup(props, { emit }) {
     const { searchTree } = useSearch()
     // TODO: the names below should be changed
@@ -86,15 +86,15 @@ export default {
       emit('onNodeExpanded', node, state)
     }
 
-    const onCheckboxClicked = (node, state)=>{
-      emit('onCheckboxClicked', node, state)
+    const onCheckboxToggle = (node, state)=>{
+      emit('onCheckboxToggle', node, state)
     }
 
     return {
       onNodeExpanded,
       refNodes,
       refExpandRowByDefault,
-      onCheckboxClicked,
+      onCheckboxToggle,
     }
   },
 }

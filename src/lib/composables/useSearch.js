@@ -16,6 +16,6 @@ export default function useSearch() {
   }
 
   return {
-    searchTree
+    searchTree,
   }
 }
