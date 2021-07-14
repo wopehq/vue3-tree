@@ -6,7 +6,6 @@
   >
     <div
       class="tree-row-item"
-      :style="{'gap': gap + 'px'}"
       @click.stop="toggleExpanded(node)"
     >
       <template v-if="node.nodes">
