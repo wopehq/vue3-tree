@@ -19,6 +19,10 @@
           </slot>
         </template>
       </template>
+      <input
+        type="checkbox"
+        @input="toggleCheckbox(node)"
+      >
       <span class="tree-row-txt">
         {{ node.label }}
       </span>
@@ -33,6 +37,7 @@
         :expand-row-by-default="expandRowByDefault"
         :indent-size="indentSize"
         @emitNodeExpanded="emitNodeExpanded"
+        @emitCheckboxToggle="emitCheckboxToggle"
       >
         <template #iconActive>
           <slot name="iconActive">
@@ -76,11 +81,16 @@ export default {
       type: Boolean,
       default: false,
     },
+    clickCheckboxByDefault: {
+      type: Boolean,
+      default: false,
+    },
   },
-  emits: ['emitNodeExpanded'],
+  emits: ['emitNodeExpanded', 'emitCheckboxToggle'],
   setup(props, { emit }) {
     const expanded = ref(false)
-    const toggleExpanded = (node, instance) => {
+    const checked = ref(false)
+    const toggleExpanded = node => {
       expanded.value = !expanded.value
       nextTick(() => {
         emit('emitNodeExpanded', node, expanded.value)
@@ -98,10 +108,29 @@ export default {
       emit('emitNodeExpanded', node, state)
     }
 
+    const toggleCheckbox = node =>{
+      checked.value = !checked.value
+      nextTick(()=>{
+        emit('emitCheckboxToggle', node, checked.value)
+      })
+    }
+
+    watch(() => props.clickCheckboxByDefault, newVal => {
+      checked.value = newVal
+    }, {
+      immediate: true,
+    })
+
+    const emitCheckboxToggle = (node, state) => {
+      emit('emitCheckboxToggle', node, state)
+    }
+
     return {
       expanded,
       toggleExpanded,
       emitNodeExpanded,
+      toggleCheckbox,
+      emitCheckboxToggle,
     }
   },
 }
