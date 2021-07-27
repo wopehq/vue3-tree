@@ -24,9 +24,11 @@
 </template>
 
 <script>
-import { ref, watch } from 'vue'
+import { ref, watch, onMounted, toRaw } from 'vue'
 import TreeRow from './TreeRow.vue'
+import initData from '../composables/initData'
 import useSearch from '../composables/useSearch'
+import updateData from '../composables/updateData'
 
 export default {
   name: 'Tree',
@@ -75,6 +77,10 @@ export default {
     const refNodes = ref(props.nodes)
     const refExpandRowByDefault = ref(props.expandRowByDefault)
 
+    onMounted(() => {
+      refNodes.value = initData(refNodes.value)
+    })
+
     watch(() => props.searchText, () => {
       if (props.searchText !== '') {
         refNodes.value = searchTree(props.nodes, props.searchText, props.props)
@@ -91,8 +97,9 @@ export default {
       emit('onNodeExpanded', node, state)
     }
 
-    const onCheckboxToggle = (node, state)=>{
-      emit('onCheckboxToggle', node, state)
+    const onCheckboxToggle = context => {
+      console.log('updateData(props.nodes, context): ', toRaw(updateData(props.nodes, context)))
+      emit('onCheckboxToggle', context)
     }
 
     return {

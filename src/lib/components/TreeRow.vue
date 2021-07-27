@@ -22,7 +22,7 @@
       </template>
       <input
         type="checkbox"
-        @input="toggleCheckbox(node)"
+        @click.stop="toggleCheckbox(node)"
       >
       <span class="tree-row-txt">
         {{ node.label }}
@@ -113,15 +113,18 @@ export default {
       emit('emitNodeExpanded', node, state)
     }
 
-    const toggleCheckbox = node =>{
+    const toggleCheckbox = node => {
       checked.value = !checked.value
       nextTick(()=>{
-        emit('emitCheckboxToggle', node, checked.value)
+        emit('emitCheckboxToggle', {
+          id: node.id,
+          checked: checked.value,
+        })
       })
     }
 
-    const emitCheckboxToggle = (node, state) => {
-      emit('emitCheckboxToggle', node, state)
+    const emitCheckboxToggle = context => {
+      emit('emitCheckboxToggle', context)
     }
 
     return {

@@ -68,13 +68,13 @@ export default {
     const searchText = ref('')
 
     const onNodeExpanded = (node, state) => {
-      console.log('state: ', state)
-      console.log('node: ', node)
+      // console.log('state: ', state)
+      // console.log('node: ', node)
     }
 
     const onCheckboxToggle = (node, state) => {
-      console.log('checkbox state: ', state)
-      console.log('checkbox node: ', node)
+      // console.log('checkbox state: ', state)
+      // console.log('checkbox node: ', node)
     }
 
     return {
