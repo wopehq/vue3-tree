@@ -8,12 +8,17 @@
     :search-text="searchText"
     @onNodeExpanded="onNodeExpanded"
     @onCheckboxToggle="onCheckboxToggle"
+    @onDataUpdated="onDataUpdated"
   />
+
+  <pre style="position:absolute;right:0;top:0;"><code id="codeBlock"></code></pre>
 </template>
 
 <script>
 import { ref } from 'vue'
 import Tree from './lib/index'
+import prettier from 'https://unpkg.com/prettier@2.3.2/esm/standalone.mjs'
+import parserBabel from 'https://unpkg.com/prettier@2.3.2/esm/parser-babel.mjs'
 
 export default {
   components: {
@@ -77,11 +82,20 @@ export default {
       // console.log('checkbox node: ', node)
     }
 
+    const onDataUpdated = updatedData => {
+      document.querySelector('#codeBlock').innerText =
+      prettier.format(JSON.stringify(updatedData), {
+        parser: 'babel',
+        plugins: [parserBabel],
+      })
+    }
+
     return {
       data,
       searchText,
       onNodeExpanded,
       onCheckboxToggle,
+      onDataUpdated,
     }
   },
 }

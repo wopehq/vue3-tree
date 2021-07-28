@@ -2,14 +2,15 @@
   <div>
     <ul :style="{'gap': gap + 'px'}">
       <tree-row
-        v-for="node in refNodes"
+        v-for="node in reactiveNodes"
         :ref="'tree-row-' + node.id"
         :key="node.id"
         :node="node"
         :indent-size="indentSize"
         :gap="gap"
-        :expand-row-by-default="refExpandRowByDefault"
+        :expand-row-by-default="reactiveExpandRowByDefault"
         @emitNodeExpanded="onNodeExpanded"
+        @emitOnUpdated="onDataUpdated"
         @emitCheckboxToggle="onCheckboxToggle"
       >
         <template #iconActive>
@@ -70,26 +71,26 @@ export default {
       default: true,
     },
   },
-  emits: ['onNodeExpanded', 'onCheckboxToggle'],
+  emits: ['onNodeExpanded', 'onCheckboxToggle', 'onDataUpdated'],
   setup(props, { emit }) {
     const { searchTree } = useSearch()
     // TODO: the names below should be changed
-    const refNodes = ref(props.nodes)
-    const refExpandRowByDefault = ref(props.expandRowByDefault)
+    const reactiveNodes = ref(props.nodes)
+    const reactiveExpandRowByDefault = ref(props.expandRowByDefault)
 
     onMounted(() => {
-      refNodes.value = initData(refNodes.value)
+      reactiveNodes.value = initData(reactiveNodes.value)
     })
 
     watch(() => props.searchText, () => {
       if (props.searchText !== '') {
-        refNodes.value = searchTree(props.nodes, props.searchText, props.props)
+        reactiveNodes.value = searchTree(props.nodes, props.searchText, props.props)
         if (props.expandAllRowsOnSearch) {
-          refExpandRowByDefault.value = true
+          reactiveExpandRowByDefault.value = true
         }
       } else {
-        refNodes.value = props.nodes
-        refExpandRowByDefault.value = false
+        reactiveNodes.value = props.nodes
+        reactiveExpandRowByDefault.value = false
       }
     })
 
@@ -98,15 +99,20 @@ export default {
     }
 
     const onCheckboxToggle = context => {
-      console.log('updateData(props.nodes, context): ', toRaw(updateData(props.nodes, context)))
+      reactiveNodes.value = updateData(reactiveNodes.value, context)
       emit('onCheckboxToggle', context)
+    }
+
+    const onDataUpdated = () => {
+      emit('onDataUpdated', props.nodes)
     }
 
     return {
       onNodeExpanded,
-      refNodes,
-      refExpandRowByDefault,
+      reactiveNodes,
+      reactiveExpandRowByDefault,
       onCheckboxToggle,
+      onDataUpdated,
     }
   },
 }

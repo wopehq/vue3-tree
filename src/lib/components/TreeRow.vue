@@ -43,6 +43,7 @@
         :expand-row-by-default="expandRowByDefault"
         :indent-size="indentSize"
         @emitNodeExpanded="emitNodeExpanded"
+        @emitOnUpdated="emitOnUpdated"
         @emitCheckboxToggle="emitCheckboxToggle"
       >
         <template #iconActive>
@@ -61,7 +62,7 @@
 </template>
 
 <script>
-import { ref, nextTick, watch } from 'vue'
+import { ref, nextTick, watch, onUpdated } from 'vue'
 import ArrowRight from './Icons/ArrowRight.vue'
 import ArrowDown from './Icons/ArrowDown.vue'
 
@@ -92,7 +93,7 @@ export default {
       default: false,
     },
   },
-  emits: ['emitNodeExpanded', 'emitCheckboxToggle'],
+  emits: ['emitNodeExpanded', 'emitCheckboxToggle', 'emitOnUpdated'],
   setup(props, { emit }) {
     const reactiveNode = ref(props.node)
 
@@ -120,6 +121,14 @@ export default {
       emit('emitNodeExpanded', node, state)
     }
 
+    const emitOnUpdated = (node, state) => {
+      emit('emitOnUpdated', node, state)
+    }
+
+    onUpdated(() => {
+      emitOnUpdated()
+    })
+
     const toggleCheckbox = node => {
       reactiveNode.value.checked = !reactiveNode.value.checked
       nextTick(()=>{
@@ -137,6 +146,7 @@ export default {
     return {
       toggleExpanded,
       emitNodeExpanded,
+      emitOnUpdated,
       toggleCheckbox,
       emitCheckboxToggle,
       reactiveNode,
