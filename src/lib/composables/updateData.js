@@ -4,13 +4,21 @@ export default function updateData(data, context) {
   const updateNodes = nodes => {
     nodes.forEach(node => {
       if (node.id === id) {
-        if (node.nodes) {
-          node.nodes.forEach(node => {
-            node.checked = !node.checked
-            console.log('~ node.id', node)
+        node.checked = checked
+
+        const handleRecursive = _nodes => {
+          _nodes.forEach(_node => {
+            _node.checked = node.checked ? true : false
+
+            if (Array.isArray(_node.nodes)) {
+              handleRecursive(_node.nodes)
+            }
           })
         }
-        node.checked = checked
+
+        if (node.nodes) {
+          handleRecursive(node.nodes)
+        }
       }
 
       if (Array.isArray(node.nodes)) {
