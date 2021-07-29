@@ -9,6 +9,7 @@
     @onNodeExpanded="onNodeExpanded"
     @onCheckboxToggle="onCheckboxToggle"
     @onDataUpdated="onDataUpdated"
+    @onToggleParentCheckbox="onToggleParentCheckbox"
   />
 
   <pre style="position:absolute;right:0;top:0;"><code id="codeBlock"></code></pre>
@@ -82,6 +83,11 @@ export default {
       // console.log('checkbox node: ', node)
     }
 
+    const onToggleParentCheckbox = (node, state) => {
+      // console.log('parent checkbox state: ', state)
+      // console.log('parent checkbox node: ', node)
+    }
+
     const onDataUpdated = updatedData => {
       document.querySelector('#codeBlock').innerText =
       prettier.format(JSON.stringify(updatedData), {
@@ -95,6 +101,7 @@ export default {
       searchText,
       onNodeExpanded,
       onCheckboxToggle,
+      onToggleParentCheckbox,
       onDataUpdated,
     }
   },

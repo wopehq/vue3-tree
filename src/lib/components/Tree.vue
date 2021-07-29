@@ -12,6 +12,7 @@
         @emitNodeExpanded="onNodeExpanded"
         @emitOnUpdated="onDataUpdated"
         @emitCheckboxToggle="onCheckboxToggle"
+        @emitToggleParentCheckbox="onToggleParentCheckbox"
       >
         <template #iconActive>
           <slot name="iconActive"></slot>
@@ -25,11 +26,12 @@
 </template>
 
 <script>
-import { ref, watch, onMounted, toRaw } from 'vue'
+import { ref, watch, onMounted } from 'vue'
 import TreeRow from './TreeRow.vue'
 import initData from '../composables/initData'
 import useSearch from '../composables/useSearch'
 import updateData from '../composables/updateData'
+import indeterminateData from '../composables/indeterminateData'
 
 export default {
   name: 'Tree',
@@ -71,7 +73,7 @@ export default {
       default: true,
     },
   },
-  emits: ['onNodeExpanded', 'onCheckboxToggle', 'onDataUpdated'],
+  emits: ['onNodeExpanded', 'onCheckboxToggle', 'onDataUpdated', 'onToggleParentCheckbox'],
   setup(props, { emit }) {
     const { searchTree } = useSearch()
     // TODO: the names below should be changed
@@ -107,12 +109,18 @@ export default {
       emit('onDataUpdated', props.nodes)
     }
 
+    const onToggleParentCheckbox = indeterminate => {
+      reactiveNodes.value = indeterminateData(reactiveNodes.value, indeterminate)
+      emit('onToggleParentCheckbox', indeterminate)
+    }
+
     return {
       onNodeExpanded,
       reactiveNodes,
       reactiveExpandRowByDefault,
       onCheckboxToggle,
       onDataUpdated,
+      onToggleParentCheckbox,
     }
   },
 }

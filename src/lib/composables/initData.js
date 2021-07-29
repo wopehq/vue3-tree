@@ -3,6 +3,7 @@ export default function initData(data) {
     nodes.forEach(node => {
       node.checked = false
       node.expanded = false
+      node.indeterminate = false
 
       if (Array.isArray(node.nodes)) {
         updateNodes(node.nodes)
