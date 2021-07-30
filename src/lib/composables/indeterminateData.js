@@ -1,43 +1,32 @@
-export default function indeterminateData(data, indeterminate) {
+export default function indeterminateData(data) {
 
-  const anyNodesChecked = nodes => {
-    const checkStatus = nodes.map(check => check.checked)
-    const every = checkStatus.every(Boolean)
-    const some = checkStatus.some(Boolean)
+  const nodeArray = (selector, parent=document) => [].slice.call(parent.querySelectorAll(selector))
 
-    nodes.forEach(node => {
-      if (node.id === indeterminate.id) {
-        if (node?.nodes) {
-          node.checked = every
-          node.indeterminate = !every && every !== some
+  const allThings = nodeArray('input')
 
-          console.log('~ child node.id', node, node.indeterminate)
-        }
+  addEventListener('change', e => {
+    let check = e.target
 
-        const handleRecursive = _nodes => {
-          _nodes.forEach(_node => {
-            _node.indeterminate = node.checked ? false : true
+    if (allThings.indexOf(check) === -1) return
 
-            if (Array.isArray(_node.nodes)) {
-              handleRecursive(_node.nodes)
-            }
-          })
-        }
+    const children = nodeArray('input', check.parentNode)
+    children.forEach(child => child.checked = check.checked)
 
-        if (node.nodes) {
-          handleRecursive(node.nodes)
-        }
-      }
+    while (check) {
 
-      if (Array.isArray(node.nodes)) {
-        anyNodesChecked(node.nodes)
-      }
-    })
+      const parent = (check.closest(['ul']).parentNode).querySelector('input')
+      const siblings = nodeArray('input', parent.closest('li').querySelector(['ul']))
 
-    return nodes
-  }
+      const checkStatus = siblings.map(check => check.checked)
+      const every = checkStatus.every(Boolean)
+      const some = checkStatus.some(Boolean)
 
-  return anyNodesChecked(data)
+      parent.checked = every
+      parent.indeterminate = !every && every !== some
+
+      check = check != parent ? parent : 0
+    }
+  })
+
+  return nodeArray(data)
 }
-
-

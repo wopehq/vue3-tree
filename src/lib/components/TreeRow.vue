@@ -24,7 +24,7 @@
         type="checkbox"
         :indeterminate="!reactiveNode.checked && reactiveNode.indeterminate"
         :checked="reactiveNode.checked"
-        @click.stop="toggleCheckbox(reactiveNode) || toggleParentCheckbox(reactiveNode)"
+        @click.stop="toggleCheckbox(reactiveNode); toggleParentCheckbox(reactiveNode)"
       >
       <span class="tree-row-txt">
         {{ reactiveNode.label }}
@@ -114,10 +114,11 @@ export default {
     })
 
     const toggleParentCheckbox = node => {
-      reactiveNode.value.indeterminate = !reactiveNode.value.indeterminate
+      if (reactiveNode.value.nodes) {
+        reactiveNode.value.indeterminate = !reactiveNode.value.indeterminate
+      }
       nextTick(() => {
         emit('emitToggleParentCheckbox', node, reactiveNode.value.indeterminate)
-        console.log('indeterminate', indeterminate)
       })
     }
 
