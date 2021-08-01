@@ -12,7 +12,6 @@
         @emitNodeExpanded="onNodeExpanded"
         @emitOnUpdated="onDataUpdated"
         @emitCheckboxToggle="onCheckboxToggle"
-        @emitToggleParentCheckbox="onToggleParentCheckbox"
       >
         <template #iconActive>
           <slot name="iconActive"></slot>
@@ -26,12 +25,11 @@
 </template>
 
 <script>
-import { ref, watch, onMounted } from 'vue'
+import { ref, watch, onMounted, nextTick } from 'vue'
 import TreeRow from './TreeRow.vue'
 import initData from '../composables/initData'
 import useSearch from '../composables/useSearch'
 import updateData from '../composables/updateData'
-import indeterminateData from '../composables/indeterminateData'
 
 export default {
   name: 'Tree',
@@ -73,16 +71,22 @@ export default {
       default: true,
     },
   },
-  emits: ['onNodeExpanded', 'onCheckboxToggle', 'onDataUpdated', 'onToggleParentCheckbox'],
+  emits: ['onNodeExpanded', 'onCheckboxToggle', 'onDataUpdated'],
   setup(props, { emit }) {
     const { searchTree } = useSearch()
-    // TODO: the names below should be changed
     const reactiveNodes = ref(props.nodes)
     const reactiveExpandRowByDefault = ref(props.expandRowByDefault)
 
     onMounted(() => {
       reactiveNodes.value = initData(reactiveNodes.value)
     })
+
+
+    const nodeArray = (selector, parent=document) => {
+      return [].slice.call(parent.querySelectorAll(selector))
+    }
+
+    //	checkboxes of interest
 
     watch(() => props.searchText, () => {
       if (props.searchText !== '') {
@@ -100,18 +104,40 @@ export default {
       emit('onNodeExpanded', node, state)
     }
 
-    const onCheckboxToggle = context => {
+    const onCheckboxToggle = (context, event) => {
       reactiveNodes.value = updateData(reactiveNodes.value, context)
+
+      let check = event.target
+      const allThings = nodeArray('input')
+
+      if (allThings.indexOf(check) === -1) return
+
+      const children = nodeArray('input', check.parentNode.parentNode)
+      children.forEach(child => child.checked = check.checked)
+
+      while (check) {
+        const parent = (check.parentNode.parentNode.closest(['ul']).parentNode).querySelector('input')
+
+        if (!parent.parentNode.parentNode.querySelector(['ul'])) {
+          check = false
+          return
+        }
+        const siblings = nodeArray('input', parent.parentNode.parentNode.querySelector(['ul']))
+
+        const checkStatus = siblings.map(check => check.checked)
+        const every = checkStatus.every(Boolean)
+        const some = checkStatus.some(Boolean)
+
+        parent.checked = every
+        parent.indeterminate = !every && every !== some
+
+        check = check != parent ? parent : 0
+      }
       emit('onCheckboxToggle', context)
     }
 
     const onDataUpdated = () => {
       emit('onDataUpdated', props.nodes)
-    }
-
-    const onToggleParentCheckbox = indeterminate => {
-      reactiveNodes.value = indeterminateData(reactiveNodes.value, indeterminate)
-      emit('onToggleParentCheckbox', indeterminate)
     }
 
     return {
@@ -120,7 +146,6 @@ export default {
       reactiveExpandRowByDefault,
       onCheckboxToggle,
       onDataUpdated,
-      onToggleParentCheckbox,
     }
   },
 }

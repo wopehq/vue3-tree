@@ -12,7 +12,7 @@
     @onToggleParentCheckbox="onToggleParentCheckbox"
   />
 
-  <pre style="position:absolute;right:0;top:0;"><code id="codeBlock"></code></pre>
+  <pre style="position:absolute;right:0;top:0;height:96vh;overflow:auto;"><code id="codeBlock"></code></pre>
 </template>
 
 <script>

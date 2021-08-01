@@ -22,13 +22,11 @@
       </template>
       <input
         type="checkbox"
-        :indeterminate="!reactiveNode.checked && reactiveNode.indeterminate"
         :checked="reactiveNode.checked"
-        @click.stop="toggleCheckbox(reactiveNode); toggleParentCheckbox(reactiveNode)"
+        @click.stop="toggleCheckbox(reactiveNode, $event)"
       >
       <span class="tree-row-txt">
         {{ reactiveNode.label }}
-        {{ reactiveNode.indeterminate }}
       </span>
     </div>
     <ul
@@ -47,7 +45,6 @@
         @emitNodeExpanded="emitNodeExpanded"
         @emitOnUpdated="emitOnUpdated"
         @emitCheckboxToggle="emitCheckboxToggle"
-        @emitToggleParentCheckbox="emitToggleParentCheckbox"
       >
         <template #iconActive>
           <slot name="iconActive">
@@ -96,29 +93,13 @@ export default {
       default: false,
     },
   },
-  emits: ['emitNodeExpanded', 'emitCheckboxToggle', 'emitOnUpdated', 'emitToggleParentCheckbox'],
+  emits: ['emitNodeExpanded', 'emitCheckboxToggle', 'emitOnUpdated'],
   setup(props, { emit }) {
     const reactiveNode = ref(props.node)
-    const indeterminate = ref(reactiveNode.value.indeterminate)
     const toggleExpanded = node => {
       reactiveNode.value.expanded = !reactiveNode.value.expanded
       nextTick(() => {
         emit('emitNodeExpanded', node, reactiveNode.value.expanded)
-      })
-    }
-
-    watch(() => props.expandRowByDefault, newVal => {
-      reactiveNode.value.expanded = newVal
-    }, {
-      immediate: true,
-    })
-
-    const toggleParentCheckbox = node => {
-      if (reactiveNode.value.nodes) {
-        reactiveNode.value.indeterminate = !reactiveNode.value.indeterminate
-      }
-      nextTick(() => {
-        emit('emitToggleParentCheckbox', node, reactiveNode.value.indeterminate)
       })
     }
 
@@ -147,28 +128,22 @@ export default {
       emitOnUpdated()
     })
 
-    const emitToggleParentCheckbox = indeterminate => {
-      emit('emitToggleParentCheckbox', indeterminate)
-    }
-
-    const toggleCheckbox = node => {
+    const toggleCheckbox = (node, event) => {
       reactiveNode.value.checked = !reactiveNode.value.checked
       nextTick(()=>{
         emit('emitCheckboxToggle', {
           id: node.id,
           checked: node.checked,
-        })
+        }, event)
       })
     }
 
-    const emitCheckboxToggle = context => {
-      emit('emitCheckboxToggle', context)
+    const emitCheckboxToggle = (context, event) => {
+      emit('emitCheckboxToggle', context, event)
     }
 
     return {
       toggleExpanded,
-      toggleParentCheckbox,
-      emitToggleParentCheckbox,
       emitNodeExpanded,
       emitOnUpdated,
       toggleCheckbox,
