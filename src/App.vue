@@ -8,12 +8,18 @@
     :search-text="searchText"
     @onNodeExpanded="onNodeExpanded"
     @onCheckboxToggle="onCheckboxToggle"
+    @onDataUpdated="onDataUpdated"
+    @onToggleParentCheckbox="onToggleParentCheckbox"
   />
+
+  <pre style="position:absolute;right:0;top:0;height:96vh;overflow:auto;"><code id="codeBlock"></code></pre>
 </template>
 
 <script>
 import { ref } from 'vue'
 import Tree from './lib/index'
+import prettier from 'https://unpkg.com/prettier@2.3.2/esm/standalone.mjs'
+import parserBabel from 'https://unpkg.com/prettier@2.3.2/esm/parser-babel.mjs'
 
 export default {
   components: {
@@ -68,13 +74,26 @@ export default {
     const searchText = ref('')
 
     const onNodeExpanded = (node, state) => {
-      console.log('state: ', state)
-      console.log('node: ', node)
+      // console.log('state: ', state)
+      // console.log('node: ', node)
     }
 
     const onCheckboxToggle = (node, state) => {
-      console.log('checkbox state: ', state)
-      console.log('checkbox node: ', node)
+      // console.log('checkbox state: ', state)
+      // console.log('checkbox node: ', node)
+    }
+
+    const onToggleParentCheckbox = (node, state) => {
+      // console.log('parent checkbox state: ', state)
+      // console.log('parent checkbox node: ', node)
+    }
+
+    const onDataUpdated = updatedData => {
+      document.querySelector('#codeBlock').innerText =
+      prettier.format(JSON.stringify(updatedData), {
+        parser: 'babel',
+        plugins: [parserBabel],
+      })
     }
 
     return {
@@ -82,6 +101,8 @@ export default {
       searchText,
       onNodeExpanded,
       onCheckboxToggle,
+      onToggleParentCheckbox,
+      onDataUpdated,
     }
   },
 }
