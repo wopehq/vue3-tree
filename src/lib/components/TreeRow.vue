@@ -97,7 +97,12 @@ export default {
   setup(props, { emit }) {
     const reactiveNode = ref(props.node)
     const toggleExpanded = node => {
-      reactiveNode.value.expanded = !reactiveNode.value.expanded
+      if (reactiveNode.value.nodes?.length) {
+        reactiveNode.value.expanded = !reactiveNode.value.expanded
+      }
+      else {
+        reactiveNode.value.expanded = false
+      }
       nextTick(() => {
         emit('emitNodeExpanded', node, reactiveNode.value.expanded)
       })
