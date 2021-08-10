@@ -1,6 +1,6 @@
 ---
 home: true
-heroImage: https://v1.vuepress.vuejs.org/hero.png
+heroImage: https://gblobscdn.gitbook.com/spaces%2F-Me47rpQ_g1RtbPLwuxF%2Favatar-1625731581452.png?alt=media
 tagline: 
 actionText: Quick Start →
 actionLink: /installation/

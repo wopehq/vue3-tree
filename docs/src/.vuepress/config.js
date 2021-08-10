@@ -16,7 +16,7 @@ module.exports = {
    * ref：https://v1.vuepress.vuejs.org/config/#head
    */
   head: [
-    ['meta', { name: 'theme-color', content: '#3eaf7c' }],
+    ['meta', { name: 'theme-color', content: '#22259f' }],
     ['meta', { name: 'apple-mobile-web-app-capable', content: 'yes' }],
     ['meta', { name: 'apple-mobile-web-app-status-bar-style', content: 'black' }]
   ],
@@ -31,6 +31,7 @@ module.exports = {
    * ref：https://v1.vuepress.vuejs.org/theme/default-theme-config.html
    */
   themeConfig: {
+    logo: 'https://gblobscdn.gitbook.com/spaces%2F-Me47rpQ_g1RtbPLwuxF%2Favatar-1625731581452.png?alt=media',
     repo: '',
     editLinks: false,
     docsDir: '',
@@ -49,6 +50,10 @@ module.exports = {
       {
         text: 'Github',
         link: 'https://github.com/teamseodo/vue3-tree'
+      },
+      {
+        text: 'Seo.do',
+        link: 'https://seo.do/'
       }
     ],
     sidebar: 'auto'
