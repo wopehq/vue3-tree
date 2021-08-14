@@ -2,8 +2,8 @@
   "name": "vue3-tree-docs",
   "version": "0.0.1",
   "scripts": {
-    "dev": "vuepress dev",
-    "build": "vuepress build"
+    "dev": "vuepress dev src",
+    "build": "vuepress build src"
   },
   "main": "index.js",
   "license": "MIT",
