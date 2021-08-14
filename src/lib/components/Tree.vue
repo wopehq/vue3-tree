@@ -25,7 +25,7 @@
 </template>
 
 <script>
-import { ref, watch, onMounted, nextTick } from 'vue'
+import { ref, watch, onMounted } from 'vue'
 import TreeRow from './TreeRow.vue'
 import initData from '../composables/initData'
 import useSearch from '../composables/useSearch'

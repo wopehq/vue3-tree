@@ -3,14 +3,14 @@
  *
  * https://v1.vuepress.vuejs.org/guide/basic-config.html#app-level-enhancements
  */
-import Footer from './components/Shared/Footer.vue'
+ import Footer from './components/shared/Footer.vue'
 
-export default ({
-  Vue, // the version of Vue being used in the VuePress app
-  options, // the options for the root Vue instance
-  router, // the router instance for the app
-  siteData // site metadata
-}) => {
-  // ...apply enhancements for the site.
-  Vue.component('Footer', Footer);
-}
+ export default ({
+   Vue, // the version of Vue being used in the VuePress app
+   options, // the options for the root Vue instance
+   router, // the router instance for the app
+   siteData // site metadata
+ }) => {
+   // ...apply enhancements for the site.
+   Vue.component('Footer', Footer);
+ }

@@ -6,7 +6,6 @@ yarn-debug.log*
 yarn-error.log*
 .travis.yml
 *.map
-dist/demo.html
 
 .idea
 .vscode

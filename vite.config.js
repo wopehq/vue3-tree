@@ -13,7 +13,7 @@ const config = {
   plugins: [vue()],
   build: {
     lib: {
-      entry: path.resolve(__dirname, 'src/main.js'),
+      entry: path.resolve(__dirname, 'src/lib/index.js'),
       name: 'Tree',
     },
     rollupOptions: {
