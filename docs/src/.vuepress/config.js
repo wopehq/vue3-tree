@@ -6,10 +6,12 @@ module.exports = {
   // description: "description",
   themeConfig: {
     sidebar,
+    logo: '/logo.svg',
     navbar: [
       { text: "Guide", link: "/guide/" },
     ],
     sidebarDepth: 2,
-    backToHome: "Back Home",
+    // backToHome: "Home",
+    repo: 'teamseodo/vue3-tree',
   },
 };
