@@ -1,6 +1,6 @@
 ---
 home: true
-heroImage: https://gblobscdn.gitbook.com/spaces%2F-Me47rpQ_g1RtbPLwuxF%2Favatar-1625731581452.png?alt=media
+heroImage: logo.svg
 tagline: 
 actionText: Quick Start →
 actionLink: /installation/

@@ -6,6 +6,7 @@ module.exports = {
   // description: "description",
   themeConfig: {
     sidebar,
+    logo: '/logo.svg',
     navbar: [
       { text: "Guide", link: "/guide/" },
     ],
