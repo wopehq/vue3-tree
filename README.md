@@ -1,6 +1,6 @@
 <p align="center">
   <p align="center">
-    <img width="100px" src="/public/logo.svg">
+    <img width="100px" src="https://cdn.jsdelivr.net/npm/vue3-tree@0.1.0/public/logo.svg">
   </p>
   <h2 align="center">
     vue3-tree
