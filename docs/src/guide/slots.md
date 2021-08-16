@@ -2,6 +2,7 @@
 Slots are a feature that we recursively add to the tree structure. We added 2 icons by default based on tree open or closed status. If you want to customize it, it is enough to put your own icons instead of these slots.
 
 ## Example
+Basic status of slots
 ```vue
 <template #iconActive>
   <slot name="iconActive"></slot>
@@ -11,6 +12,7 @@ Slots are a feature that we recursively add to the tree structure. We added 2 ic
 </template>
 ```
 
+Customized slot example
 ```vue
 <template #iconActive>
   <slot name="iconActive">
