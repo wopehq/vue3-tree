@@ -1,18 +1,21 @@
 {
-  "name": "vue3-tree-docs",
-  "version": "0.0.1",
-  "scripts": {
-    "dev": "vuepress dev src",
-    "build": "vuepress build src --clean-cache"
-  },
-  "main": "index.js",
-  "license": "MIT",
-  "private": false,
-  "devDependencies": {
-    "@vuepress/plugin-register-components": "^2.0.0-beta.24",
-    "vuepress": "^2.0.0-beta.24"
-  },
-  "dependencies": {
-    "vue3-tree": "^0.1.1"
-  }
+	"name": "vue3-tree-docs",
+	"version": "0.0.1",
+	"scripts": {
+		"dev": "vuepress dev src",
+		"build": "vuepress build src --clean-cache",
+		"format": "prettier .  --write"
+	},
+	"main": "index.js",
+	"license": "MIT",
+	"private": false,
+	"devDependencies": {
+		"@vuepress/plugin-register-components": "^2.0.0-beta.24",
+		"eslint-plugin-vue": "^7.16.0",
+		"vuepress": "^2.0.0-beta.24"
+	},
+	"dependencies": {
+		"prettier": "^2.3.2",
+		"vue3-tree": "^0.1.1"
+	}
 }
