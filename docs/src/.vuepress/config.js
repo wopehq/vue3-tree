@@ -1,3 +1,4 @@
+const { path } = require('@vuepress/utils');
 const sidebar = require("./sidebar");
 
 module.exports = {
@@ -14,4 +15,15 @@ module.exports = {
     // backToHome: "Home",
     repo: 'teamseodo/vue3-tree',
   },
+
+  plugins: [
+    [
+      '@vuepress/register-components',
+      {
+        components: {
+          Footer: path.resolve(__dirname, './components/shared/Footer.vue'),
+        },
+      },
+    ],
+  ],
 };

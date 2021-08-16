@@ -15,4 +15,4 @@ features:
   details: Rich slot options & easily apply your style
 ---
 
-<Footer/>
+<Footer />
