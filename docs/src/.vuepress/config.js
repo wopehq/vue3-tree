@@ -23,6 +23,7 @@ module.exports = {
       {
         components: {
           Footer: path.resolve(__dirname, './components/shared/Footer.vue'),
+          Tree: path.resolve(__dirname, '../../node_modules/vue3-tree/src/lib/index.js'),
         },
       },
     ],

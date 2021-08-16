@@ -3498,6 +3498,11 @@ vue-router@^4.0.10:
   dependencies:
     "@vue/devtools-api" "^6.0.0-beta.14"
 
+vue3-tree@^0.1.1:
+  version "0.1.1"
+  resolved "https://registry.yarnpkg.com/vue3-tree/-/vue3-tree-0.1.1.tgz#5112baabcf0fd3ed125e6e72491803a09cb6e506"
+  integrity sha512-kMqctdgRqTBfJKDxK8lGbiX2Bimfc+ni7aEHHiWeeF23CM8RaSrNuIZu99QCe8zervKDSgfw9O/nKKI/C4ej5Q==
+
 vue@^3.2.2:
   version "3.2.2"
   resolved "https://registry.yarnpkg.com/vue/-/vue-3.2.2.tgz#11715cb71a02baefd0f6e6552dc623680eb1bf32"
