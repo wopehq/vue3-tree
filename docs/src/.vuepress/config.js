@@ -9,6 +9,7 @@ module.exports = {
     logo: '/logo.svg',
     navbar: [
       { text: "Guide", link: "/guide/" },
+      { text: "Seo.do", link: "https://seo.do/"}
     ],
     sidebarDepth: 2,
     // backToHome: "Home",

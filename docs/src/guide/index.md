@@ -16,6 +16,7 @@ yarn add vue3-tree
 
 ## Quick Start
 
+In order to add the package to your project, you need to **import** it in the component and define it in the **template** as shown below. If you want to see your own data in the tree structure, you can define your **data** here by adhering to certain parameters in the data.
 ```vue
 <template>
   <Tree
