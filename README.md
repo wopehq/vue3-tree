@@ -1,6 +1,6 @@
 <p align="center">
   <p align="center">
-    <img width="100px" src="../../work/vue3-tree/public/logo.svg">
+    <img width="100px" src="/public/logo.svg">
   </p>
   <h2 align="center">
     vue3-tree
@@ -24,4 +24,4 @@ A customizable vuejs tree viewer
 [![Edit vue3-tree](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/boring-leaf-v7b2s?file=/src/App.vue)
 
 #### How to use
-You can review the [document]() for the use of the library.
+You can review the [document](https://vue3-tree.netlify.app/) for the use of the library.
