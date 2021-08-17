@@ -8,11 +8,11 @@
 
 **description:** An array of nodes to show. Available properties of a node object:
 
-| Key              |       Type       | Description                                                                           |
-| ---------------- | :--------------: | ------------------------------------------------------------------------------------- |
+| Key                                 |       Type       | Description                                                                           |
+| ----------------------------------- | :--------------: | ------------------------------------------------------------------------------------- |
 | id <small>**(required)**</small>    | number \| string | Used to identify the node within the tree. Its value must be unique in a nodes array. |
 | label <small>**(required)**</small> |      string      | Used to display the option.                                                           |
-| nodes            |      Array       | Array of node objects.                                                                |
+| nodes                               |      Array       | Array of node objects.                                                                |
 
 ### `indentSize`
 
