@@ -1,43 +1,31 @@
 # Props
-Customize your tree structure using scenes.
 
-| Props      | Description | Default |
-| :---        |    ----   | :----: |
-| nodes    | If there is more than one tree under the tree structure, these trees are defined in the nodes array.|required: true|
-| indentSize  |When nested trees are opened, it determines how many pixels should be opened from left to right.|10|
-| gap |You can activate the spacing feature used in CSS with pixels, using the number format to indicate the spacing between trees.|10|
-| expandRowByDefault |If a node has more than one node in the structure you created in the data, you can expand the row by activating this feature.|false|
-| expandAllRowsOnSearch | Use this scene when we want to search all data while searching input.|true|
+### `nodes`
 
-## Example
+**type:** Array
 
-```js
-nodes: {
-  type: Array,
-  required: true,
-},
-```
-```js
-indentSize: {
-  type: Number,
-  default: 10,
-},
-```
-```js
-gap: {
-  type: Number,
-  default: 10,
-},
-```
-```js
-expandRowByDefault: {
-  type: Boolean,
-  default: false,
-  },
-```
-```js
-expandAllRowsOnSearch: {
-  type: Boolean,
-  default: true,
-},
-```
+**required:** `true`
+
+**description:** An array of nodes to show. Available properties of a node object:
+
+| Key              |       Type       | Description                                                                           |
+| ---------------- | :--------------: | ------------------------------------------------------------------------------------- |
+| id <small>**(required)**</small>    | number \| string | Used to identify the node within the tree. Its value must be unique in a nodes array. |
+| label <small>**(required)**</small> |      string      | Used to display the option.                                                           |
+| nodes            |      Array       | Array of node objects.                                                                |
+
+### `indentSize`
+
+**type:** number
+
+**default:** `10`
+
+**description:** Indent size in pixels of tree nodes.
+
+### `gap`
+
+**type:** number
+
+**default:** `10`
+
+**description:** Vertical space between tree nodes.
