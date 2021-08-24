@@ -8,7 +8,7 @@
       class="tree-row-item"
       @click.stop="toggleExpanded(reactiveNode)"
     >
-      <template v-if="reactiveNode.nodes">
+      <template v-if="reactiveNode.nodes && useIcon">
         <template v-if="!reactiveNode.expanded">
           <slot name="iconActive">
             <arrow-right />
@@ -21,6 +21,7 @@
         </template>
       </template>
       <input
+        v-if="useCheckbox"
         type="checkbox"
         :checked="reactiveNode.checked"
         @click.stop="toggleCheckbox(reactiveNode, $event)"
@@ -39,6 +40,8 @@
         :key="child.id"
         :node="child"
         :depth="depth + 1"
+        :use-checkbox="useCheckbox"
+        :use-icon="useIcon"
         :gap="gap"
         :expand-row-by-default="expandRowByDefault"
         :indent-size="indentSize"
@@ -91,6 +94,14 @@ export default {
     expandRowByDefault: {
       type: Boolean,
       default: false,
+    },
+    useCheckbox: {
+      type: Boolean,
+      default: false,
+    },
+    useIcon:{
+      type: Boolean,
+      default: true,
     },
   },
   emits: ['emitNodeExpanded', 'emitCheckboxToggle', 'emitOnUpdated'],

@@ -6,6 +6,8 @@
         :ref="'tree-row-' + node.id"
         :key="node.id"
         :node="node"
+        :use-checkbox="useCheckbox"
+        :use-icon="useIcon"
         :indent-size="indentSize"
         :gap="gap"
         :expand-row-by-default="reactiveExpandRowByDefault"
@@ -13,10 +15,10 @@
         @emitOnUpdated="onDataUpdated"
         @emitCheckboxToggle="onCheckboxToggle"
       >
-        <template #iconActive>
+        <template v-if="useIcon" #iconActive>
           <slot name="iconActive"></slot>
         </template>
-        <template #iconInactive>
+        <template v-if="useIcon" #iconInactive>
           <slot name="iconInactive"></slot>
         </template>
       </tree-row>
@@ -67,6 +69,14 @@ export default {
       default: false,
     },
     expandAllRowsOnSearch: {
+      type: Boolean,
+      default: true,
+    },
+    useCheckbox: {
+      type: Boolean,
+      default: false,
+    },
+    useIcon:{
       type: Boolean,
       default: true,
     },
