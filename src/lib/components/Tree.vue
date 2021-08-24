@@ -167,8 +167,4 @@ ul, li {
   margin: 0;
   padding: 0;
 }
-
-#iconActive, #iconInactive{
-  font-size: 0 !important;
-}
 </style>
