@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <ul :style="{'gap': gap + 'px'}">
+  <div class="tree">
+    <ul :style="{'gap': gap + 'px'}" class="tree-list">
       <tree-row
         v-for="node in reactiveNodes"
         :ref="'tree-row-' + node.id"
@@ -11,6 +11,7 @@
         :indent-size="indentSize"
         :gap="gap"
         :expand-row-by-default="reactiveExpandRowByDefault"
+        :row-hover-background="rowHoverBackground"
         @emitNodeExpanded="onNodeExpanded"
         @emitOnUpdated="onDataUpdated"
         @emitCheckboxToggle="onCheckboxToggle"
@@ -79,6 +80,10 @@ export default {
     useIcon:{
       type: Boolean,
       default: true,
+    },
+    rowHoverBackground: {
+      type: String,
+      default: '#e0e0e0',
     },
   },
   emits: ['onNodeExpanded', 'onCheckboxToggle', 'onDataUpdated'],
@@ -162,9 +167,13 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-ul, li {
-  display: grid;
+.tree {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+.tree-list {
   margin: 0;
   padding: 0;
+  overflow: hidden;
 }
 </style>

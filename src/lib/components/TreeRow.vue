@@ -2,7 +2,8 @@
   <li
     class="tree-row"
     :style="{'padding-left': depth * indentSize + 'px',
-             'gap': gap + 'px'}"
+             'gap': gap + 'px',
+             '--row-hover-background': rowHoverBackground}"
   >
     <div
       class="tree-row-item"
@@ -33,6 +34,7 @@
     <ul
       v-if="reactiveNode.expanded"
       :style="{'gap': gap + 'px'}"
+      class="tree-list"
     >
       <tree-row
         v-for="child in reactiveNode.nodes"
@@ -45,6 +47,7 @@
         :gap="gap"
         :expand-row-by-default="expandRowByDefault"
         :indent-size="indentSize"
+        :row-hover-background="rowHoverBackground"
         @emitNodeExpanded="emitNodeExpanded"
         @emitOnUpdated="emitOnUpdated"
         @emitCheckboxToggle="emitCheckboxToggle"
@@ -102,6 +105,10 @@ export default {
     useIcon:{
       type: Boolean,
       default: true,
+    },
+    rowHoverBackground: {
+      type: String,
+      default: '#e0e0e0',
     },
   },
   emits: ['emitNodeExpanded', 'emitCheckboxToggle', 'emitOnUpdated'],
@@ -165,10 +172,35 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
-ul, li {
+<style lang="scss">
+.tree-list, .tree-row {
   display: grid;
   margin: 0;
   padding: 0;
+}
+
+.tree-row {
+  transform-style: preserve-3d;
+
+  &-item {
+    position: relative;
+    padding: 5px 10px;
+
+    &:hover:before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      background-color: var(--row-hover-background);
+      transform: translate3d(0, 0, -0.1px);
+      width: 200vw;
+      margin-left: calc(100% - 100vw);
+    }
+  }
+
+  &-txt {
+    user-select: none;
+  }
 }
 </style>
