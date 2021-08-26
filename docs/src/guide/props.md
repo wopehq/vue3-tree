@@ -29,3 +29,11 @@
 **default:** `10`
 
 **description:** Vertical space between tree nodes.
+
+### `rowHoverBackground`
+
+**type:** string
+
+**default:** `#e0e0e0`
+
+**description:** The background style to apply on hover state.
