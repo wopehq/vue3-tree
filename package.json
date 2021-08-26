@@ -1,10 +1,10 @@
 {
   "name": "vue3-tree",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "serve": "vite preview",    
+    "serve": "vite preview",
     "lint": "eslint ./src --ext .vue,.js",
     "lint-fix": "eslint --fix ./src --ext .vue,.js"
   },
