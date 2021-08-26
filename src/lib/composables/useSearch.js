@@ -1,7 +1,7 @@
 export default function useSearch() {
   const searchTree = (nodes, searchText, props) => {
     const getNodes = (result, node) => {
-      if (node[props.label].includes(searchText)) {
+      if (node[props.label].toLowerCase().includes(searchText.toLowerCase())) {
         result.push(node)
         return result
       }
