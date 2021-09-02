@@ -16,6 +16,13 @@
         @emitOnUpdated="onDataUpdated"
         @emitCheckboxToggle="onCheckboxToggle"
       >
+        <template #checkbox="{ toggleCheckbox, checked }">
+          <slot
+            name="checkbox"
+            :checked="checked"
+            :toggleCheckbox="toggleCheckbox"
+          />
+        </template>
         <template v-if="useIcon" #iconActive>
           <slot name="iconActive"></slot>
         </template>
