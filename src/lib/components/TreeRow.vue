@@ -24,7 +24,7 @@
       <slot
         name="checkbox" 
         :checked="reactiveNode.checked" 
-        :toggleCheckbox="($event) => { this.toggleCheckbox(reactiveNode, $event)}"
+        :toggleCheckbox="($event) => toggleCheckbox(reactiveNode, $event)"
       />
       <input
         v-if="useCheckbox"
@@ -71,7 +71,7 @@
           <slot
             name="checkbox" 
             :checked="child.checked" 
-            :toggleCheckbox="($event) => { this.toggleCheckbox(child, $event) }"
+            :toggleCheckbox="($event) => toggleCheckbox(child, $event)"
           />
       </template>
       </tree-row>
