@@ -21,6 +21,11 @@
           </slot>
         </template>
       </template>
+      <slot
+        name="checkbox" 
+        :checked="reactiveNode.checked" 
+        :toggleCheckbox="($event) => toggleCheckbox(reactiveNode, $event)"
+      />
       <input
         v-if="useCheckbox"
         type="checkbox"
@@ -62,6 +67,13 @@
             <arrow-down />
           </slot>
         </template>
+        <template #checkbox>
+          <slot
+            name="checkbox" 
+            :checked="child.checked" 
+            :toggleCheckbox="($event) => toggleCheckbox(child, $event)"
+          />
+      </template>
       </tree-row>
     </ul>
   </li>
@@ -147,6 +159,7 @@ export default {
     })
 
     const toggleCheckbox = (node, event) => {
+      event.stopPropagation();
       reactiveNode.value.checked = !reactiveNode.value.checked
       nextTick(()=>{
         emit('emitCheckboxToggle', {
