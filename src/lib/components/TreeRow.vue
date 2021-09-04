@@ -4,6 +4,7 @@
     :style="{'padding-left': depth * indentSize + 'px',
              'gap': gap + 'px',
              '--row-hover-background': rowHoverBackground}"
+    :indeterminate-status="indeterminateStatus"
   >
     <div
       class="tree-row-item"
@@ -22,10 +23,11 @@
         </template>
       </template>
       <slot
-        name="checkbox" 
-        :checked="reactiveNode.checked" 
+        name="checkbox"
+        :checked="reactiveNode.checked"
         :toggleCheckbox="($event) => toggleCheckbox(reactiveNode, $event)"
-      />
+        :indeterminateStatus="indeterminateStatus"
+      ></slot>
       <input
         v-if="useCheckbox"
         type="checkbox"
@@ -52,6 +54,7 @@
         :gap="gap"
         :expand-row-by-default="expandRowByDefault"
         :indent-size="indentSize"
+        :indeterminate-status="indeterminateStatus"
         :row-hover-background="rowHoverBackground"
         @emitNodeExpanded="emitNodeExpanded"
         @emitOnUpdated="emitOnUpdated"
@@ -69,11 +72,12 @@
         </template>
         <template #checkbox>
           <slot
-            name="checkbox" 
-            :checked="child.checked" 
+            name="checkbox"
+            :checked="child.checked"
             :toggleCheckbox="($event) => toggleCheckbox(child, $event)"
-          />
-      </template>
+            :indeterminateStatus="indeterminateStatus"
+          ></slot>
+        </template>
       </tree-row>
     </ul>
   </li>
@@ -122,6 +126,10 @@ export default {
       type: String,
       default: '#e0e0e0',
     },
+    indeterminateStatus: {
+      type: Boolean,
+      default: false,
+    },
   },
   emits: ['emitNodeExpanded', 'emitCheckboxToggle', 'emitOnUpdated'],
   setup(props, { emit }) {
@@ -159,7 +167,7 @@ export default {
     })
 
     const toggleCheckbox = (node, event) => {
-      event.stopPropagation();
+      event.stopPropagation()
       reactiveNode.value.checked = !reactiveNode.value.checked
       nextTick(()=>{
         emit('emitCheckboxToggle', {

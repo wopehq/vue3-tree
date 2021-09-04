@@ -12,16 +12,18 @@
         :gap="gap"
         :expand-row-by-default="reactiveExpandRowByDefault"
         :row-hover-background="rowHoverBackground"
+        :indeterminate-status="isIndeterminate.status"
         @emitNodeExpanded="onNodeExpanded"
         @emitOnUpdated="onDataUpdated"
         @emitCheckboxToggle="onCheckboxToggle"
       >
-        <template #checkbox="{ toggleCheckbox, checked }">
+        <template #checkbox="{ toggleCheckbox, checked, indeterminateStatus }">
           <slot
             name="checkbox"
             :checked="checked"
             :toggleCheckbox="toggleCheckbox"
-          />
+            :indeterminateStatus="indeterminateStatus"
+          ></slot>
         </template>
         <template v-if="useIcon" #iconActive>
           <slot name="iconActive"></slot>
@@ -35,7 +37,7 @@
 </template>
 
 <script>
-import { ref, watch, onMounted } from 'vue'
+import { ref, watch, onMounted, reactive } from 'vue'
 import TreeRow from './TreeRow.vue'
 import initData from '../composables/initData'
 import useSearch from '../composables/useSearch'
@@ -98,7 +100,7 @@ export default {
     const { searchTree } = useSearch()
     const reactiveNodes = ref(props.nodes)
     const reactiveExpandRowByDefault = ref(props.expandRowByDefault)
-
+    const isIndeterminate = reactive({ status: false })
     onMounted(() => {
       reactiveNodes.value = initData(reactiveNodes.value)
     })
@@ -154,6 +156,8 @@ export default {
         parent.indeterminate = !every && every !== some
 
         check = check != parent ? parent : 0
+
+        isIndeterminate.status = parent.indeterminate
       }
       emit('onCheckboxToggle', context)
     }
@@ -168,6 +172,7 @@ export default {
       reactiveExpandRowByDefault,
       onCheckboxToggle,
       onDataUpdated,
+      isIndeterminate,
     }
   },
 }
