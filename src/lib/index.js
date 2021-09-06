@@ -1,6 +1,6 @@
 import Tree from "./components/Tree.vue";
-import getNodeById from "./utils/getNodeById";
+import { getNodeById, setNodeById, updateNodeById } from "./utils";
 
 export default Tree;
 
-export { getNodeById };
+export { getNodeById, setNodeById, updateNodeById };
