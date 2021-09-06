@@ -7,10 +7,10 @@
   >
     <div
       class="tree-row-item"
-      @click.stop="toggleExpanded(reactiveNode)"
+      @click.stop="toggleExpanded(node)"
     >
-      <template v-if="reactiveNode.nodes && useIcon">
-        <template v-if="!reactiveNode.expanded">
+      <template v-if="node.nodes && useIcon">
+        <template v-if="!node.expanded">
           <slot name="iconActive">
             <arrow-right />
           </slot>
@@ -24,20 +24,22 @@
       <input
         v-if="useCheckbox"
         type="checkbox"
-        :checked="reactiveNode.checked"
-        @click.stop="toggleCheckbox(reactiveNode, $event)"
+        :checked="node.checked"
+        :indeterminate="node.indeterminate"
+        v-model="node.checked"
+        @click.stop="toggleCheckbox"
       >
       <span class="tree-row-txt">
-        {{ reactiveNode.label }}
+        {{ node.label }}
       </span>
     </div>
     <ul
-      v-if="reactiveNode.expanded"
+      v-if="node.expanded"
       :style="{'gap': gap + 'px'}"
       class="tree-list"
     >
       <tree-row
-        v-for="child in reactiveNode.nodes"
+        v-for="child in node.nodes"
         :ref="'tree-row-' + child.id"
         :key="child.id"
         :node="child"
@@ -48,6 +50,9 @@
         :expand-row-by-default="expandRowByDefault"
         :indent-size="indentSize"
         :row-hover-background="rowHoverBackground"
+        :setNode="setNode"
+        :getNode="getNode"
+        :updateNode="updateNode"
         @emitNodeExpanded="emitNodeExpanded"
         @emitOnUpdated="emitOnUpdated"
         @emitCheckboxToggle="emitCheckboxToggle"
@@ -94,6 +99,18 @@ export default {
       type: Number,
       required: true,
     },
+    getNode: {
+      type: Function,
+      required: true,
+    },
+    setNode: {
+      type: Function,
+      required: true,
+    },
+    updateNode: {
+      type: Function,
+      required: true,
+    },
     expandRowByDefault: {
       type: Boolean,
       default: false,
@@ -113,22 +130,22 @@ export default {
   },
   emits: ['emitNodeExpanded', 'emitCheckboxToggle', 'emitOnUpdated'],
   setup(props, { emit }) {
-    const reactiveNode = ref(props.node)
+
     const toggleExpanded = node => {
-      reactiveNode.value.expanded = reactiveNode.value.nodes ? !reactiveNode.value.expanded : false
+      props.node.expanded = props.node.nodes ? !props.node.expanded : false
       nextTick(() => {
-        emit('emitNodeExpanded', node, reactiveNode.value.expanded)
+        emit('emitNodeExpanded', node, props.node.expanded)
       })
     }
 
     watch(() => props.expandRowByDefault, newVal => {
-      reactiveNode.value.expanded = newVal
+      props.node.expanded = newVal
     }, {
       immediate: true,
     })
 
     watch(() => props.node, newVal => {
-      reactiveNode.value.checked = newVal.checked
+      props.node.checked = newVal.checked
     }, {
       deep: true,
     })
@@ -146,14 +163,9 @@ export default {
       emitOnUpdated()
     })
 
-    const toggleCheckbox = (node, event) => {
-      reactiveNode.value.checked = !reactiveNode.value.checked
-      nextTick(()=>{
-        emit('emitCheckboxToggle', {
-          id: node.id,
-          checked: node.checked,
-        }, event)
-      })
+    const toggleCheckbox = (event) => {
+      const { node, updateNode } = props;
+      updateNode(node.id, { checked: !node.checked });
     }
 
     const emitCheckboxToggle = (context, event) => {
@@ -166,7 +178,6 @@ export default {
       emitOnUpdated,
       toggleCheckbox,
       emitCheckboxToggle,
-      reactiveNode,
     }
   },
 }

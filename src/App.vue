@@ -1,5 +1,5 @@
 <template>
-  <Tree :nodes="data" />
+  <Tree :nodes="data" :useCheckbox="true" />
 </template>
 
 <script>

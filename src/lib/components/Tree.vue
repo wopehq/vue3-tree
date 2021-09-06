@@ -2,7 +2,7 @@
   <div class="tree">
     <ul :style="{'gap': gap + 'px'}" class="tree-list">
       <tree-row
-        v-for="node in reactiveNodes"
+        v-for="node in state.data"
         :ref="'tree-row-' + node.id"
         :key="node.id"
         :node="node"
@@ -12,6 +12,9 @@
         :gap="gap"
         :expand-row-by-default="reactiveExpandRowByDefault"
         :row-hover-background="rowHoverBackground"
+        :setNode="setNode"
+        :getNode="getNode"
+        :updateNode="updateNode"
         @emitNodeExpanded="onNodeExpanded"
         @emitOnUpdated="onDataUpdated"
         @emitCheckboxToggle="onCheckboxToggle"
@@ -28,11 +31,11 @@
 </template>
 
 <script>
-import { ref, watch, onMounted } from 'vue'
+import { ref, watch, reactive } from 'vue'
 import TreeRow from './TreeRow.vue'
 import initData from '../composables/initData'
 import useSearch from '../composables/useSearch'
-import updateData from '../composables/updateData'
+import { setNodeById, getNodeById, updateNodeById, updateNodes } from '../utils'
 
 export default {
   name: 'Tree',
@@ -89,28 +92,30 @@ export default {
   emits: ['onNodeExpanded', 'onCheckboxToggle', 'onDataUpdated'],
   setup(props, { emit }) {
     const { searchTree } = useSearch()
-    const reactiveNodes = ref(props.nodes)
+    const state = reactive({ data: initData(props.nodes)})
     const reactiveExpandRowByDefault = ref(props.expandRowByDefault)
 
-    onMounted(() => {
-      reactiveNodes.value = initData(reactiveNodes.value)
-    })
-
-
-    const nodeArray = (selector, parent=document) => {
-      return [].slice.call(parent.querySelectorAll(selector))
+    const setNode = (id, node) => {
+      state.data.value = setNodeById(state.data, id, node)
     }
 
-    //	checkboxes of interest
+    const getNode = (id) => {
+      return getNodeById(state.data, id)
+    }
+
+    const updateNode = (id, data) => {
+      state.data = updateNodes(updateNodeById(state.data, id, data))
+    }
+
 
     watch(() => props.searchText, () => {
       if (props.searchText !== '') {
-        reactiveNodes.value = searchTree(props.nodes, props.searchText, props.props)
+        state.data = searchTree(props.nodes, props.searchText, props.props)
         if (props.expandAllRowsOnSearch) {
           reactiveExpandRowByDefault.value = true
         }
       } else {
-        reactiveNodes.value = props.nodes
+        state.data = props.nodes
         reactiveExpandRowByDefault.value = false
       }
     })
@@ -120,34 +125,6 @@ export default {
     }
 
     const onCheckboxToggle = (context, event) => {
-      reactiveNodes.value = updateData(reactiveNodes.value, context)
-
-      let check = event.target
-      const allThings = nodeArray('input')
-
-      if (allThings.indexOf(check) === -1) return
-
-      const children = nodeArray('input', check.parentNode.parentNode)
-      children.forEach(child => child.checked = check.checked)
-
-      while (check) {
-        const parent = (check.parentNode.parentNode.closest(['ul']).parentNode).querySelector('input')
-
-        if (!parent.parentNode.parentNode.querySelector(['ul'])) {
-          check = false
-          return
-        }
-        const siblings = nodeArray('input', parent.parentNode.parentNode.querySelector(['ul']))
-
-        const checkStatus = siblings.map(check => check.checked)
-        const every = checkStatus.every(Boolean)
-        const some = checkStatus.some(Boolean)
-
-        parent.checked = every
-        parent.indeterminate = !every && every !== some
-
-        check = check != parent ? parent : 0
-      }
       emit('onCheckboxToggle', context)
     }
 
@@ -156,8 +133,11 @@ export default {
     }
 
     return {
+      setNode,
+      getNode,
+      updateNode,
       onNodeExpanded,
-      reactiveNodes,
+      state,
       reactiveExpandRowByDefault,
       onCheckboxToggle,
       onDataUpdated,
