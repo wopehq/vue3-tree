@@ -21,6 +21,12 @@
           </slot>
         </template>
       </template>
+      <slot
+        name="checkbox" 
+        :checked="node.checked"
+        :indeterminate="node.indeterminate"
+        :toggleCheckbox="toggleCheckbox"
+      />
       <input
         v-if="useCheckbox"
         type="checkbox"
@@ -67,6 +73,14 @@
             <arrow-down />
           </slot>
         </template>
+        <template #checkbox>
+          <slot
+            name="checkbox" 
+            :checked="child.checked"
+            :indeterminate="child.indeterminate"
+            :toggleCheckbox="toggleCheckbox"
+          />
+      </template>
       </tree-row>
     </ul>
   </li>
@@ -163,7 +177,7 @@ export default {
       emitOnUpdated()
     })
 
-    const toggleCheckbox = (event) => {
+    const toggleCheckbox = () => {
       const { node, updateNode } = props;
       updateNode(node.id, { checked: !node.checked });
     }
