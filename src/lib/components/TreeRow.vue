@@ -4,7 +4,7 @@
     :style="{'padding-left': depth * indentSize + 'px',
              'gap': gap + 'px',
              '--row-hover-background': rowHoverBackground}"
-    :indeterminate-status="indeterminateStatus"
+    :indeterminate="indeterminate"
   >
     <div
       class="tree-row-item"
@@ -26,7 +26,7 @@
         name="checkbox"
         :checked="reactiveNode.checked"
         :toggleCheckbox="($event) => toggleCheckbox(reactiveNode, $event)"
-        :indeterminateStatus="indeterminateStatus"
+        :indeterminate="indeterminate"
       ></slot>
       <input
         v-if="useCheckbox"
@@ -54,7 +54,7 @@
         :gap="gap"
         :expand-row-by-default="expandRowByDefault"
         :indent-size="indentSize"
-        :indeterminate-status="indeterminateStatus"
+        :indeterminate="indeterminate"
         :row-hover-background="rowHoverBackground"
         @emitNodeExpanded="emitNodeExpanded"
         @emitOnUpdated="emitOnUpdated"
@@ -75,7 +75,7 @@
             name="checkbox"
             :checked="child.checked"
             :toggleCheckbox="($event) => toggleCheckbox(child, $event)"
-            :indeterminateStatus="indeterminateStatus"
+            :indeterminate="indeterminate"
           ></slot>
         </template>
       </tree-row>
@@ -126,7 +126,7 @@ export default {
       type: String,
       default: '#e0e0e0',
     },
-    indeterminateStatus: {
+    indeterminate: {
       type: Boolean,
       default: false,
     },

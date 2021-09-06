@@ -12,17 +12,17 @@
         :gap="gap"
         :expand-row-by-default="reactiveExpandRowByDefault"
         :row-hover-background="rowHoverBackground"
-        :indeterminate-status="isIndeterminate.status"
+        :indeterminate="isIndeterminate"
         @emitNodeExpanded="onNodeExpanded"
         @emitOnUpdated="onDataUpdated"
         @emitCheckboxToggle="onCheckboxToggle"
       >
-        <template #checkbox="{ toggleCheckbox, checked, indeterminateStatus }">
+        <template #checkbox="{ toggleCheckbox, checked, indeterminate }">
           <slot
             name="checkbox"
             :checked="checked"
             :toggleCheckbox="toggleCheckbox"
-            :indeterminateStatus="indeterminateStatus"
+            :indeterminate="indeterminate"
           ></slot>
         </template>
         <template v-if="useIcon" #iconActive>
@@ -100,7 +100,7 @@ export default {
     const { searchTree } = useSearch()
     const reactiveNodes = ref(props.nodes)
     const reactiveExpandRowByDefault = ref(props.expandRowByDefault)
-    const isIndeterminate = reactive({ status: false })
+    const isIndeterminate = ref( false )
     onMounted(() => {
       reactiveNodes.value = initData(reactiveNodes.value)
     })
@@ -157,7 +157,7 @@ export default {
 
         check = check != parent ? parent : 0
 
-        isIndeterminate.status = parent.indeterminate
+        isIndeterminate.value = !every && some
       }
       emit('onCheckboxToggle', context)
     }
