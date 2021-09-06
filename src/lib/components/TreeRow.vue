@@ -25,7 +25,7 @@
         name="checkbox" 
         :checked="node.checked"
         :indeterminate="node.indeterminate"
-        :toggleCheckbox="toggleCheckbox"
+        :id="node.id"
       />
       <input
         v-if="useCheckbox"
@@ -73,12 +73,12 @@
             <arrow-down />
           </slot>
         </template>
-        <template #checkbox>
+        <template #checkbox="{ checked, indeterminate, id }">
           <slot
             name="checkbox" 
-            :checked="child.checked"
-            :indeterminate="child.indeterminate"
-            :toggleCheckbox="toggleCheckbox"
+            :checked="checked"
+            :indeterminate="indeterminate"
+            :id="id"
           />
       </template>
       </tree-row>
@@ -87,7 +87,7 @@
 </template>
 
 <script>
-import { ref, nextTick, watch, onUpdated } from 'vue'
+import { nextTick, watch, onUpdated } from 'vue'
 import ArrowRight from './Icons/ArrowRight.vue'
 import ArrowDown from './Icons/ArrowDown.vue'
 
@@ -156,12 +156,6 @@ export default {
       props.node.expanded = newVal
     }, {
       immediate: true,
-    })
-
-    watch(() => props.node, newVal => {
-      props.node.checked = newVal.checked
-    }, {
-      deep: true,
     })
 
     // redirect the event toward the Tree component

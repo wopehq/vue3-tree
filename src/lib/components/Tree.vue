@@ -19,12 +19,12 @@
         @emitOnUpdated="onDataUpdated"
         @emitCheckboxToggle="onCheckboxToggle"
       >
-        <template #checkbox="{ toggleCheckbox, checked, indeterminate }">
+        <template #checkbox="{ id, checked, indeterminate }">
           <slot
             name="checkbox"
             :checked="checked"
             :indeterminate="indeterminate"
-            :toggleCheckbox="toggleCheckbox"
+            :toggleCheckbox="() => toggleCheckbox(id)"
           />
         </template>
         <template v-if="useIcon" #iconActive>
@@ -115,6 +115,10 @@ export default {
       state.data = updateNodes(updateNodeById(state.data, id, data))
     }
 
+    const toggleCheckbox = (id)  => {
+      const { checked } = getNode(id);
+      updateNode(id, { checked: !checked });
+    }
 
     watch(() => props.searchText, () => {
       if (props.searchText !== '') {
@@ -132,7 +136,7 @@ export default {
       emit('onNodeExpanded', node, state)
     }
 
-    const onCheckboxToggle = (context, event) => {
+    const onCheckboxToggle = (context) => {
       emit('onCheckboxToggle', context)
     }
 
@@ -149,6 +153,7 @@ export default {
       reactiveExpandRowByDefault,
       onCheckboxToggle,
       onDataUpdated,
+      toggleCheckbox
     }
   },
 }
