@@ -1,9 +1,11 @@
 <template>
   <li
     class="tree-row"
-    :style="{'padding-left': depth * indentSize + 'px',
-             'gap': gap + 'px',
-             '--row-hover-background': rowHoverBackground}"
+    :style="{
+      'padding-left': indentSize + 'px',
+      'gap': gap + 'px',
+      '--row-hover-background': rowHoverBackground
+    }"
   >
     <div
       class="tree-row-item"
@@ -29,10 +31,10 @@
       />
       <input
         v-if="useCheckbox"
+        v-model="node.checked"
         type="checkbox"
         :checked="node.checked"
         :indeterminate="node.indeterminate"
-        v-model="node.checked"
         @click.stop="toggleCheckbox"
       >
       <span class="tree-row-txt">
@@ -49,7 +51,6 @@
         :ref="'tree-row-' + child.id"
         :key="child.id"
         :node="child"
-        :depth="depth + 1"
         :use-checkbox="useCheckbox"
         :use-icon="useIcon"
         :gap="gap"
@@ -100,10 +101,6 @@ export default {
     node: {
       type: Object,
       required: true,
-    },
-    depth: {
-      type: Number,
-      default: 0,
     },
     indentSize: {
       type: Number,

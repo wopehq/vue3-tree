@@ -66,7 +66,7 @@ export default {
     },
     indentSize: {
       type: Number,
-      default: 10,
+      default: 24,
     },
     gap: {
       type: Number,
@@ -168,5 +168,9 @@ export default {
   margin: 0;
   padding: 0;
   overflow: hidden;
+
+  .tree-row{
+    padding-left: 0px !important;
+  }
 }
 </style>
