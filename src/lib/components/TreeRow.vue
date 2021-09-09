@@ -60,6 +60,7 @@
         :setNode="setNode"
         :getNode="getNode"
         :updateNode="updateNode"
+        :expandable="expandable"
         @emitNodeExpanded="emitNodeExpanded"
         @emitOnUpdated="emitOnUpdated"
         @emitCheckboxToggle="emitCheckboxToggle"
@@ -138,19 +139,26 @@ export default {
       type: String,
       default: '#e0e0e0',
     },
+    expandable: {
+      type: Boolean,
+      default: true,
+    },
   },
   emits: ['emitNodeExpanded', 'emitCheckboxToggle', 'emitOnUpdated'],
   setup(props, { emit }) {
-
     const toggleExpanded = node => {
-      props.node.expanded = props.node.nodes ? !props.node.expanded : false
-      nextTick(() => {
-        emit('emitNodeExpanded', node, props.node.expanded)
-      })
+      if (props.expandable) {
+        props.node.expanded = props.node.nodes ? !props.node.expanded : false
+        nextTick(() => {
+          emit('emitNodeExpanded', node, props.node.expanded)
+        })
+      }
     }
 
     watch(() => props.expandRowByDefault, newVal => {
-      props.node.expanded = newVal
+      if (props.node.nodes) {
+        props.node.expanded = !props.expandable
+      }
     }, {
       immediate: true,
     })
