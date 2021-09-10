@@ -15,6 +15,7 @@
         :setNode="setNode"
         :getNode="getNode"
         :updateNode="updateNode"
+        :expandable="expandable"
         @emitNodeExpanded="onNodeExpanded"
         @emitOnUpdated="onDataUpdated"
         @emitCheckboxToggle="onCheckboxToggle"
@@ -95,6 +96,10 @@ export default {
     rowHoverBackground: {
       type: String,
       default: '#e0e0e0',
+    },
+    expandable: {
+      type: Boolean,
+      default: true,
     },
   },
   emits: ['onNodeExpanded', 'onCheckboxToggle', 'onDataUpdated'],
