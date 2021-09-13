@@ -104,7 +104,7 @@ export default {
   },
   emits: ['onNodeExpanded', 'onCheckboxToggle', 'onDataUpdated'],
   setup(props, { emit }) {
-    const { searchTree } = useSearch()
+    const { search } = useSearch()
     const state = reactive({ data: initData(props.nodes)})
     const reactiveExpandRowByDefault = ref(props.expandRowByDefault)
 
@@ -126,15 +126,17 @@ export default {
     }
 
     watch(() => props.searchText, () => {
+      let newData = state.data
       if (props.searchText !== '') {
-        state.data = searchTree(props.nodes, props.searchText, props.props)
+        newData = search(props.nodes, props.searchText, props.props)
         if (props.expandAllRowsOnSearch) {
           reactiveExpandRowByDefault.value = true
         }
       } else {
-        state.data = props.nodes
+        newData = props.nodes
         reactiveExpandRowByDefault.value = false
       }
+      state.data = updateNodes(newData)
     })
 
     const onNodeExpanded = (node, state) => {
