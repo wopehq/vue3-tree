@@ -89,7 +89,7 @@
 </template>
 
 <script>
-import { nextTick, watch, onUpdated } from 'vue'
+import { nextTick, watch } from 'vue'
 import ArrowRight from './Icons/ArrowRight.vue'
 import ArrowDown from './Icons/ArrowDown.vue'
 
@@ -168,17 +168,13 @@ export default {
       emit('emitNodeExpanded', node, state)
     }
 
-    const emitOnUpdated = (node, state) => {
-      emit('emitOnUpdated', node, state)
+    const emitOnUpdated = () => {
+      emit('emitOnUpdated')
     }
-
-    onUpdated(() => {
-      emitOnUpdated()
-    })
 
     const toggleCheckbox = () => {
       const { node, updateNode } = props;
-      updateNode(node.id, { checked: !node.checked });
+      updateNode(node.id, { checked: !node.checked }, emitOnUpdated);
     }
 
     const emitCheckboxToggle = (context, event) => {

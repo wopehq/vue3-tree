@@ -116,8 +116,9 @@ export default {
       return getNodeById(state.data, id)
     }
 
-    const updateNode = (id, data) => {
-      state.data = updateNodes(updateNodeById(state.data, id, data))
+    const updateNode = async(id, data, callback) => {
+      state.data = await updateNodes(updateNodeById(state.data, id, data))
+      callback();
     }
 
     const toggleCheckbox = (id)  => {
@@ -148,7 +149,7 @@ export default {
     }
 
     const onDataUpdated = () => {
-      emit('onDataUpdated', props.nodes)
+      emit('onDataUpdated', state.data)
     }
 
     return {
