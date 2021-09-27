@@ -62,7 +62,7 @@
         :updateNode="updateNode"
         :expandable="expandable"
         @emitNodeExpanded="emitNodeExpanded"
-        @emitOnUpdated="emitOnUpdated"
+        @emitOnUpdate="emitOnUpdate"
         @emitCheckboxToggle="emitCheckboxToggle"
       >
         <template #iconActive>
@@ -89,7 +89,7 @@
 </template>
 
 <script>
-import { nextTick, watch, onUpdated } from 'vue'
+import { nextTick, watch } from 'vue'
 import ArrowRight from './Icons/ArrowRight.vue'
 import ArrowDown from './Icons/ArrowDown.vue'
 
@@ -144,7 +144,7 @@ export default {
       default: true,
     },
   },
-  emits: ['emitNodeExpanded', 'emitCheckboxToggle', 'emitOnUpdated'],
+  emits: ['emitNodeExpanded', 'emitCheckboxToggle', 'emitOnUpdate'],
   setup(props, { emit }) {
     const toggleExpanded = node => {
       if (props.expandable) {
@@ -168,17 +168,13 @@ export default {
       emit('emitNodeExpanded', node, state)
     }
 
-    const emitOnUpdated = (node, state) => {
-      emit('emitOnUpdated', node, state)
+    const emitOnUpdate = () => {
+      emit('emitOnUpdate')
     }
-
-    onUpdated(() => {
-      emitOnUpdated()
-    })
 
     const toggleCheckbox = () => {
       const { node, updateNode } = props;
-      updateNode(node.id, { checked: !node.checked });
+      updateNode(node.id, { checked: !node.checked }, emitOnUpdate);
     }
 
     const emitCheckboxToggle = (context, event) => {
@@ -188,7 +184,7 @@ export default {
     return {
       toggleExpanded,
       emitNodeExpanded,
-      emitOnUpdated,
+      emitOnUpdate,
       toggleCheckbox,
       emitCheckboxToggle,
     }

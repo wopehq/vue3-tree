@@ -17,7 +17,7 @@
         :updateNode="updateNode"
         :expandable="expandable"
         @emitNodeExpanded="onNodeExpanded"
-        @emitOnUpdated="onDataUpdated"
+        @emitOnUpdate="onUpdate"
         @emitCheckboxToggle="onCheckboxToggle"
       >
         <template #checkbox="{ id, checked, indeterminate }">
@@ -102,7 +102,7 @@ export default {
       default: true,
     },
   },
-  emits: ['onNodeExpanded', 'onCheckboxToggle', 'onDataUpdated'],
+  emits: ['onNodeExpanded', 'onCheckboxToggle', 'onUpdate'],
   setup(props, { emit }) {
     const { search } = useSearch()
     const state = reactive({ data: initData(props.nodes)})
@@ -116,8 +116,9 @@ export default {
       return getNodeById(state.data, id)
     }
 
-    const updateNode = (id, data) => {
-      state.data = updateNodes(updateNodeById(state.data, id, data))
+    const updateNode = async(id, data, callback) => {
+      state.data = await updateNodes(updateNodeById(state.data, id, data))
+      callback();
     }
 
     const toggleCheckbox = (id)  => {
@@ -147,8 +148,8 @@ export default {
       emit('onCheckboxToggle', context)
     }
 
-    const onDataUpdated = () => {
-      emit('onDataUpdated', props.nodes)
+    const onUpdate = () => {
+      emit('onUpdate', state.data)
     }
 
     return {
@@ -159,7 +160,7 @@ export default {
       state,
       reactiveExpandRowByDefault,
       onCheckboxToggle,
-      onDataUpdated,
+      onUpdate,
       toggleCheckbox
     }
   },
