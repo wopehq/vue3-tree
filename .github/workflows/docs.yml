@@ -26,7 +26,7 @@ jobs:
       - name: Build VuePress site
         run: |
           cd docs
-          yarn docs:build
+          yarn build
       - name: Deploy to GitHub Pages
         uses: crazy-max/ghaction-github-pages@v2
         with:
