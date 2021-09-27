@@ -16,6 +16,6 @@
   },
   "dependencies": {
     "prettier": "^2.3.2",
-    "vue3-tree": "^0.6.0"
+    "vue3-tree": "^0.6.1"
   }
 }
