@@ -9,7 +9,7 @@ module.exports = {
     logo: '/logo.svg',
     navbar: [
       { text: 'Guide', link: '/guide/' },
-      { text: 'Seo.do', link: 'https://seo.do/' },
+      { text: 'seo.do', link: 'https://seo.do', target:'_blank' },
     ],
     sidebar,
     sidebarDepth: 2,
