@@ -19,18 +19,10 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: '14'
-      - name: Cache dependencies
-        uses: actions/cache@v2
-        id: yarn-cache
-        with:
-          path: |
-            **/node_modules
-          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-yarn-
       - name: Install dependencies
-        if: steps.yarn-cache.outputs.cache-hit != 'true'
-        run: yarn --frozen-lockfile
+        run: |
+          cd docs
+          yarn
       - name: Build VuePress site
         run: yarn docs:build
       - name: Deploy to GitHub Pages
