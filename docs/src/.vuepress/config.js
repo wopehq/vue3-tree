@@ -2,21 +2,19 @@ const { path } = require('@vuepress/utils');
 const sidebar = require('./sidebar');
 
 module.exports = {
+  base: '/vue3-tree/',
   lang: 'en-US',
   title: 'vue3-tree',
-  // description: "description",
   themeConfig: {
-    sidebar,
     logo: '/logo.svg',
     navbar: [
       { text: 'Guide', link: '/guide/' },
       { text: 'Seo.do', link: 'https://seo.do/' },
     ],
+    sidebar,
     sidebarDepth: 2,
-    // backToHome: "Home",
     repo: 'teamseodo/vue3-tree',
   },
-
   plugins: [
     [
       '@vuepress/register-components',
