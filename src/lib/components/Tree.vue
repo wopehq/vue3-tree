@@ -118,7 +118,11 @@ export default {
 
     const updateNode = async(id, data, callback) => {
       state.data = await updateNodes(updateNodeById(state.data, id, data))
-      typeof callback === 'function' ? callback() : null
+      if (props.useCheckbox) {
+        typeof callback === 'function' ? callback() : null
+      } else {
+        emit('onUpdate', state.data)
+      }
     }
 
     const toggleCheckbox = (id)  => {
