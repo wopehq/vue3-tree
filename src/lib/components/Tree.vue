@@ -17,7 +17,6 @@
         :updateNode="updateNode"
         :expandable="expandable"
         @emitNodeExpanded="onNodeExpanded"
-        @emitOnUpdate="onUpdate"
         @emitCheckboxToggle="onCheckboxToggle"
       >
         <template #checkbox="{ id, checked, indeterminate }">

@@ -62,7 +62,6 @@
         :updateNode="updateNode"
         :expandable="expandable"
         @emitNodeExpanded="emitNodeExpanded"
-        @emitOnUpdate="emitOnUpdate"
         @emitCheckboxToggle="emitCheckboxToggle"
       >
         <template #iconActive>
@@ -144,7 +143,7 @@ export default {
       default: true,
     },
   },
-  emits: ['emitNodeExpanded', 'emitCheckboxToggle', 'emitOnUpdate'],
+  emits: ['emitNodeExpanded', 'emitCheckboxToggle'],
   setup(props, { emit }) {
     const toggleExpanded = node => {
       if (props.expandable) {
@@ -168,13 +167,9 @@ export default {
       emit('emitNodeExpanded', node, state)
     }
 
-    const emitOnUpdate = () => {
-      emit('emitOnUpdate')
-    }
-
     const toggleCheckbox = () => {
       const { node, updateNode } = props;
-      updateNode(node.id, { checked: !node.checked }, emitOnUpdate);
+      updateNode(node.id, { checked: !node.checked });
     }
 
     const emitCheckboxToggle = (context, event) => {
@@ -184,7 +179,6 @@ export default {
     return {
       toggleExpanded,
       emitNodeExpanded,
-      emitOnUpdate,
       toggleCheckbox,
       emitCheckboxToggle,
     }
