@@ -57,12 +57,12 @@
         :expand-row-by-default="expandRowByDefault"
         :indent-size="indentSize"
         :row-hover-background="rowHoverBackground"
-        :setNode="setNode"
-        :getNode="getNode"
-        :updateNode="updateNode"
+        :set-node="setNode"
+        :get-node="getNode"
+        :update-node="updateNode"
         :expandable="expandable"
-        @emitNodeExpanded="emitNodeExpanded"
-        @emitCheckboxToggle="emitCheckboxToggle"
+        @node-expanded="onNodeExpanded"
+        @checkbox-toggle="onCheckboxToggle"
       >
         <template #iconActive>
           <slot name="iconActive">
@@ -143,13 +143,13 @@ export default {
       default: true,
     },
   },
-  emits: ['emitNodeExpanded', 'emitCheckboxToggle'],
+  emits: ['nodeExpanded', 'checkboxToggle'],
   setup(props, { emit }) {
     const toggleExpanded = node => {
       if (props.expandable) {
         props.node.expanded = props.node.nodes ? !props.node.expanded : false
         nextTick(() => {
-          emit('emitNodeExpanded', node, props.node.expanded)
+          emit('nodeExpanded', node, props.node.expanded)
         })
       }
     }
@@ -163,8 +163,8 @@ export default {
     })
 
     // redirect the event toward the Tree component
-    const emitNodeExpanded = (node, state) => {
-      emit('emitNodeExpanded', node, state)
+    const onNodeExpanded = (node, state) => {
+      emit('nodeExpanded', node, state)
     }
 
     const toggleCheckbox = () => {
@@ -172,15 +172,15 @@ export default {
       updateNode(node.id, { checked: !node.checked });
     }
 
-    const emitCheckboxToggle = (context, event) => {
-      emit('emitCheckboxToggle', context, event)
+    const onCheckboxToggle = (context, event) => {
+      emit('checkboxToggle', context, event)
     }
 
     return {
       toggleExpanded,
-      emitNodeExpanded,
+      onNodeExpanded,
       toggleCheckbox,
-      emitCheckboxToggle,
+      onCheckboxToggle,
     }
   },
 }

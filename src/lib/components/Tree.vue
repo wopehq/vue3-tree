@@ -12,12 +12,12 @@
         :gap="gap"
         :expand-row-by-default="reactiveExpandRowByDefault"
         :row-hover-background="rowHoverBackground"
-        :setNode="setNode"
-        :getNode="getNode"
-        :updateNode="updateNode"
+        :set-node="setNode"
+        :get-node="getNode"
+        :update-node="updateNode"
         :expandable="expandable"
-        @emitNodeExpanded="onNodeExpanded"
-        @emitCheckboxToggle="onCheckboxToggle"
+        @node-expanded="onNodeExpanded"
+        @checkbox-toggle="onCheckboxToggle"
       >
         <template #checkbox="{ id, checked, indeterminate }">
           <slot
@@ -101,7 +101,7 @@ export default {
       default: true,
     },
   },
-  emits: ['onNodeExpanded', 'onCheckboxToggle', 'update'],
+  emits: ['nodeExpanded', 'checkboxToggle', 'update'],
   setup(props, { emit }) {
     const { search } = useSearch()
     const state = reactive({ data: initData(props.nodes)})
@@ -143,11 +143,11 @@ export default {
     })
 
     const onNodeExpanded = (node, state) => {
-      emit('onNodeExpanded', node, state)
+      emit('nodeExpanded', node, state)
     }
 
     const onCheckboxToggle = (context) => {
-      emit('onCheckboxToggle', context)
+      emit('checkboxToggle', context)
     }
 
     const onUpdate = () => {
