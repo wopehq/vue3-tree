@@ -101,7 +101,7 @@ export default {
       default: true,
     },
   },
-  emits: ['onNodeExpanded', 'onCheckboxToggle', 'onUpdate'],
+  emits: ['onNodeExpanded', 'onCheckboxToggle', 'update'],
   setup(props, { emit }) {
     const { search } = useSearch()
     const state = reactive({ data: initData(props.nodes)})
@@ -125,7 +125,7 @@ export default {
     }
 
     watch(()=> state.data, ()=>{
-      emit('onUpdate', state.data)
+      emit('update', state.data)
     })
 
     watch(() => props.searchText, () => {
@@ -151,7 +151,7 @@ export default {
     }
 
     const onUpdate = () => {
-      emit('onUpdate', state.data)
+      emit('update', state.data)
     }
 
     return {
