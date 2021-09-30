@@ -17,7 +17,6 @@
         :updateNode="updateNode"
         :expandable="expandable"
         @emitNodeExpanded="onNodeExpanded"
-        @emitOnUpdate="onUpdate"
         @emitCheckboxToggle="onCheckboxToggle"
       >
         <template #checkbox="{ id, checked, indeterminate }">
@@ -116,19 +115,18 @@ export default {
       return getNodeById(state.data, id)
     }
 
-    const updateNode = async(id, data, callback) => {
-      state.data = await updateNodes(updateNodeById(state.data, id, data))
-      if (props.useCheckbox) {
-        typeof callback === 'function' ? callback() : null
-      } else {
-        emit('onUpdate', state.data)
-      }
+    const updateNode = (id, data) => {
+      state.data = updateNodes(updateNodeById(state.data, id, data))
     }
 
     const toggleCheckbox = (id)  => {
       const { checked } = getNode(id);
       updateNode(id, { checked: !checked });
     }
+
+    watch(()=> state.data, ()=>{
+      emit('onUpdate', state.data)
+    })
 
     watch(() => props.searchText, () => {
       let newData = state.data
