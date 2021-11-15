@@ -1,6 +1,12 @@
 {
   "name": "vue3-tree",
+  "description": "A customizable vuejs tree viewer.",
   "version": "0.6.5",
+  "author": {
+    "name": "seo.do",
+    "email": "opensource@seo.do"
+  },
+  "license": "MIT",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
@@ -8,6 +14,10 @@
     "lint": "eslint ./src --ext .vue,.js",
     "lint-fix": "eslint --fix ./src --ext .vue,.js"
   },
+  "bugs": {
+    "url": "https://github.com/teamseodo/vue3-tree/issues"
+  },
+  "homepage": "https://github.com/teamseodo/vue3-tree#readme",
   "main": "./dist/vue3-tree.umd.js",
   "module": "./dist/vue3-tree.es.js",
   "exports": {
@@ -17,6 +27,16 @@
     },
     "./dist/style.css": "./dist/style.css"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/teamseodo/vue3-tree.git"
+  },
+  "keywords": [
+    "vue",
+    "vue3",
+    "vue component",
+    "tree"
+  ],
   "devDependencies": {
     "vue": "^3.1.4",
     "@vitejs/plugin-vue": "^1.2.4",
@@ -29,6 +49,5 @@
   },
   "peerDependencies": {
     "vue": "^3.0.5"
-  },
-  "license": "MIT"
+  }
 }
