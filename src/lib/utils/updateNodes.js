@@ -1,10 +1,10 @@
 function updateNodes(nodes) {
-  return nodes.map((node) => {
+  return nodes.map(node => {
     if (node.nodes) {
       node.nodes = updateNodes(node.nodes);
-      const everyChecked = node.nodes.every((item) => item.checked);
-      const someChecked = node.nodes.some((item) => item.checked);
-      const anyDeterminate = node.nodes.some((item) => item.indeterminate);
+      const everyChecked = node.nodes.every(item => item.checked);
+      const someChecked = node.nodes.some(item => item.checked);
+      const anyDeterminate = node.nodes.some(item => item.indeterminate);
 
       if (everyChecked) {
         node.checked = true;
@@ -19,6 +19,8 @@ function updateNodes(nodes) {
         node.checked = false;
         node.indeterminate = false;
       }
+    } else if (node.expanded) {
+      node.expanded = false;
     }
     return node;
   });
