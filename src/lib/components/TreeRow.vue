@@ -11,18 +11,20 @@
       class="tree-row-item"
       @click.stop="toggleExpanded(node)"
     >
-      <template v-if="node.nodes && useIcon">
-        <template v-if="!node.expanded">
-          <slot name="iconActive">
-            <arrow-right />
-          </slot>
+      <div v-if="useIcon" class="tree-row-item-icon-wrapper">
+        <template v-if="node.nodes">
+          <template v-if="!node.expanded">
+            <slot name="iconActive">
+              <arrow-right />
+            </slot>
+          </template>
+          <template v-else>
+            <slot name="iconInactive">
+              <arrow-down />
+            </slot>
+          </template>
         </template>
-        <template v-else>
-          <slot name="iconInactive">
-            <arrow-down />
-          </slot>
-        </template>
-      </template>
+      </div>
       <slot
         name="checkbox" 
         :checked="node.checked"
@@ -211,6 +213,13 @@ export default {
       width: 200vw;
       margin-left: calc(100% - 100vw);
       z-index: -1;
+    }
+
+    &-icon-wrapper {
+      width: 15px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
     }
   }
 
