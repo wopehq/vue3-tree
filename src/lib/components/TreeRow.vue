@@ -210,6 +210,7 @@ export default {
       transform: translate3d(0, 0, -0.1px);
       width: 200vw;
       margin-left: calc(100% - 100vw);
+      z-index: -1;
     }
   }
 
