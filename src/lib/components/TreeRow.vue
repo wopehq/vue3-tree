@@ -42,6 +42,13 @@
       <span class="tree-row-txt">
         {{ node.label }}
       </span>
+      <template v-if="node && useRowDelete">
+        <div class="close-icon" @click.stop="removedRow(node)">
+          <slot name="closeIcon">
+            <delete-icon />
+          </slot>
+        </div>
+      </template>
     </div>
     <ul
       v-if="node.expanded"
@@ -55,6 +62,7 @@
         :node="child"
         :use-checkbox="useCheckbox"
         :use-icon="useIcon"
+        :use-row-delete="useRowDelete"
         :gap="gap"
         :expand-row-by-default="expandRowByDefault"
         :indent-size="indentSize"
@@ -63,6 +71,7 @@
         :get-node="getNode"
         :update-node="updateNode"
         :expandable="expandable"
+        @delete-row="removedRow"
         @node-expanded="onNodeExpanded"
         @checkbox-toggle="onCheckboxToggle"
       >
@@ -74,6 +83,11 @@
         <template #iconInactive>
           <slot name="iconInactive">
             <arrow-down />
+          </slot>
+        </template>
+        <template #closeIcon>
+          <slot name="closeIcon">
+            <delete-icon />
           </slot>
         </template>
         <template #checkbox="{ checked, indeterminate, id }">
@@ -93,11 +107,13 @@
 import { nextTick, watch } from 'vue';
 import ArrowRight from './Icons/ArrowRight.vue';
 import ArrowDown from './Icons/ArrowDown.vue';
+import DeleteIcon from './Icons/DeleteIcon.vue';
 
 export default {
   components: {
     ArrowRight,
     ArrowDown,
+    DeleteIcon,
   },
   props: {
     node: {
@@ -136,6 +152,10 @@ export default {
       type: Boolean,
       default: true,
     },
+    useRowDelete:{
+      type: Boolean,
+      default: false,
+    },
     rowHoverBackground: {
       type: String,
       default: '#e0e0e0',
@@ -145,7 +165,7 @@ export default {
       default: true,
     },
   },
-  emits: ['nodeExpanded', 'checkboxToggle'],
+  emits: ['nodeExpanded', 'checkboxToggle', 'deleteRow'],
   setup(props, { emit }) {
     const toggleExpanded = node => {
       if (props.expandable) {
@@ -178,11 +198,16 @@ export default {
       emit('checkboxToggle', context, event);
     };
 
+    const removedRow = node => {
+      emit('deleteRow', node);
+    };
+
     return {
       toggleExpanded,
       onNodeExpanded,
       toggleCheckbox,
       onCheckboxToggle,
+      removedRow,
     };
   },
 };
@@ -199,6 +224,8 @@ export default {
   transform-style: preserve-3d;
 
   &-item {
+    display: flex;
+    align-items: center;
     position: relative;
     padding: 5px 10px;
 
@@ -215,11 +242,28 @@ export default {
       z-index: -1;
     }
 
+    .close-icon {
+      color: red;
+      opacity: 0;
+
+      > * {
+        display: flex;
+        width: 16px;
+        height: 16px;
+      }
+    }
+
     &-icon-wrapper {
       width: 15px;
       display: inline-flex;
       align-items: center;
       justify-content: center;
+    }
+  }
+
+  &-item:hover {
+    .close-icon {
+      opacity: 1;
     }
   }
 

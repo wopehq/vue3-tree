@@ -8,6 +8,7 @@
         :node="node"
         :use-checkbox="useCheckbox"
         :use-icon="useIcon"
+        :use-row-delete="useRowDelete"
         :indent-size="indentSize"
         :gap="gap"
         :expand-row-by-default="reactiveExpandRowByDefault"
@@ -16,6 +17,7 @@
         :get-node="getNode"
         :update-node="updateNode"
         :expandable="expandable"
+        @delete-row="onDeleteRow"
         @node-expanded="onNodeExpanded"
         @checkbox-toggle="onCheckboxToggle"
       >
@@ -33,6 +35,9 @@
         <template v-if="useIcon" #iconInactive>
           <slot name="iconInactive" />
         </template>
+        <template v-if="useRowDelete" #closeIcon>
+          <slot name="closeIcon" />
+        </template>
       </tree-row>
     </ul>
   </div>
@@ -43,7 +48,7 @@ import { ref, watch, reactive } from 'vue';
 import TreeRow from './TreeRow.vue';
 import initData from '../composables/initData';
 import useSearch from '../composables/useSearch';
-import { setNodeById, getNodeById, updateNodeById, updateNodes } from '../utils';
+import { setNodeById, getNodeById, updateNodeById, updateNodes, removeNodeById } from '../utils';
 
 export default {
   name: 'Tree',
@@ -91,6 +96,10 @@ export default {
     useIcon:{
       type: Boolean,
       default: true,
+    },
+    useRowDelete:{
+      type: Boolean,
+      default: false,
     },
     rowHoverBackground: {
       type: String,
@@ -154,6 +163,11 @@ export default {
       emit('update', state.data);
     };
 
+    const onDeleteRow = node => {
+      removeNodeById(state.data, node.id);
+      state.data = updateNodes(removeNodeById(state.data, node.id));
+    };
+
     return {
       setNode,
       getNode,
@@ -164,6 +178,7 @@ export default {
       onCheckboxToggle,
       onUpdate,
       toggleCheckbox,
+      onDeleteRow,
     };
   },
 };
