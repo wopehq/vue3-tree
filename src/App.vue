@@ -3,8 +3,8 @@
 </template>
 
 <script>
-import { ref } from 'vue'
-import Tree from './lib/index'
+import { ref } from 'vue';
+import Tree from './lib/index';
 
 export default {
   components: {
@@ -40,11 +40,11 @@ export default {
         id: 6,
         label: 'People',
       },
-    ])
+    ]);
 
     return {
       data,
-    }
+    };
   },
-}
+};
 </script>

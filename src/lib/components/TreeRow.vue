@@ -26,10 +26,10 @@
         </template>
       </div>
       <slot
-        name="checkbox" 
+        :id="node.id"
+        name="checkbox"
         :checked="node.checked"
         :indeterminate="node.indeterminate"
-        :id="node.id"
       />
       <input
         v-if="useCheckbox"
@@ -38,7 +38,7 @@
         :checked="node.checked"
         :indeterminate="node.indeterminate"
         @click.stop="toggleCheckbox"
-      >
+      />
       <span class="tree-row-txt">
         {{ node.label }}
       </span>
@@ -78,21 +78,21 @@
         </template>
         <template #checkbox="{ checked, indeterminate, id }">
           <slot
-            name="checkbox" 
+            :id="id"
+            name="checkbox"
             :checked="checked"
             :indeterminate="indeterminate"
-            :id="id"
           />
-      </template>
+        </template>
       </tree-row>
     </ul>
   </li>
 </template>
 
 <script>
-import { nextTick, watch } from 'vue'
-import ArrowRight from './Icons/ArrowRight.vue'
-import ArrowDown from './Icons/ArrowDown.vue'
+import { nextTick, watch } from 'vue';
+import ArrowRight from './Icons/ArrowRight.vue';
+import ArrowDown from './Icons/ArrowDown.vue';
 
 export default {
   components: {
@@ -149,43 +149,43 @@ export default {
   setup(props, { emit }) {
     const toggleExpanded = node => {
       if (props.expandable) {
-        props.node.expanded = props.node.nodes ? !props.node.expanded : false
+        props.node.expanded = props.node.nodes ? !props.node.expanded : false;
         nextTick(() => {
-          emit('nodeExpanded', node, props.node.expanded)
-        })
+          emit('nodeExpanded', node, props.node.expanded);
+        });
       }
-    }
+    };
 
     watch(() => props.expandRowByDefault, newVal => {
       if (props.node.nodes) {
-        props.node.expanded = !props.expandable
+        props.node.expanded = !props.expandable;
       }
     }, {
       immediate: true,
-    })
+    });
 
     // redirect the event toward the Tree component
     const onNodeExpanded = (node, state) => {
-      emit('nodeExpanded', node, state)
-    }
+      emit('nodeExpanded', node, state);
+    };
 
     const toggleCheckbox = () => {
       const { node, updateNode } = props;
       updateNode(node.id, { checked: !node.checked });
-    }
+    };
 
     const onCheckboxToggle = (context, event) => {
-      emit('checkboxToggle', context, event)
-    }
+      emit('checkboxToggle', context, event);
+    };
 
     return {
       toggleExpanded,
       onNodeExpanded,
       toggleCheckbox,
       onCheckboxToggle,
-    }
+    };
   },
-}
+};
 </script>
 
 <style lang="scss">
