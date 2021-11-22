@@ -28,8 +28,8 @@ module.exports = {
     'vue/singleline-html-element-content-newline': 'off',
     'vue/html-self-closing': ['error', {
       html: {
-        void: 'never',
-        normal: 'never',
+        void: 'always',
+        normal: 'always',
         component: 'always',
       },
     }],
