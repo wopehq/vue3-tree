@@ -245,12 +245,10 @@ export default {
     .close-icon {
       color: red;
       opacity: 0;
-
-      > * {
-        display: flex;
-        width: 16px;
-        height: 16px;
-      }
+      display: flex;
+      align-items: center;
+      width: 16px;
+      height: 16px;
     }
 
     &-icon-wrapper {
