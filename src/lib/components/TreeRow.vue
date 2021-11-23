@@ -42,6 +42,9 @@
       <span class="tree-row-txt">
         {{ node.label }}
       </span>
+      <template v-if="node.nodes && showChildCount">
+        <span class="child-count">{{ node.nodes.length }}</span>
+      </template>
       <template v-if="node && useRowDelete">
         <div class="close-icon" @click.stop="removedRow(node)">
           <slot name="closeIcon">
@@ -63,6 +66,7 @@
         :use-checkbox="useCheckbox"
         :use-icon="useIcon"
         :use-row-delete="useRowDelete"
+        :show-child-count="showChildCount"
         :gap="gap"
         :expand-row-by-default="expandRowByDefault"
         :indent-size="indentSize"
@@ -156,6 +160,10 @@ export default {
       type: Boolean,
       default: false,
     },
+    showChildCount: {
+      type: Boolean,
+      default: false,
+    },
     rowHoverBackground: {
       type: String,
       default: '#e0e0e0',
@@ -240,6 +248,11 @@ export default {
       width: 200vw;
       margin-left: calc(100% - 100vw);
       z-index: -1;
+    }
+
+    .child-count {
+      color: gray;
+      margin-left: 6px;
     }
 
     .close-icon {
