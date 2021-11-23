@@ -26,10 +26,10 @@
         </template>
       </div>
       <slot
-        name="checkbox" 
+        :id="node.id"
+        name="checkbox"
         :checked="node.checked"
         :indeterminate="node.indeterminate"
-        :id="node.id"
       />
       <input
         v-if="useCheckbox"
@@ -38,10 +38,17 @@
         :checked="node.checked"
         :indeterminate="node.indeterminate"
         @click.stop="toggleCheckbox"
-      >
+      />
       <span class="tree-row-txt">
         {{ node.label }}
       </span>
+      <template v-if="node && useRowDelete">
+        <div class="close-icon" @click.stop="removedRow(node)">
+          <slot name="closeIcon">
+            <delete-icon />
+          </slot>
+        </div>
+      </template>
     </div>
     <ul
       v-if="node.expanded"
@@ -55,6 +62,7 @@
         :node="child"
         :use-checkbox="useCheckbox"
         :use-icon="useIcon"
+        :use-row-delete="useRowDelete"
         :gap="gap"
         :expand-row-by-default="expandRowByDefault"
         :indent-size="indentSize"
@@ -63,6 +71,7 @@
         :get-node="getNode"
         :update-node="updateNode"
         :expandable="expandable"
+        @delete-row="removedRow"
         @node-expanded="onNodeExpanded"
         @checkbox-toggle="onCheckboxToggle"
       >
@@ -76,28 +85,35 @@
             <arrow-down />
           </slot>
         </template>
+        <template #closeIcon>
+          <slot name="closeIcon">
+            <delete-icon />
+          </slot>
+        </template>
         <template #checkbox="{ checked, indeterminate, id }">
           <slot
-            name="checkbox" 
+            :id="id"
+            name="checkbox"
             :checked="checked"
             :indeterminate="indeterminate"
-            :id="id"
           />
-      </template>
+        </template>
       </tree-row>
     </ul>
   </li>
 </template>
 
 <script>
-import { nextTick, watch } from 'vue'
-import ArrowRight from './Icons/ArrowRight.vue'
-import ArrowDown from './Icons/ArrowDown.vue'
+import { nextTick, watch } from 'vue';
+import ArrowRight from './Icons/ArrowRight.vue';
+import ArrowDown from './Icons/ArrowDown.vue';
+import DeleteIcon from './Icons/DeleteIcon.vue';
 
 export default {
   components: {
     ArrowRight,
     ArrowDown,
+    DeleteIcon,
   },
   props: {
     node: {
@@ -136,6 +152,10 @@ export default {
       type: Boolean,
       default: true,
     },
+    useRowDelete:{
+      type: Boolean,
+      default: false,
+    },
     rowHoverBackground: {
       type: String,
       default: '#e0e0e0',
@@ -145,47 +165,52 @@ export default {
       default: true,
     },
   },
-  emits: ['nodeExpanded', 'checkboxToggle'],
+  emits: ['nodeExpanded', 'checkboxToggle', 'deleteRow'],
   setup(props, { emit }) {
     const toggleExpanded = node => {
       if (props.expandable) {
-        props.node.expanded = props.node.nodes ? !props.node.expanded : false
+        props.node.expanded = props.node.nodes ? !props.node.expanded : false;
         nextTick(() => {
-          emit('nodeExpanded', node, props.node.expanded)
-        })
+          emit('nodeExpanded', node, props.node.expanded);
+        });
       }
-    }
+    };
 
     watch(() => props.expandRowByDefault, newVal => {
       if (props.node.nodes) {
-        props.node.expanded = !props.expandable
+        props.node.expanded = !props.expandable;
       }
     }, {
       immediate: true,
-    })
+    });
 
     // redirect the event toward the Tree component
     const onNodeExpanded = (node, state) => {
-      emit('nodeExpanded', node, state)
-    }
+      emit('nodeExpanded', node, state);
+    };
 
     const toggleCheckbox = () => {
       const { node, updateNode } = props;
       updateNode(node.id, { checked: !node.checked });
-    }
+    };
 
     const onCheckboxToggle = (context, event) => {
-      emit('checkboxToggle', context, event)
-    }
+      emit('checkboxToggle', context, event);
+    };
+
+    const removedRow = node => {
+      emit('deleteRow', node);
+    };
 
     return {
       toggleExpanded,
       onNodeExpanded,
       toggleCheckbox,
       onCheckboxToggle,
-    }
+      removedRow,
+    };
   },
-}
+};
 </script>
 
 <style lang="scss">
@@ -199,6 +224,8 @@ export default {
   transform-style: preserve-3d;
 
   &-item {
+    display: flex;
+    align-items: center;
     position: relative;
     padding: 5px 10px;
 
@@ -215,11 +242,26 @@ export default {
       z-index: -1;
     }
 
+    .close-icon {
+      color: red;
+      opacity: 0;
+      display: flex;
+      align-items: center;
+      width: 16px;
+      height: 16px;
+    }
+
     &-icon-wrapper {
       width: 15px;
       display: inline-flex;
       align-items: center;
       justify-content: center;
+    }
+  }
+
+  &-item:hover {
+    .close-icon {
+      opacity: 1;
     }
   }
 

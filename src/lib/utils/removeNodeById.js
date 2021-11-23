@@ -16,3 +16,5 @@ function removeNodeById(nodes, id) {
 
   return newNodes;
 }
+
+export default removeNodeById;
