@@ -36,8 +36,8 @@
         <template v-if="useIcon" #iconInactive>
           <slot name="iconInactive" />
         </template>
-        <template v-if="useRowDelete" #closeIcon>
-          <slot name="closeIcon" />
+        <template v-if="useRowDelete" #deleteIcon>
+          <slot name="deleteIcon" />
         </template>
       </tree-row>
     </ul>

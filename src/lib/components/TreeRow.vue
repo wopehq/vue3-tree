@@ -46,8 +46,8 @@
         <span class="child-count">{{ node.nodes.length }}</span>
       </template>
       <template v-if="node && useRowDelete">
-        <div class="close-icon" @click.stop="removedRow(node)">
-          <slot name="closeIcon">
+        <div class="delete-icon" @click.stop="removedRow(node)">
+          <slot name="deleteIcon">
             <delete-icon />
           </slot>
         </div>
@@ -89,8 +89,8 @@
             <arrow-down />
           </slot>
         </template>
-        <template #closeIcon>
-          <slot name="closeIcon">
+        <template #deleteIcon>
+          <slot name="deleteIcon">
             <delete-icon />
           </slot>
         </template>
@@ -255,7 +255,7 @@ export default {
       margin-left: 6px;
     }
 
-    .close-icon {
+    .delete-icon {
       color: red;
       opacity: 0;
       display: flex;
@@ -273,7 +273,7 @@ export default {
   }
 
   &-item:hover {
-    .close-icon {
+    .delete-icon {
       opacity: 1;
     }
   }
