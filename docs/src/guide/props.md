@@ -37,3 +37,43 @@
 **default:** `#e0e0e0`
 
 **description:** The background style to apply on hover state.
+
+### `useCheckbox`
+
+**type:** boolean
+
+**default:** `false`
+
+**description:** Checkbox availability state.
+
+### `useIcon`
+
+**type:** boolean
+
+**default:** `true`
+
+**description:** Icon status used for parent nodes according to their extensibility state.
+
+### `useRowDelete`
+
+**type:** boolean
+
+**default:** `false`
+
+**description:** It is used in cases where the ability to delete items in the tree will be added.
+
+### `showChildCount`
+
+**type:** boolean
+
+**default:** `false`
+
+**description:** Value used to display the number of child items below the parent item.
+
+### `expandable`
+
+**type:** boolean
+
+**default:** `true`
+
+**description:** Determines the extensibility of the items in the tree.
