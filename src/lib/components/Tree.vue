@@ -9,6 +9,7 @@
         :use-checkbox="useCheckbox"
         :use-icon="useIcon"
         :use-row-delete="useRowDelete"
+        :show-child-count="showChildCount"
         :indent-size="indentSize"
         :gap="gap"
         :expand-row-by-default="reactiveExpandRowByDefault"
@@ -98,6 +99,10 @@ export default {
       default: true,
     },
     useRowDelete:{
+      type: Boolean,
+      default: false,
+    },
+    showChildCount: {
       type: Boolean,
       default: false,
     },
