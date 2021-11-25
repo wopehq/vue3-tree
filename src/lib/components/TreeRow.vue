@@ -43,7 +43,16 @@
         {{ node.label }}
       </span>
       <template v-if="node.nodes && showChildCount">
-        <span class="child-count">{{ node.nodes.length }}</span>
+        <slot
+          name="childCount"
+          :count="childCount"
+          :checkedCount="selectedChildCount"
+          :childs="node.nodes"
+        >
+          <span class="child-count">
+            {{ node.nodes.length }}
+          </span>
+        </slot>
       </template>
       <template v-if="node && useRowDelete">
         <div class="delete-icon" @click.stop="removedRow(node)">
@@ -79,6 +88,14 @@
         @node-expanded="onNodeExpanded"
         @checkbox-toggle="onCheckboxToggle"
       >
+        <template #childCount="{ count, checkedCount, childs }">
+          <slot
+            name="childCount"
+            :count="count"
+            :checkedCount="checkedCount"
+            :childs="childs"
+          />
+        </template>
         <template #iconActive>
           <slot name="iconActive">
             <arrow-right />
@@ -108,7 +125,7 @@
 </template>
 
 <script>
-import { nextTick, watch } from 'vue';
+import { computed, nextTick, watch } from 'vue';
 import ArrowRight from './Icons/ArrowRight.vue';
 import ArrowDown from './Icons/ArrowDown.vue';
 import DeleteIcon from './Icons/DeleteIcon.vue';
@@ -192,6 +209,9 @@ export default {
       immediate: true,
     });
 
+    const childCount = computed(()=> props.node.nodes?.length);
+    const selectedChildCount = computed(()=> props.node.nodes?.filter(item => item.checked).length);
+
     // redirect the event toward the Tree component
     const onNodeExpanded = (node, state) => {
       emit('nodeExpanded', node, state);
@@ -211,6 +231,8 @@ export default {
     };
 
     return {
+      childCount,
+      selectedChildCount,
       toggleExpanded,
       onNodeExpanded,
       toggleCheckbox,

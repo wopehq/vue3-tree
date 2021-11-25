@@ -39,6 +39,14 @@
         <template v-if="useRowDelete" #deleteIcon>
           <slot name="deleteIcon" />
         </template>
+        <template v-if="showChildCount" #childCount="{ count, checkedCount, childs }">
+          <slot
+            name="childCount"
+            :count="count"
+            :checkedCount="checkedCount"
+            :childs="childs"
+          />
+        </template>
       </tree-row>
     </ul>
   </div>
