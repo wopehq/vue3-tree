@@ -50,7 +50,7 @@
           :childs="node.nodes"
         >
           <span class="child-count">
-            {{ node.nodes.length }}
+            {{ childCount }}
           </span>
         </slot>
       </template>
