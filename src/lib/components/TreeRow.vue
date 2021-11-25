@@ -46,7 +46,7 @@
         <slot
           name="childCount"
           :count="childCount"
-          :checkedCount="selectedChildCount"
+          :checkedCount="checkedChildCount"
           :childs="node.nodes"
         >
           <span class="child-count">
@@ -210,7 +210,7 @@ export default {
     });
 
     const childCount = computed(()=> props.node.nodes?.length);
-    const selectedChildCount = computed(()=> props.node.nodes?.filter(item => item.checked).length);
+    const checkedChildCount = computed(()=> props.node.nodes?.filter(item => item.checked).length);
 
     // redirect the event toward the Tree component
     const onNodeExpanded = (node, state) => {
@@ -232,7 +232,7 @@ export default {
 
     return {
       childCount,
-      selectedChildCount,
+      checkedChildCount,
       toggleExpanded,
       onNodeExpanded,
       toggleCheckbox,
