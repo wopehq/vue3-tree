@@ -209,8 +209,8 @@ export default {
       immediate: true,
     });
 
-    const childCount = computed(()=> props.node.nodes?.length);
-    const checkedChildCount = computed(()=> props.node.nodes?.filter(item => item.checked).length);
+    const childCount = computed(() => props.node.nodes?.length);
+    const checkedChildCount = computed(() => props.node.nodes?.filter(item => item.checked).length);
 
     // redirect the event toward the Tree component
     const onNodeExpanded = (node, state) => {
