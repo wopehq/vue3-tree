@@ -5,6 +5,7 @@ Slots are a feature that we recursively add to the tree structure.
   - 2 icons by default based on tree open or closed status.
   - 1 slot according to the deletion process.
   - 1 slot to customize the checkbox.
+  - 1 slot to customize the child count.
 
 If you want to customize it, it is enough to put your own icons instead of these slots.
 
@@ -126,5 +127,15 @@ Customized slot example
     :indeterminate="indeterminate"
     :toggleCheckbox="toggleCheckbox"
   />
+</template>
+```
+
+### Child Count
+Customized slot example
+```vue
+<template #childCount="{ count, checkedCount, childs }">
+  <div class="custom-child-count">
+    {{`${checkedCount}/${count}`}}
+  </div>
 </template>
 ```
