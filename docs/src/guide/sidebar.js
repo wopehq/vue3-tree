@@ -14,4 +14,9 @@ module.exports = [
     collapsable: true,
     children: ['/guide/slots'],
   },
+  {
+    title: 'Emits',
+    collapsable: true,
+    children: ['/guide/emits'],
+  },
 ];
