@@ -22,9 +22,10 @@
         @node-expanded="onNodeExpanded"
         @checkbox-toggle="onCheckboxToggle"
       >
-        <template #checkbox="{ id, checked, indeterminate }">
+        <template #checkbox="{ id, node: slotNode, checked, indeterminate }">
           <slot
             name="checkbox"
+            :node="slotNode"
             :checked="checked"
             :indeterminate="indeterminate"
             :toggleCheckbox="() => toggleCheckbox(id)"

@@ -28,6 +28,7 @@
       <slot
         :id="node.id"
         name="checkbox"
+        :node="node"
         :checked="node.checked"
         :indeterminate="node.indeterminate"
       />
@@ -111,10 +112,11 @@
             <delete-icon />
           </slot>
         </template>
-        <template #checkbox="{ checked, indeterminate, id }">
+        <template #checkbox="{ node: slotNode, checked, indeterminate, id }">
           <slot
             :id="id"
             name="checkbox"
+            :node="slotNode"
             :checked="checked"
             :indeterminate="indeterminate"
           />
