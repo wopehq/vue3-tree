@@ -31,7 +31,7 @@ If you want to customize it, it is enough to put your own icons instead of these
 ```
 ### Checkbox
 ```vue
-<template #checkbox="{ id, checked, indeterminate, toggleCheckbox }">
+<template #checkbox="{ id, checked, node, indeterminate, toggleCheckbox }">
   <checkbox
     name="checkbox"
     class="custom-checkbox"
