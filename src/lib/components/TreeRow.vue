@@ -12,7 +12,7 @@
       @click.stop="toggleExpanded(node)"
     >
       <div v-if="useIcon" class="tree-row-item-icon-wrapper">
-        <template v-if="node.nodes">
+        <template v-if="childCount">
           <template v-if="!node.expanded">
             <slot name="iconActive">
               <arrow-right />
@@ -43,7 +43,7 @@
       <span class="tree-row-txt">
         {{ node.label }}
       </span>
-      <template v-if="node.nodes && showChildCount">
+      <template v-if="childCount && showChildCount">
         <slot
           name="childCount"
           :count="childCount"
@@ -112,13 +112,13 @@
             <delete-icon />
           </slot>
         </template>
-        <template #checkbox="{ node: slotNode, checked, indeterminate, id }">
+        <template #checkbox>
           <slot
-            :id="id"
+            :id="child.id"
             name="checkbox"
-            :node="slotNode"
-            :checked="checked"
-            :indeterminate="indeterminate"
+            :node="child"
+            :checked="child.checked"
+            :indeterminate="child.indeterminate"
           />
         </template>
       </tree-row>
@@ -194,8 +194,11 @@ export default {
   },
   emits: ['nodeExpanded', 'checkboxToggle', 'deleteRow'],
   setup(props, { emit }) {
+    const childCount = computed(() => props.node.nodes?.length);
+    const checkedChildCount = computed(() => props.node.nodes?.filter(item => item.checked).length);
+
     const toggleExpanded = node => {
-      if (props.expandable) {
+      if (props.expandable && childCount.value) {
         props.node.expanded = props.node.nodes ? !props.node.expanded : false;
         nextTick(() => {
           emit('nodeExpanded', node, props.node.expanded);
@@ -211,8 +214,6 @@ export default {
       immediate: true,
     });
 
-    const childCount = computed(() => props.node.nodes?.length);
-    const checkedChildCount = computed(() => props.node.nodes?.filter(item => item.checked).length);
 
     // redirect the event toward the Tree component
     const onNodeExpanded = (node, state) => {
