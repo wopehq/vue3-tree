@@ -203,14 +203,6 @@ export default {
       }
     };
 
-    watch(() => props.expandRowByDefault, newVal => {
-      if (props.node.nodes) {
-        props.node.expanded = !props.expandable;
-      }
-    }, {
-      immediate: true,
-    });
-
     const childCount = computed(() => props.node.nodes?.length);
     const checkedChildCount = computed(() => props.node.nodes?.filter(item => item.checked).length);
 

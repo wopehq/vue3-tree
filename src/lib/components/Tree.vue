@@ -12,7 +12,6 @@
         :show-child-count="showChildCount"
         :indent-size="indentSize"
         :gap="gap"
-        :expand-row-by-default="reactiveExpandRowByDefault"
         :row-hover-background="rowHoverBackground"
         :set-node="setNode"
         :get-node="getNode"
@@ -54,11 +53,18 @@
 </template>
 
 <script>
-import { ref, watch, reactive } from 'vue';
+import { watch, reactive, onMounted } from 'vue';
 import TreeRow from './TreeRow.vue';
 import initData from '../composables/initData';
 import useSearch from '../composables/useSearch';
-import { setNodeById, getNodeById, updateNodeById, updateNodes, removeNodeById } from '../utils';
+import {
+  setNodeById,
+  getNodeById,
+  updateNodeById,
+  updateNodes,
+  removeNodeById,
+  expandNodeWithChild,
+} from '../utils';
 
 export default {
   name: 'Tree',
@@ -128,7 +134,6 @@ export default {
   setup(props, { emit }) {
     const { search } = useSearch();
     const state = reactive({ data: initData(props.nodes) });
-    const reactiveExpandRowByDefault = ref(props.expandRowByDefault);
 
     const setNode = (id, node) => {
       state.data.value = setNodeById(state.data, id, node);
@@ -151,19 +156,20 @@ export default {
       emit('update', state.data);
     });
 
-    watch(() => props.searchText, () => {
+    const handleSearch = () => {
       let newData = state.data;
       if (props.searchText !== '') {
-        newData = search(props.nodes, props.searchText, props.props);
+        newData = search(props.nodes, props.searchText);
         if (props.expandAllRowsOnSearch) {
-          reactiveExpandRowByDefault.value = true;
+          newData.forEach(expandNodeWithChild);
         }
       } else {
         newData = props.nodes;
-        reactiveExpandRowByDefault.value = false;
       }
       state.data = updateNodes(newData);
-    });
+    };
+
+    watch(() => props.searchText, handleSearch);
 
     const onNodeExpanded = (node, state) => {
       emit('nodeExpanded', node, state);
@@ -177,18 +183,23 @@ export default {
       emit('update', state.data);
     };
 
+    onMounted(()=> {
+      if (props.searchText) {
+        handleSearch();
+      }
+    });
+
     const onDeleteRow = node => {
       removeNodeById(state.data, node.id);
       state.data = updateNodes(removeNodeById(state.data, node.id));
     };
 
     return {
+      state,
       setNode,
       getNode,
       updateNode,
       onNodeExpanded,
-      state,
-      reactiveExpandRowByDefault,
       onCheckboxToggle,
       onUpdate,
       toggleCheckbox,
