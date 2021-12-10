@@ -1,6 +1,6 @@
 function updateNodes(nodes) {
   return nodes.map(node => {
-    if (node.nodes) {
+    if (node.nodes?.length) {
       node.nodes = updateNodes(node.nodes);
       const everyChecked = node.nodes.every(item => item.checked);
       const someChecked = node.nodes.some(item => item.checked);
