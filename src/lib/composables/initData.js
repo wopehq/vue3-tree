@@ -1,17 +1,23 @@
-export default function initData(data) {
-  const updateNodes = nodes => {
-    nodes.forEach(node => {
-      node.checked = false
-      node.expanded = false
-      node.indeterminate = false
+import updateNodes from '../utils/updateNodes';
 
-      if (Array.isArray(node.nodes)) {
-        updateNodes(node.nodes)
-      }
-    })
+export default function initData(data, parentNode) {
+  let newData = [...data];
 
-    return nodes
-  }
+  newData = newData.map(node => {
+    const isCheckedParent = parentNode?.checked;
+    let newNode = {
+      checked: isCheckedParent ? true : false,
+      expanded: false,
+      indeterminate: false,
+      ...node,
+    };
 
-  return updateNodes(data)
+    if (Array.isArray(newNode.nodes)) {
+      newNode.nodes = initData(newNode.nodes, newNode);
+    }
+
+    return newNode;
+  });
+
+  return updateNodes(newData);
 }

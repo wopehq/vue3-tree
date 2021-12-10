@@ -206,15 +206,6 @@ export default {
       }
     };
 
-    watch(() => props.expandRowByDefault, newVal => {
-      if (props.node.nodes) {
-        props.node.expanded = !props.expandable;
-      }
-    }, {
-      immediate: true,
-    });
-
-
     // redirect the event toward the Tree component
     const onNodeExpanded = (node, state) => {
       emit('nodeExpanded', node, state);
