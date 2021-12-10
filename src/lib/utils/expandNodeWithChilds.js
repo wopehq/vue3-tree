@@ -1,6 +1,6 @@
-export default function expandNodeWithChild(node) {
+export default function expandNodeWithChilds(node) {
   if (!node) return;
   node.expanded = true;
 
-  if (node.nodes) node.nodes.forEach(expandNodeWithChild);
+  if (node.nodes) node.nodes.forEach(expandNodeWithChilds);
 }

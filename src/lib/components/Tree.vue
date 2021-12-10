@@ -63,7 +63,7 @@ import {
   updateNodeById,
   updateNodes,
   removeNodeById,
-  expandNodeWithChild,
+  expandNodeWithChilds,
 } from '../utils';
 
 export default {
@@ -161,7 +161,7 @@ export default {
       if (props.searchText !== '') {
         newData = search(props.nodes, props.searchText);
         if (props.expandAllRowsOnSearch) {
-          newData.forEach(expandNodeWithChild);
+          newData.forEach(expandNodeWithChilds);
         }
       } else {
         newData = props.nodes;
