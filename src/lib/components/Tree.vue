@@ -53,7 +53,7 @@
 </template>
 
 <script>
-import { watch, reactive, onMounted, computed } from 'vue';
+import { watch, reactive, onMounted, computed, ref } from 'vue';
 import TreeRow from './TreeRow.vue';
 import initData from '../composables/initData';
 import useSearch from '../composables/useSearch';
@@ -130,16 +130,14 @@ export default {
       default: true,
     },
   },
-  emits: ['nodeExpanded', 'checkboxToggle', 'update'],
+  emits: ['nodeExpanded', 'checkboxToggle', 'update:nodes'],
   setup(props, { emit }) {
     const { search } = useSearch();
 
-    const state = reactive({
-      data: initData(props.nodes),
-    });
+    onMounted(() => emit('update:nodes', initData(props.nodes)));
 
     const filteredData = computed(() => {
-      let newData = state.data;
+      let newData = props.nodes;
       if (props.searchText !== '') {
         newData = search(props.nodes, props.searchText);
         if (props.expandAllRowsOnSearch) {
@@ -151,16 +149,17 @@ export default {
       return updateNodes(newData);
     });
 
+
     const setNode = (id, node) => {
-      state.data.value = setNodeById(state.data, id, node);
+      emit('update:nodes', setNodeById(props.nodes, id, node));
     };
 
     const getNode = id => {
-      return getNodeById(state.data, id);
+      return getNodeById(props.nodes, id);
     };
 
     const updateNode = (id, data) => {
-      state.data = updateNodes(updateNodeById(state.data, id, data));
+      emit('update:nodes', updateNodes(updateNodeById(props.nodes, id, data)));
     };
 
     const toggleCheckbox = id => {
@@ -168,8 +167,8 @@ export default {
       updateNode(id, { checked: !checked });
     };
 
-    watch(()=> state.data, ()=>{
-      emit('update', state.data);
+    watch(()=> props.nodes, ()=>{
+      emit('update:nodes', props.nodes);
     });
 
     const onNodeExpanded = (node, state) => {
@@ -181,16 +180,15 @@ export default {
     };
 
     const onUpdate = () => {
-      emit('update', state.data);
+      emit('update:nodes', props.nodes);
     };
 
     const onDeleteRow = node => {
-      removeNodeById(state.data, node.id);
-      state.data = updateNodes(removeNodeById(state.data, node.id));
+      removeNodeById(props.nodes, node.id);
+      emit('update:nodes', updateNodes(removeNodeById(props.nodes, node.id)));
     };
 
     return {
-      state,
       setNode,
       getNode,
       updateNode,
