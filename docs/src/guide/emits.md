@@ -20,15 +20,16 @@ const onNodeExpanded = (node, state) => {
 };
 ```
 
-### `update`
+### `update:nodes`
 Returns the current data of the tree when a data is deleted or a checkbox is clicked in the tree.
+If you are considering to use `@update:nodes` for only updating data, you can also use `v-model:nodes`
 
 #### Usage
 
 ```vue
 <Tree
   :nodes="data"
-  @update="onUpdate"
+  @update:nodes="onUpdate"
 />
 ```
 ```js

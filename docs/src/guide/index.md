@@ -20,7 +20,7 @@ After installiation, you need to **import** it in the component and define it in
 
 ```vue
 <template>
-  <Tree :nodes="data" />
+  <Tree v-model:nodes="data" />
 </template>
 
 <script>
