@@ -31,15 +31,16 @@
         :node="node"
         :checked="node.checked"
         :indeterminate="node.indeterminate"
-      />
-      <input
-        v-if="useCheckbox"
-        v-model="node.checked"
-        type="checkbox"
-        :checked="node.checked"
-        :indeterminate="node.indeterminate"
-        @click.stop="toggleCheckbox"
-      />
+      >
+        <input
+          v-if="useCheckbox"
+          v-model="node.checked"
+          type="checkbox"
+          :checked="node.checked"
+          :indeterminate="node.indeterminate"
+          @click.stop="toggleCheckbox"
+        />
+      </slot>
       <span class="tree-row-txt">
         {{ node.label }}
       </span>
