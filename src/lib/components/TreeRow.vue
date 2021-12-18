@@ -113,13 +113,13 @@
             <delete-icon />
           </slot>
         </template>
-        <template #checkbox>
+        <template #checkbox="{ node: slotNode, checked, indeterminate }">
           <slot
-            :id="child.id"
+            :id="slotNode.id"
             name="checkbox"
-            :node="child"
-            :checked="child.checked"
-            :indeterminate="child.indeterminate"
+            :node="slotNode"
+            :checked="checked"
+            :indeterminate="indeterminate"
           />
         </template>
       </tree-row>
