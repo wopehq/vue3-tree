@@ -2,7 +2,7 @@
   <div class="tree">
     <ul :style="{'gap': gap + 'px'}" class="tree-list">
       <tree-row
-        v-for="node in state.data"
+        v-for="node in filteredData"
         :ref="'tree-row-' + node.id"
         :key="node.id"
         :node="node"
@@ -53,7 +53,7 @@
 </template>
 
 <script>
-import { watch, reactive, onMounted } from 'vue';
+import { watch, onMounted, computed } from 'vue';
 import TreeRow from './TreeRow.vue';
 import initData from '../composables/initData';
 import useSearch from '../composables/useSearch';
@@ -130,34 +130,14 @@ export default {
       default: true,
     },
   },
-  emits: ['nodeExpanded', 'checkboxToggle', 'update'],
+  emits: ['nodeExpanded', 'checkboxToggle', 'update:nodes'],
   setup(props, { emit }) {
     const { search } = useSearch();
-    const state = reactive({ data: initData(props.nodes) });
 
-    const setNode = (id, node) => {
-      state.data.value = setNodeById(state.data, id, node);
-    };
+    onMounted(() => emit('update:nodes', initData(props.nodes)));
 
-    const getNode = id => {
-      return getNodeById(state.data, id);
-    };
-
-    const updateNode = (id, data) => {
-      state.data = updateNodes(updateNodeById(state.data, id, data));
-    };
-
-    const toggleCheckbox = id => {
-      const { checked } = getNode(id);
-      updateNode(id, { checked: !checked });
-    };
-
-    watch(()=> state.data, ()=>{
-      emit('update', state.data);
-    });
-
-    const handleSearch = () => {
-      let newData = state.data;
+    const filteredData = computed(() => {
+      let newData = props.nodes;
       if (props.searchText !== '') {
         newData = search(props.nodes, props.searchText);
         if (props.expandAllRowsOnSearch) {
@@ -166,10 +146,30 @@ export default {
       } else {
         newData = props.nodes;
       }
-      state.data = updateNodes(newData);
+      return updateNodes(newData);
+    });
+
+
+    const setNode = (id, node) => {
+      emit('update:nodes', setNodeById(props.nodes, id, node));
     };
 
-    watch(() => props.searchText, handleSearch);
+    const getNode = id => {
+      return getNodeById(props.nodes, id);
+    };
+
+    const updateNode = (id, data) => {
+      emit('update:nodes', updateNodes(updateNodeById(props.nodes, id, data)));
+    };
+
+    const toggleCheckbox = id => {
+      const { checked } = getNode(id);
+      updateNode(id, { checked: !checked });
+    };
+
+    watch(()=> props.nodes, ()=>{
+      emit('update:nodes', props.nodes);
+    });
 
     const onNodeExpanded = (node, state) => {
       emit('nodeExpanded', node, state);
@@ -180,22 +180,15 @@ export default {
     };
 
     const onUpdate = () => {
-      emit('update', state.data);
+      emit('update:nodes', props.nodes);
     };
 
-    onMounted(()=> {
-      if (props.searchText) {
-        handleSearch();
-      }
-    });
-
     const onDeleteRow = node => {
-      removeNodeById(state.data, node.id);
-      state.data = updateNodes(removeNodeById(state.data, node.id));
+      removeNodeById(props.nodes, node.id);
+      emit('update:nodes', updateNodes(removeNodeById(props.nodes, node.id)));
     };
 
     return {
-      state,
       setNode,
       getNode,
       updateNode,
@@ -204,6 +197,7 @@ export default {
       onUpdate,
       toggleCheckbox,
       onDeleteRow,
+      filteredData,
     };
   },
 };

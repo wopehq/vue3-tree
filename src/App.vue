@@ -1,5 +1,8 @@
 <template>
-  <Tree :nodes="data" :use-checkbox="true" />
+  <Tree
+    v-model:nodes="data"
+    :use-checkbox="true"
+  />
 </template>
 
 <script>
