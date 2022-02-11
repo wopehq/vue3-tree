@@ -9,7 +9,7 @@ This emit is triggered when a node is clicked or selected.
 #### Usage
 
 ```vue
-<Tree :nodes="data" @nodeClick="nodeClick" />
+<Tree :nodes="data" @nodeClick="onNodeClick" />
 ```
 
 ```js
