@@ -9,7 +9,7 @@
   >
     <div
       class="tree-row-item"
-      @click.stop="toggleExpanded(node)"
+      @click.stop="handleClick(node)"
     >
       <div v-if="useIcon" class="tree-row-item-icon-wrapper">
         <template v-if="childCount">
@@ -38,7 +38,7 @@
           type="checkbox"
           :checked="node.checked"
           :indeterminate="node.indeterminate"
-          @click.stop="toggleCheckbox"
+          @click.stop="toggleCheckbox(node, true)"
         />
       </slot>
       <span class="tree-row-txt">
@@ -87,8 +87,9 @@
         :update-node="updateNode"
         :expandable="expandable"
         @delete-row="removedRow"
+        @node-select="toggleCheckbox(child, true)"
+        @node-click="handleClick(child, true)"
         @node-expanded="onNodeExpanded"
-        @checkbox-toggle="onCheckboxToggle"
       >
         <template #childCount="{ count, checkedCount, childs }">
           <slot
@@ -128,7 +129,7 @@
 </template>
 
 <script>
-import { computed, nextTick, watch } from 'vue';
+import { computed, nextTick } from 'vue';
 import ArrowRight from './Icons/ArrowRight.vue';
 import ArrowDown from './Icons/ArrowDown.vue';
 import DeleteIcon from './Icons/DeleteIcon.vue';
@@ -193,18 +194,25 @@ export default {
       default: true,
     },
   },
-  emits: ['nodeExpanded', 'checkboxToggle', 'deleteRow'],
+  emits: ['nodeSelect', 'nodeClick', 'nodeExpanded', 'checkboxToggle', 'deleteRow'],
   setup(props, { emit }) {
     const childCount = computed(() => props.node.nodes?.length);
     const checkedChildCount = computed(() => props.node.nodes?.filter(item => item.checked).length);
 
     const toggleExpanded = node => {
-      if (props.expandable && childCount.value) {
-        props.node.expanded = props.node.nodes ? !props.node.expanded : false;
-        nextTick(() => {
-          emit('nodeExpanded', node, props.node.expanded);
-        });
+      props.node.expanded = props.node.nodes ? !props.node.expanded : false;
+      nextTick(() => {
+        emit('nodeExpanded', node, props.node.expanded);
+      });
+    };
+
+
+    const handleClick = (node, passExpand) => {
+      if (!passExpand && props.expandable && childCount.value) {
+        toggleExpanded(node);
       }
+
+      emit('nodeClick', { ...node });
     };
 
     // redirect the event toward the Tree component
@@ -212,13 +220,16 @@ export default {
       emit('nodeExpanded', node, state);
     };
 
-    const toggleCheckbox = () => {
-      const { node, updateNode } = props;
-      updateNode(node.id, { checked: !node.checked });
-    };
+    const toggleCheckbox = (node, pass) => {
+      const { updateNode } = props;
+      const checked = !node.checked;
 
-    const onCheckboxToggle = (context, event) => {
-      emit('checkboxToggle', context, event);
+      updateNode(node.id, { checked });
+
+      const updatedNode ={ ...node, checked };
+
+      emit('nodeSelect', updatedNode);
+      if (!pass) emit('nodeClick', updatedNode);
     };
 
     const removedRow = node => {
@@ -228,10 +239,9 @@ export default {
     return {
       childCount,
       checkedChildCount,
-      toggleExpanded,
+      handleClick,
       onNodeExpanded,
       toggleCheckbox,
-      onCheckboxToggle,
       removedRow,
     };
   },

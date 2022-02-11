@@ -1,6 +1,6 @@
 <template>
   <div class="tree">
-    <ul :style="{'gap': gap + 'px'}" class="tree-list">
+    <ul :style="{ 'gap': gap + 'px' }" class="tree-list">
       <tree-row
         v-for="node in filteredData"
         :ref="'tree-row-' + node.id"
@@ -18,8 +18,9 @@
         :update-node="updateNode"
         :expandable="expandable"
         @delete-row="onDeleteRow"
+        @node-click="onNodeClick"
+        @node-select="onNodeClick"
         @node-expanded="onNodeExpanded"
-        @checkbox-toggle="onCheckboxToggle"
       >
         <template #checkbox="{ id, node: slotNode, checked, indeterminate }">
           <slot
@@ -109,11 +110,11 @@ export default {
       type: Boolean,
       default: false,
     },
-    useIcon:{
+    useIcon: {
       type: Boolean,
       default: true,
     },
-    useRowDelete:{
+    useRowDelete: {
       type: Boolean,
       default: false,
     },
@@ -130,7 +131,7 @@ export default {
       default: true,
     },
   },
-  emits: ['nodeExpanded', 'checkboxToggle', 'update:nodes'],
+  emits: ['nodeClick', 'nodeExpanded', 'checkboxToggle', 'update:nodes'],
   setup(props, { emit }) {
     const { search } = useSearch();
 
@@ -149,7 +150,6 @@ export default {
       return updateNodes(newData);
     });
 
-
     const setNode = (id, node) => {
       emit('update:nodes', setNodeById(props.nodes, id, node));
     };
@@ -167,16 +167,16 @@ export default {
       updateNode(id, { checked: !checked });
     };
 
-    watch(()=> props.nodes, ()=>{
+    watch(() => props.nodes, () => {
       emit('update:nodes', props.nodes);
     });
 
-    const onNodeExpanded = (node, state) => {
-      emit('nodeExpanded', node, state);
+    const onNodeClick = node => {
+      emit('nodeClick', node);
     };
 
-    const onCheckboxToggle = context => {
-      emit('checkboxToggle', context);
+    const onNodeExpanded = (node, state) => {
+      emit('nodeExpanded', node, state);
     };
 
     const onUpdate = () => {
@@ -192,8 +192,8 @@ export default {
       setNode,
       getNode,
       updateNode,
+      onNodeClick,
       onNodeExpanded,
-      onCheckboxToggle,
       onUpdate,
       toggleCheckbox,
       onDeleteRow,
@@ -205,7 +205,8 @@ export default {
 
 <style lang="scss" scoped>
 .tree {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+    Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
 }
 
 .tree-list {
@@ -213,7 +214,7 @@ export default {
   padding: 0;
   overflow: hidden;
 
-  .tree-row{
+  .tree-row {
     padding-left: 0px !important;
   }
 }
