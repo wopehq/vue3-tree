@@ -194,14 +194,7 @@ export default {
       default: true,
     },
   },
-  emits: [
-    'nodeSelect',
-    'nodeClick',
-    'toggleCheckbox',
-    'nodeExpanded',
-    'checkboxToggle',
-    'deleteRow',
-  ],
+  emits: ['nodeClick', 'toggleCheckbox', 'nodeExpanded', 'deleteRow'],
   setup(props, { emit }) {
     const childCount = computed(() => props.node.nodes?.length);
     const checkedChildCount = computed(() => props.node.nodes?.filter(item => item.checked).length);
