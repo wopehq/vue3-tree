@@ -213,7 +213,6 @@ export default {
       });
     };
 
-
     const handleClick = (node, passExpand) => {
       if (!passExpand && props.expandable && childCount.value) {
         toggleExpanded(node);
@@ -222,7 +221,6 @@ export default {
       emit('nodeClick', { ...node });
     };
 
-    // redirect the event toward the Tree component
     const onNodeExpanded = (node, state) => {
       emit('nodeExpanded', node, state);
     };
