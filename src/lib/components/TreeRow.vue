@@ -38,7 +38,7 @@
           type="checkbox"
           :checked="node.checked"
           :indeterminate="node.indeterminate"
-          @click.stop="toggleCheckbox(node, true)"
+          @click.stop="onToggleCheckbox(node)"
         />
       </slot>
       <span class="tree-row-txt">
@@ -87,8 +87,8 @@
         :update-node="updateNode"
         :expandable="expandable"
         @delete-row="removedRow"
-        @node-select="toggleCheckbox(child, true)"
-        @node-click="handleClick(child, true)"
+        @node-click="(item) => handleClick(item, true)"
+        @toggle-checkbox="onToggleCheckbox"
         @node-expanded="onNodeExpanded"
       >
         <template #childCount="{ count, checkedCount, childs }">
@@ -194,7 +194,14 @@ export default {
       default: true,
     },
   },
-  emits: ['nodeSelect', 'nodeClick', 'nodeExpanded', 'checkboxToggle', 'deleteRow'],
+  emits: [
+    'nodeSelect',
+    'nodeClick',
+    'toggleCheckbox',
+    'nodeExpanded',
+    'checkboxToggle',
+    'deleteRow',
+  ],
   setup(props, { emit }) {
     const childCount = computed(() => props.node.nodes?.length);
     const checkedChildCount = computed(() => props.node.nodes?.filter(item => item.checked).length);
@@ -220,16 +227,8 @@ export default {
       emit('nodeExpanded', node, state);
     };
 
-    const toggleCheckbox = (node, pass) => {
-      const { updateNode } = props;
-      const checked = !node.checked;
-
-      updateNode(node.id, { checked });
-
-      const updatedNode ={ ...node, checked };
-
-      emit('nodeSelect', updatedNode);
-      if (!pass) emit('nodeClick', updatedNode);
+    const onToggleCheckbox = node => {
+      emit('toggleCheckbox', node);
     };
 
     const removedRow = node => {
@@ -241,7 +240,7 @@ export default {
       checkedChildCount,
       handleClick,
       onNodeExpanded,
-      toggleCheckbox,
+      onToggleCheckbox,
       removedRow,
     };
   },

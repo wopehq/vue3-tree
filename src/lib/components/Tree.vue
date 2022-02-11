@@ -21,14 +21,15 @@
         @node-click="onNodeClick"
         @node-select="onNodeClick"
         @node-expanded="onNodeExpanded"
+        @toggle-checkbox="toggleCheckbox"
       >
-        <template #checkbox="{ id, node: slotNode, checked, indeterminate }">
+        <template #checkbox="{ node: slotNode, checked, indeterminate }">
           <slot
             name="checkbox"
             :node="slotNode"
             :checked="checked"
             :indeterminate="indeterminate"
-            :toggleCheckbox="() => toggleCheckbox(id)"
+            :toggleCheckbox="() => toggleCheckbox(slotNode)"
           />
         </template>
         <template v-if="useIcon" #iconActive>
@@ -162,9 +163,10 @@ export default {
       emit('update:nodes', updateNodes(updateNodeById(props.nodes, id, data)));
     };
 
-    const toggleCheckbox = id => {
-      const { checked } = getNode(id);
-      updateNode(id, { checked: !checked });
+    const toggleCheckbox = node => {
+      const checked = !node.checked;
+      updateNode(node.id, { checked });
+      emit('nodeClick', { ...node, checked });
     };
 
     watch(() => props.nodes, () => {
