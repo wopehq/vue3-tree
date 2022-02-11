@@ -19,7 +19,6 @@
         :expandable="expandable"
         @delete-row="onDeleteRow"
         @node-click="onNodeClick"
-        @node-select="onNodeClick"
         @node-expanded="onNodeExpanded"
         @toggle-checkbox="toggleCheckbox"
       >
