@@ -1,10 +1,10 @@
 <template>
   <div class="tree">
-    <ul :style="{ 'gap': gap + 'px' }" class="tree-list">
+    <ul class="tree-list" :style="{ gap: `${gap}px` }">
       <tree-row
         v-for="node in filteredData"
-        :ref="'tree-row-' + node.id"
         :key="node.id"
+        :ref="'tree-row-' + node.id"
         :node="node"
         :use-checkbox="useCheckbox"
         :use-icon="useIcon"
@@ -20,7 +20,7 @@
         @delete-row="onDeleteRow"
         @node-click="onNodeClick"
         @node-expanded="onNodeExpanded"
-        @toggle-checkbox="toggleCheckbox"
+        @toggle-checkbox="onToggleCheckbox"
       >
         <template #checkbox="{ node: slotNode, checked, indeterminate }">
           <slot
@@ -28,7 +28,7 @@
             :node="slotNode"
             :checked="checked"
             :indeterminate="indeterminate"
-            :toggleCheckbox="() => toggleCheckbox(slotNode)"
+            :toggleCheckbox="() => onToggleCheckbox(slotNode)"
           />
         </template>
         <template v-if="useIcon" #iconActive>
@@ -40,7 +40,10 @@
         <template v-if="useRowDelete" #deleteIcon>
           <slot name="deleteIcon" />
         </template>
-        <template v-if="showChildCount" #childCount="{ count, checkedCount, childs }">
+        <template
+          v-if="showChildCount"
+          #childCount="{ count, checkedCount, childs }"
+        >
           <slot
             name="childCount"
             :count="count"
@@ -54,10 +57,10 @@
 </template>
 
 <script>
-import { watch, onMounted, computed } from 'vue';
+import { onMounted, computed } from 'vue';
 import TreeRow from './TreeRow.vue';
-import initData from '../composables/initData';
-import useSearch from '../composables/useSearch';
+import initNodes from '../utils/initNodes';
+import searchNodes from '../utils/searchNodes';
 import {
   setNodeById,
   getNodeById,
@@ -133,44 +136,37 @@ export default {
   },
   emits: ['nodeClick', 'nodeExpanded', 'checkboxToggle', 'update:nodes'],
   setup(props, { emit }) {
-    const { search } = useSearch();
-
-    onMounted(() => emit('update:nodes', initData(props.nodes)));
+    onMounted(() => emit('update:nodes', initNodes(props.nodes)));
 
     const filteredData = computed(() => {
       let newData = props.nodes;
-      if (props.searchText !== '') {
-        newData = search(props.nodes, props.searchText);
+
+      if (props.searchText) {
+        newData = searchNodes(props.nodes, props.searchText);
+
         if (props.expandAllRowsOnSearch) {
           newData.forEach(expandNodeWithChilds);
         }
-      } else {
-        newData = props.nodes;
       }
+
       return updateNodes(newData);
     });
 
+    const getNode = id => getNodeById(props.nodes, id);
+
     const setNode = (id, node) => {
       emit('update:nodes', setNodeById(props.nodes, id, node));
-    };
-
-    const getNode = id => {
-      return getNodeById(props.nodes, id);
     };
 
     const updateNode = (id, data) => {
       emit('update:nodes', updateNodes(updateNodeById(props.nodes, id, data)));
     };
 
-    const toggleCheckbox = node => {
+    const onToggleCheckbox = node => {
       const checked = !node.checked;
       updateNode(node.id, { checked });
       emit('nodeClick', { ...node, checked });
     };
-
-    watch(() => props.nodes, () => {
-      emit('update:nodes', props.nodes);
-    });
 
     const onNodeClick = node => {
       emit('nodeClick', node);
@@ -196,7 +192,7 @@ export default {
       onNodeClick,
       onNodeExpanded,
       onUpdate,
-      toggleCheckbox,
+      onToggleCheckbox,
       onDeleteRow,
       filteredData,
     };

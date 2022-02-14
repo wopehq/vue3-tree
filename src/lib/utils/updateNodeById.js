@@ -1,16 +1,15 @@
-import updateChildNodeStatus from "./updateChildNodeStatus";
+import updateChildNodeStatus from './updateChildNodeStatus';
 
-function updateNodeById(nodes, id, newNode) {
-  for (let i = 0; i < nodes.length; i++) {
-    const node = nodes[i];
-    if (node.id === id) {
-      nodes[i] = updateChildNodeStatus({ ...node, ...newNode });
-    } else if (Array.isArray(node.nodes)) {
-      nodes[i].nodes = updateNodeById(node.nodes, id, newNode);
-    }
+const updateNodeById = (nodes, id, newNode) => nodes.map(node => {
+  let currentNode = node;
+
+  if (currentNode.id === id) {
+    currentNode = updateChildNodeStatus({ ...node, ...newNode });
+  } else if (Array.isArray(currentNode.nodes)) {
+    currentNode.nodes = updateNodeById(node.nodes, id, newNode);
   }
 
-  return nodes;
-}
+  return currentNode;
+});
 
 export default updateNodeById;
