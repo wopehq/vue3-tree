@@ -58,10 +58,11 @@
 
 <script>
 import { onMounted, computed } from 'vue';
+
 import TreeRow from './TreeRow.vue';
-import initNodes from '../utils/initNodes';
-import searchNodes from '../utils/searchNodes';
 import {
+  initNodes,
+  searchNodes,
   setNodeById,
   getNodeById,
   updateNodeById,
