@@ -12,10 +12,7 @@ const updateNodes = nodes => nodes.map(node => {
   if (everyChecked) {
     node.checked = true;
     node.indeterminate = false;
-  } else if (someChecked) {
-    node.checked = false;
-    node.indeterminate = true;
-  } else if (anyDeterminate) {
+  } else if (someChecked || anyDeterminate) {
     node.checked = false;
     node.indeterminate = true;
   } else if (!everyChecked) {
