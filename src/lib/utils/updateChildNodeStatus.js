@@ -11,7 +11,7 @@ function updateChildNodeStatus(node, checkedStatus) {
       };
 
       if (item.nodes) {
-        currentNode.nodes.map(childNode => updateChildNodeStatus(childNode, checked));
+        currentNode.nodes.forEach(childNode => updateChildNodeStatus(childNode, checked));
       } else {
         delete currentNode.nodes;
       }
