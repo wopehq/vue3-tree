@@ -2,9 +2,9 @@
   <li
     class="tree-row"
     :style="{
-      'padding-left': indentSize + 'px',
-      'gap': gap + 'px',
-      '--row-hover-background': rowHoverBackground
+      gap: `${gap}px`,
+      paddingLeft: `${indentSize}px`,
+      '--row-hover-background': rowHoverBackground,
     }"
   >
     <div
@@ -66,13 +66,13 @@
     </div>
     <ul
       v-if="node.expanded"
-      :style="{'gap': gap + 'px'}"
       class="tree-list"
+      :style="{ gap: `${gap}px` }"
     >
       <tree-row
         v-for="child in node.nodes"
-        :ref="'tree-row-' + child.id"
         :key="child.id"
+        :ref="`tree-row-${child.id}`"
         :node="child"
         :use-checkbox="useCheckbox"
         :use-icon="useIcon"
@@ -173,11 +173,11 @@ export default {
       type: Boolean,
       default: false,
     },
-    useIcon:{
+    useIcon: {
       type: Boolean,
       default: true,
     },
-    useRowDelete:{
+    useRowDelete: {
       type: Boolean,
       default: false,
     },
@@ -197,7 +197,9 @@ export default {
   emits: ['nodeClick', 'toggleCheckbox', 'nodeExpanded', 'deleteRow'],
   setup(props, { emit }) {
     const childCount = computed(() => props.node.nodes?.length);
-    const checkedChildCount = computed(() => props.node.nodes?.filter(item => item.checked).length);
+    const checkedChildCount = computed(
+      () => props.node.nodes?.filter(item => item.checked).length,
+    );
 
     const toggleExpanded = node => {
       props.node.expanded = props.node.nodes ? !props.node.expanded : false;
@@ -239,7 +241,8 @@ export default {
 </script>
 
 <style lang="scss">
-.tree-list, .tree-row {
+.tree-list,
+.tree-row {
   display: grid;
   margin: 0;
   padding: 0;
@@ -255,7 +258,7 @@ export default {
     padding: 5px 10px;
 
     &:hover:before {
-      content: '';
+      content: "";
       position: absolute;
       left: 0;
       top: 0;

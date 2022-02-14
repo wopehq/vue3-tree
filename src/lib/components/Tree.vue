@@ -4,7 +4,7 @@
       <tree-row
         v-for="node in filteredData"
         :key="node.id"
-        :ref="'tree-row-' + node.id"
+        :ref="`tree-row-${node.id}`"
         :node="node"
         :use-checkbox="useCheckbox"
         :use-icon="useIcon"
