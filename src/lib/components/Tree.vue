@@ -28,7 +28,7 @@
             :node="slotNode"
             :checked="checked"
             :indeterminate="indeterminate"
-            :toggleCheckbox="() => onToggleCheckbox(slotNode)"
+            :toggle-checkbox="() => onToggleCheckbox(slotNode)"
           />
         </template>
         <template v-if="useIcon" #iconActive>
@@ -47,7 +47,7 @@
           <slot
             name="childCount"
             :count="count"
-            :checkedCount="checkedCount"
+            :checked-count="checkedCount"
             :childs="childs"
           />
         </template>

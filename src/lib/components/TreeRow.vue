@@ -95,7 +95,7 @@
           <slot
             name="childCount"
             :count="count"
-            :checkedCount="checkedCount"
+            :checked-count="checkedCount"
             :childs="childs"
           />
         </template>
