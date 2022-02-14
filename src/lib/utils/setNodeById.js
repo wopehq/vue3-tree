@@ -1,13 +1,11 @@
 const setNodeById = (nodes, id, newNode) => nodes.map(node => {
-  let currentNode = node;
-
   if (node.id === id) {
-    currentNode = { id, ...newNode };
+    node = { id, ...newNode };
   } else if (Array.isArray(node.nodes)) {
-    currentNode.nodes = setNodeById(node.nodes, id, newNode);
+    node.nodes = setNodeById(node.nodes, id, newNode);
   }
 
-  return currentNode;
+  return node;
 });
 
 export default setNodeById;

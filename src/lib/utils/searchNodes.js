@@ -1,6 +1,8 @@
 const searchNodes = (nodes, searchText) => {
   const getNodes = (result, node) => {
-    if (node.label.toLowerCase().includes(searchText.toLowerCase())) {
+    const isMatched = node.label.toLowerCase().includes(searchText.toLowerCase());
+
+    if (isMatched) {
       result.push(node);
       return result;
     }
