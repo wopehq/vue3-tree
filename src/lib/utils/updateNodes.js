@@ -9,16 +9,8 @@ const updateNodes = nodes => nodes.map(node => {
   const someChecked = node.nodes.some(item => item.checked);
   const anyDeterminate = node.nodes.some(item => item.indeterminate);
 
-  if (everyChecked) {
-    node.checked = true;
-    node.indeterminate = false;
-  } else if (someChecked || anyDeterminate) {
-    node.checked = false;
-    node.indeterminate = true;
-  } else if (!everyChecked) {
-    node.checked = false;
-    node.indeterminate = false;
-  }
+  node.checked = everyChecked;
+  node.indeterminate = !everyChecked && (someChecked || anyDeterminate);
 
   return node;
 });
