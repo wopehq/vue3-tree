@@ -1,10 +1,11 @@
-import updateNodes from '../utils/updateNodes';
+import updateNodes from './updateNodes';
 
-export default function initData(data, parentNode) {
+const initNodes = (data, parentNode) => {
   let newData = [...data];
 
   newData = newData.map(node => {
     const isCheckedParent = parentNode?.checked;
+
     let newNode = {
       checked: isCheckedParent ? true : false,
       expanded: false,
@@ -13,11 +14,13 @@ export default function initData(data, parentNode) {
     };
 
     if (Array.isArray(newNode.nodes)) {
-      newNode.nodes = initData(newNode.nodes, newNode);
+      newNode.nodes = initNodes(newNode.nodes, newNode);
     }
 
     return newNode;
   });
 
   return updateNodes(newData);
-}
+};
+
+export default initNodes;

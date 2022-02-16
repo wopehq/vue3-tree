@@ -1,22 +1,25 @@
 function updateChildNodeStatus(node, checkedStatus) {
-  const checked =
-    typeof checkedStatus !== "undefined" ? checkedStatus : node.checked;
+  const checked = checkedStatus ?? node.checked;
 
   node.checked = checked;
 
   if (node && Array.isArray(node.nodes)) {
-    node.nodes = node.nodes.map((item) => {
-      return {
+    node.nodes = node.nodes.map(item => {
+      const currentNode = {
         ...item,
         checked,
-        nodes: item.nodes
-          ? item.nodes.map((n) => {
-              return updateChildNodeStatus(n, checked);
-            })
-          : undefined,
       };
+
+      if (item.nodes) {
+        currentNode.nodes.forEach(childNode => updateChildNodeStatus(childNode, checked));
+      } else {
+        delete currentNode.nodes;
+      }
+
+      return currentNode;
     });
   }
+
   return node;
 }
 

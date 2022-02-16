@@ -5,6 +5,7 @@ function removeNodeById(nodes, id) {
 
   for (let i = 0; i < nodes.length; i++) {
     const node = nodes[i];
+
     if (node.id === id) {
       newNodes = newNodes.filter(item => item.id !== id);
     } else if (node.nodes) {

@@ -8,6 +8,7 @@ function getParentNodeById(nodes, id) {
       const isFound = node.nodes.find(item => item.id === id);
 
       if (isFound) return node;
+
       return getParentNodeById(node.nodes, id);
     }
   }
