@@ -29,8 +29,8 @@
   ],
   "exports": {
     ".": {
-      "import": "./dist/vue3-tree.es.js",
-      "require": "./dist/vue3-tree.umd.js"
+      "import": "./dist/vue3-tree.mjs",
+      "require": "./dist/vue3-tree.cjs"
     },
     "./dist/style.css": "./dist/style.css"
   },
