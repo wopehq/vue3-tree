@@ -1,7 +1,9 @@
-import vue from '@vitejs/plugin-vue'
-const path = require('path')
+import vue from '@vitejs/plugin-vue';
+import copyTypes from './plugins/copyTypes.mjs';
+import * as path from 'path';
+import { defineConfig } from 'vite';
 
-const config = {
+const config = defineConfig({
   resolve: {
     alias: [
       {
@@ -10,11 +12,20 @@ const config = {
       },
     ],
   },
-  plugins: [vue()],
+  plugins: [
+    vue(),
+    copyTypes(),
+  ],
   build: {
     lib: {
       entry: path.resolve(__dirname, 'src/lib/index.js'),
       name: 'Tree',
+      fileName(format) {
+        if (format === 'es') return 'vue3-tree.mjs';
+        if (format === 'umd') return 'vue3-tree.cjs';
+        if (format === 'iife') return 'vue3-tree.js';
+      },
+      formats: ['iife', 'es', 'umd'],
     },
     rollupOptions: {
       // make sure to externalize deps that shouldn't be bundled
@@ -29,6 +40,6 @@ const config = {
       },
     },
   },
-}
+});
 
-export default config
+export default config;
