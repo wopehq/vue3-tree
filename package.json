@@ -20,6 +20,11 @@
   "homepage": "https://github.com/teamseodo/vue3-tree#readme",
   "main": "./dist/vue3-tree.umd.js",
   "module": "./dist/vue3-tree.es.js",
+  "types": "./dist/types.d.ts",
+  "files": [
+    "/dist",
+    "README.md"
+  ],
   "exports": {
     ".": {
       "import": "./dist/vue3-tree.es.js",

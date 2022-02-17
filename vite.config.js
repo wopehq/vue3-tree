@@ -1,5 +1,6 @@
-import vue from '@vitejs/plugin-vue'
-const path = require('path')
+import vue from '@vitejs/plugin-vue';
+import copyTypes from './plugins/copyTypes.mjs';
+import * as path from 'path';
 
 const config = {
   resolve: {
@@ -10,7 +11,10 @@ const config = {
       },
     ],
   },
-  plugins: [vue()],
+  plugins: [
+    vue(),
+    copyTypes(),
+  ],
   build: {
     lib: {
       entry: path.resolve(__dirname, 'src/lib/index.js'),
@@ -29,6 +33,6 @@ const config = {
       },
     },
   },
-}
+};
 
-export default config
+export default config;
