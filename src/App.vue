@@ -1,7 +1,7 @@
 <template>
   <Tree
     v-model:nodes="data"
-    :use-checkbox="true"
+    :show-checkbox="true"
   />
 </template>
 

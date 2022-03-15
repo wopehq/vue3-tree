@@ -50,17 +50,17 @@ export interface TreeProps {
    * Checkbox availability state.
    * @default false
    */
-  useCheckbox?: boolean;
+  showCheckbox?: boolean;
   /**
    * Icon status used for parent nodes according to their extensibility state.
    * @default true
    */
-  useIcon?: boolean;
+  showExpandIcon?: boolean;
   /**
    * It is used in cases where the ability to delete items in the tree will be added.
    * @default false
    */
-  useRowDelete?: boolean;
+  showDeleteIcon?: boolean;
   /**
    * Value used to display the number of child items below the parent item.
    * @default false

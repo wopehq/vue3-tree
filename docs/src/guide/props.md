@@ -40,7 +40,7 @@
 
 **description:** The background style to apply on hover state.
 
-### `useCheckbox`
+### `showCheckbox`
 
 **type:** boolean
 
@@ -48,7 +48,7 @@
 
 **description:** Checkbox availability state.
 
-### `useIcon`
+### `showExpandIcon`
 
 **type:** boolean
 
@@ -56,7 +56,7 @@
 
 **description:** Icon status used for parent nodes according to their extensibility state.
 
-### `useRowDelete`
+### `showDeleteIcon`
 
 **type:** boolean
 
