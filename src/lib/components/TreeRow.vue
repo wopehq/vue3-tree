@@ -11,7 +11,7 @@
       class="tree-row-item"
       @click.stop="handleClick(node)"
     >
-      <div v-if="useIcon" class="tree-row-item-icon-wrapper">
+      <div v-if="showExpandIcon" class="tree-row-item-icon-wrapper">
         <template v-if="childCount">
           <template v-if="!node.expanded">
             <slot name="iconActive">
@@ -33,7 +33,7 @@
         :indeterminate="node.indeterminate"
       >
         <input
-          v-if="useCheckbox"
+          v-if="showCheckbox"
           v-model="node.checked"
           type="checkbox"
           :checked="node.checked"
@@ -56,7 +56,7 @@
           </span>
         </slot>
       </template>
-      <template v-if="node && useRowDelete">
+      <template v-if="node && showDeleteIcon">
         <div class="delete-icon" @click.stop="removedRow(node)">
           <slot name="deleteIcon">
             <delete-icon />
@@ -74,9 +74,9 @@
         :key="child.id"
         :ref="`tree-row-${child.id}`"
         :node="child"
-        :use-checkbox="useCheckbox"
-        :use-icon="useIcon"
-        :use-row-delete="useRowDelete"
+        :show-checkbox="showCheckbox"
+        :show-expand-icon="showExpandIcon"
+        :show-delete-icon="showDeleteIcon"
         :show-child-count="showChildCount"
         :gap="gap"
         :expand-row-by-default="expandRowByDefault"
@@ -169,15 +169,15 @@ export default {
       type: Boolean,
       default: false,
     },
-    useCheckbox: {
+    showCheckbox: {
       type: Boolean,
       default: false,
     },
-    useIcon: {
+    showExpandIcon: {
       type: Boolean,
       default: true,
     },
-    useRowDelete: {
+    showDeleteIcon: {
       type: Boolean,
       default: false,
     },

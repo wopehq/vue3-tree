@@ -6,9 +6,9 @@
         :key="node.id"
         :ref="`tree-row-${node.id}`"
         :node="node"
-        :use-checkbox="useCheckbox"
-        :use-icon="useIcon"
-        :use-row-delete="useRowDelete"
+        :show-checkbox="showCheckbox"
+        :show-expand-icon="showExpandIcon"
+        :show-delete-icon="showDeleteIcon"
         :show-child-count="showChildCount"
         :indent-size="indentSize"
         :gap="gap"
@@ -31,13 +31,13 @@
             :toggle-checkbox="() => onToggleCheckbox(slotNode)"
           />
         </template>
-        <template v-if="useIcon" #iconActive>
+        <template v-if="showExpandIcon" #iconActive>
           <slot name="iconActive" />
         </template>
-        <template v-if="useIcon" #iconInactive>
+        <template v-if="showExpandIcon" #iconInactive>
           <slot name="iconInactive" />
         </template>
-        <template v-if="useRowDelete" #deleteIcon>
+        <template v-if="showDeleteIcon" #deleteIcon>
           <slot name="deleteIcon" />
         </template>
         <template
@@ -110,15 +110,15 @@ export default {
       type: Boolean,
       default: true,
     },
-    useCheckbox: {
+    showCheckbox: {
       type: Boolean,
       default: false,
     },
-    useIcon: {
+    showExpandIcon: {
       type: Boolean,
       default: true,
     },
-    useRowDelete: {
+    showDeleteIcon: {
       type: Boolean,
       default: false,
     },
