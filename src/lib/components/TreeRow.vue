@@ -69,61 +69,65 @@
       class="tree-list"
       :style="{ gap: `${gap}px` }"
     >
-      <tree-row
+      <template
         v-for="child in node.nodes"
         :key="child.id"
-        :ref="`tree-row-${child.id}`"
-        :node="child"
-        :use-checkbox="useCheckbox"
-        :use-icon="useIcon"
-        :use-row-delete="useRowDelete"
-        :show-child-count="showChildCount"
-        :gap="gap"
-        :expand-row-by-default="expandRowByDefault"
-        :indent-size="indentSize"
-        :row-hover-background="rowHoverBackground"
-        :set-node="setNode"
-        :get-node="getNode"
-        :update-node="updateNode"
-        :expandable="expandable"
-        @delete-row="removedRow"
-        @node-click="(item) => handleClick(item, true)"
-        @toggle-checkbox="onToggleCheckbox"
-        @node-expanded="onNodeExpanded"
       >
-        <template #childCount="{ count, checkedCount, childs }">
-          <slot
-            name="childCount"
-            :count="count"
-            :checked-count="checkedCount"
-            :childs="childs"
-          />
-        </template>
-        <template #iconActive>
-          <slot name="iconActive">
-            <arrow-right />
-          </slot>
-        </template>
-        <template #iconInactive>
-          <slot name="iconInactive">
-            <arrow-down />
-          </slot>
-        </template>
-        <template #deleteIcon>
-          <slot name="deleteIcon">
-            <delete-icon />
-          </slot>
-        </template>
-        <template #checkbox="{ node: slotNode, checked, indeterminate }">
-          <slot
-            :id="slotNode.id"
-            name="checkbox"
-            :node="slotNode"
-            :checked="checked"
-            :indeterminate="indeterminate"
-          />
-        </template>
-      </tree-row>
+        <tree-row
+          v-if="!child.hidden"
+          :ref="`tree-row-${child.id}`"
+          :node="child"
+          :use-checkbox="useCheckbox"
+          :use-icon="useIcon"
+          :use-row-delete="useRowDelete"
+          :show-child-count="showChildCount"
+          :gap="gap"
+          :expand-row-by-default="expandRowByDefault"
+          :indent-size="indentSize"
+          :row-hover-background="rowHoverBackground"
+          :set-node="setNode"
+          :get-node="getNode"
+          :update-node="updateNode"
+          :expandable="expandable"
+          @delete-row="removedRow"
+          @node-click="(item) => handleClick(item, true)"
+          @toggle-checkbox="onToggleCheckbox"
+          @node-expanded="onNodeExpanded"
+        >
+          <template #childCount="{ count, checkedCount, childs }">
+            <slot
+              name="childCount"
+              :count="count"
+              :checked-count="checkedCount"
+              :childs="childs"
+            />
+          </template>
+          <template #iconActive>
+            <slot name="iconActive">
+              <arrow-right />
+            </slot>
+          </template>
+          <template #iconInactive>
+            <slot name="iconInactive">
+              <arrow-down />
+            </slot>
+          </template>
+          <template #deleteIcon>
+            <slot name="deleteIcon">
+              <delete-icon />
+            </slot>
+          </template>
+          <template #checkbox="{ node: slotNode, checked, indeterminate }">
+            <slot
+              :id="slotNode.id"
+              name="checkbox"
+              :node="slotNode"
+              :checked="checked"
+              :indeterminate="indeterminate"
+            />
+          </template>
+        </tree-row>
+      </template>
     </ul>
   </li>
 </template>

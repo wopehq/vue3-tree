@@ -24,6 +24,10 @@ export interface TreeNode {
    * Array of node objects.
    */
   nodes?: TreeNode[];
+  /**
+   * Determines whether the node is hidden.
+   */
+  hidden?: boolean;
 }
 
 export interface TreeProps {
