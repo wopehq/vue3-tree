@@ -25,7 +25,7 @@ export interface TreeNode {
    */
   nodes?: TreeNode[];
   /**
-   * Used to hide the row.
+   * Determines whether the node is hidden.
    */
   hidden?: boolean;
 }
