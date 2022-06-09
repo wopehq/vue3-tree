@@ -1,7 +1,7 @@
-import { createApp } from 'vue'
-import App from './App.vue'
+import { createApp } from 'vue';
+import App from './App.vue';
 
-import Tree from './lib/index'
-export default Tree
+import Tree from './lib/index';
+export default Tree;
 
-createApp(App).mount('#app')
+createApp(App).mount('#app');
