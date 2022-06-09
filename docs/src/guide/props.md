@@ -12,8 +12,9 @@
 | ----------------------------------- | :--------------: | ------------------------------------------------------------------------------------- |
 | id <small>**(required)**</small>    | number \| string | Used to identify the node within the tree. Its value must be unique in a nodes array. |
 | label <small>**(required)**</small> |      string      | Used to display the option.                                                           |
-| checked                             |      boolean     | Determines whether the node is selected.                                                           |
-| expanded                            |      boolean     | Determines whether the node is expanded.                                                           |
+| checked                             |      boolean     | Determines whether the node is selected.                                              |
+| expanded                            |      boolean     | Determines whether the node is expanded.                                              |
+| hidden                              |      boolean     | Used to hide the row.                                                                 |
 | nodes                               |      Array       | Array of node objects.                                                                |
 
 ### `indentSize`
