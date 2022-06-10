@@ -14,7 +14,8 @@
 | label <small>**(required)**</small> |      string      | Used to display the option.                                                           |
 | checked                             |      boolean     | Determines whether the node is selected.                                              |
 | expanded                            |      boolean     | Determines whether the node is expanded.                                              |
-| hidden                              |      boolean     | Determines whether the node is hidden.                                                                 |
+| hidden                              |      boolean     | Determines whether the node is hidden.                                                |
+| undeletable                         |      boolean     | If `useRowDelete` is `true`, prevents row to be deleted.                                 |
 | nodes                               |      Array       | Array of node objects.                                                                |
 
 ### `indentSize`
