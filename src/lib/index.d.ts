@@ -28,6 +28,10 @@ export interface TreeNode {
    * Determines whether the node is hidden.
    */
   hidden?: boolean;
+  /**
+   * Determines whether the node is undeletable when `useRowDelete` is `true`.   
+   */
+  undeletable?: boolean;
 }
 
 export interface TreeProps {

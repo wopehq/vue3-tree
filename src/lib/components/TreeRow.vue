@@ -56,7 +56,7 @@
           </span>
         </slot>
       </template>
-      <template v-if="node && useRowDelete">
+      <template v-if="!node.undeletable && useRowDelete">
         <div class="delete-icon" @click.stop="removedRow(node)">
           <slot name="deleteIcon">
             <delete-icon />
