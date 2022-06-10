@@ -29,7 +29,7 @@ export interface TreeNode {
    */
   hidden?: boolean;
   /**
-   * Determines whether the node is deletable.
+   * Determines whether the node is undeletable when `useRowDelete` is `true`.   
    */
   undeletable?: boolean;
 }

@@ -15,7 +15,7 @@
 | checked                             |      boolean     | Determines whether the node is selected.                                              |
 | expanded                            |      boolean     | Determines whether the node is expanded.                                              |
 | hidden                              |      boolean     | Determines whether the node is hidden.                                                |
-| undeletable                         |      boolean     | If `useRowDelete` is `true`, prevents row to be deleted.                                 |
+| undeletable                         |      boolean     | Determines whether the node is undeletable when `useRowDelete` is `true`.              |
 | nodes                               |      Array       | Array of node objects.                                                                |
 
 ### `indentSize`
