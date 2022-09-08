@@ -87,15 +87,15 @@ export interface TreeProps {
   /**
    * This emit is triggered when a node is clicked or selected.
    */
-  onNodeClick(node: TreeNode): void;
+  onNodeClick?(node: TreeNode): void;
   /**
    * When you click on an item, you can use the emit "nodeExpanded" if you want to see the current values of that item and the data below it. This way you will only be able to access the data for that item.
    */
-  onNodeExpanded(node: TreeNode, state: boolean): void;
+  onNodeExpanded?(node: TreeNode, state: boolean): void;
   /**
    * Returns the current data of the tree when a data is deleted or a checkbox is clicked in the tree. If you are considering to use @update:nodes for only updating data, you can also use v-model:nodes
    */
-  'onUpdate:nodes'(nodes: TreeNode[]): void;
+  'onUpdate:nodes'?(nodes: TreeNode[]): void;
 }
 
 export interface ChildCountSlotScope {
