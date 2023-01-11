@@ -1,7 +1,7 @@
 {
   "name": "vue3-tree",
   "description": "A customizable vuejs tree viewer.",
-  "version": "0.11.4",
+  "version": "0.11.5",
   "author": {
     "name": "seo.do",
     "email": "opensource@seo.do"
