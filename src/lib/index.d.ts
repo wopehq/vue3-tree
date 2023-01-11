@@ -124,8 +124,7 @@ declare const Tree: new () => {
   }
 };
 
-export declare function getNodeById(nodes: TreeNode[], id: TreeNode['id']): void;
-export declare function setNodeById(nodes: TreeNode[], id: TreeNode['id'], node: TreeNode): void;
+export declare function getNodeById(nodes: TreeNode[], id: TreeNode['id']): TreeNode | undefined;
 export declare function setNodeById(nodes: TreeNode[], id: TreeNode['id'], node: TreeNode): void;
 
 export default Tree;
