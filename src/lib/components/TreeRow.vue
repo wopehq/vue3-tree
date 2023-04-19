@@ -300,6 +300,7 @@ export default {
 
   &-txt {
     user-select: none;
+    margin-rigth:3px;
   }
 }
 </style>
